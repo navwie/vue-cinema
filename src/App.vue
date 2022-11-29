@@ -17,10 +17,14 @@ export default {
 * {
   margin: 0;
   padding: 0;
+  font-family: "Montserrat", sans-serif;
   box-sizing: border-box;
+  background-color: #11141a;
 }
 
 .app {
   padding: 20px;
+  height: 100%;
+  background-color: #11141a;
 }
 </style>
