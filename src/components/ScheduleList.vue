@@ -19,7 +19,7 @@ export default {
   components: { ScheduleItem },
   props: {
     schedules: {
-      type: Array,
+      type: Object,
       required: true,
     },
   },

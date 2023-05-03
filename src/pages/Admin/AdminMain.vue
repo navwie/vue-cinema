@@ -5,19 +5,19 @@
         :class="{ active: $route.query.type === 'future' }"
         @click="redirectToFutureMovies"
       >
-        Скоро у кіно
+        {{ $t("main.future") }}
       </button>
       <button
         :class="{ active: $route.query.type === 'last' }"
         @click="redirectToLastMovies"
       >
-        Минулі
+        {{ $t("main.late") }}
       </button>
       <button
         :class="{ active: $route.query.type === 'current' }"
         @click="redirectToCurrentMovies"
       >
-        Актуальні
+        {{ $t("main.actual") }}
       </button>
     </div>
     <MyInput
@@ -25,7 +25,7 @@
       v-focus
       v-model="search"
       type="text"
-      placeholder="Пошук"
+      :placeholder="$t(`main.search`)"
     />
     <!--    <p>{{ searchHandler }}</p>-->
     <div v-if="getMovieTypeParamFromUrl === undefined">
@@ -46,9 +46,10 @@
 <script>
 import { getMovies } from "@/api/api_request";
 import moment from "moment/moment";
-import image from "@/assets/fire.png";
-import imageLater from "@/assets/later.png";
+import image from "@/assets/images/fire.png";
+import imageLater from "@/assets/images/later.png";
 import MovieTable from "@/components/MovieTable";
+import { mapGetters } from "vuex";
 export default {
   name: "AdminMain",
   components: { MovieTable },
@@ -102,18 +103,18 @@ export default {
         return elem.title.toLowerCase().includes(this.search.toLowerCase());
       });
     },
+    ...mapGetters(["getDarkTheme"]),
   },
   beforeMount() {
     this.loading = true;
     getMovies().then((response) => {
       let movies = response.data;
-
       let currentDate = moment().format("YYYY-MM-DD");
 
       this.actualMovies = movies.filter(
         (e) =>
-          moment(e.date_start).format("YYYY-MM-DD") < currentDate &&
-          currentDate < moment(e.date_finish).format("YYYY-MM-DD")
+          moment(e.date_start).format("YYYY-MM-DD") <= currentDate &&
+          currentDate <= moment(e.date_finish).format("YYYY-MM-DD")
       );
       this.futureMovies = movies.filter(
         (e) => moment(e.date_start).format("YYYY-MM-DD") > currentDate
@@ -130,10 +131,12 @@ export default {
 
 <style scoped>
 .btn-group {
+  position: relative;
+  top: 40px;
 }
 button {
   color: #4d7cbc;
-  width: 150px;
+  width: 200px;
   padding: 10px;
   font-weight: 500;
   background-color: #fff;

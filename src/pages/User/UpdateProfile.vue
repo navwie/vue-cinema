@@ -1,0 +1,160 @@
+<template>
+  <div class="container form">
+    <h3
+      :class="this.getDarkTheme ? 'dark_h3' : 'light_h3'"
+      style="text-align: center"
+    >
+      {{ $t("profile.change") }}
+    </h3>
+    <div>
+      <MyInput
+        v-focus
+        v-model="getUser.name"
+        style="width: 60%"
+        type="text"
+        placeholder="Name"
+      />
+      <MyInput
+        v-focus
+        v-model="getUser.surname"
+        style="width: 60%"
+        type="text"
+        placeholder="Surname"
+      />
+      <MyInput
+        v-focus
+        v-model="getUser.email"
+        style="width: 60%"
+        type="text"
+        placeholder="Email"
+      />
+      <MyInput
+        v-focus
+        v-model="getUser.phone"
+        style="width: 60%"
+        type="text"
+        placeholder="phone"
+      />
+      <MyInput
+        v-focus
+        v-model="getAge"
+        type="date"
+        style="width: 60%"
+        placeholder="Age"
+      />
+    </div>
+    <div class="submit d-flex justify-content-center mt-5">
+      <button
+        :class="this.getDarkTheme ? 'dark_btn' : 'light_btn'"
+        @click="changeData"
+      >
+        {{ $t("profile.change") }}
+      </button>
+    </div>
+  </div>
+</template>
+
+<script>
+import { mapGetters, mapMutations } from "vuex";
+import { updateProfile } from "@/api/api_request";
+import moment from "moment";
+export default {
+  name: "UpdateProfile",
+  computed: {
+    ...mapGetters({
+      getUser: "auth/getUser",
+      getAge: "auth/getAge",
+    }),
+    ...mapGetters(["getDarkTheme"]),
+  },
+  methods: {
+    ...mapMutations({
+      setUser: "auth/setUser",
+      setAge: "auth/setAge",
+    }),
+    changeData: function () {
+      console.log(this.getAge);
+      updateProfile({
+        id: this.getUser.id,
+        name: this.getUser.name,
+        surname: this.getUser.surname,
+        phone: this.getUser.phone,
+        email: this.getUser.email,
+        age: this.getAge,
+      })
+        .then((response) => {
+          let user = JSON.parse(response.data.user);
+          this.setUser(user);
+          let date = moment(user.age).format("yyyy-MM-DD");
+          this.setAge(date);
+          // this.$swal({
+          //   icon: "success",
+          //   color: "#000",
+          //   showClass: {
+          //     popup: "animate__animated animate__fadeInDown",
+          //   },
+          //   hideClass: {
+          //     popup: "animate__animated animate__fadeOutUp",
+          //   },
+          //   timer: 4000,
+          //   timerProgressBar: true,
+          // });
+          // this.$router.push("/");
+        })
+        .catch(() => {
+          console.log("error");
+        });
+    },
+  },
+};
+</script>
+
+<style scoped>
+.form {
+  text-align: center;
+  color: white;
+  border: 1px solid #4d7cbc;
+  padding: 29px;
+  border-radius: 53px;
+  position: relative;
+  top: 50px;
+}
+.dark_btn {
+  color: white;
+  width: 20%;
+  border-radius: 20px;
+  border: 1px solid #4d7cbc;
+  background-color: transparent;
+  font-weight: 500;
+  padding: 10px;
+  font-size: 18px;
+}
+.dark_btn:hover {
+  background-color: #fff;
+  color: #4d7cbc;
+}
+
+.light_btn {
+  color: #4d7cbc;
+  width: 20%;
+  border-radius: 20px;
+  border: 1px solid #4d7cbc;
+  background-color: transparent;
+  font-weight: 500;
+  padding: 10px;
+  font-size: 18px;
+}
+.light_btn:hover {
+  background-color: #4d7cbc;
+  color: #fff;
+}
+
+.dark_h3 {
+  color: white;
+  text-align: center;
+}
+.light_h3 {
+  color: black;
+  text-align: center;
+}
+</style>

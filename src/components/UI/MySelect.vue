@@ -1,13 +1,29 @@
 <template>
-  <select class="select" @change="changeOption">
-    <option disabled value="">Choose the option</option>
-    <option v-for="option in options" :key="option.value" :value="option.value">
+  <select
+    :class="this.getDarkTheme ? 'dark_select' : 'light_select'"
+    @change="changeOption"
+  >
+    <option
+      :class="this.getDarkTheme ? 'dark_option' : 'light_option'"
+      disabled
+      value=""
+    >
+      Choose the option
+    </option>
+    <option
+      :class="this.getDarkTheme ? 'dark_option' : 'light_option'"
+      v-for="option in options"
+      :key="option.value"
+      :value="option.value"
+    >
       {{ option.name }}
     </option>
   </select>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "MySelect",
   props: {
@@ -19,6 +35,9 @@ export default {
       default: () => [],
     },
   },
+  computed: {
+    ...mapGetters(["getDarkTheme"]),
+  },
   methods: {
     changeOption(event) {
       this.$emit("update:modelValue", event.target.value);
@@ -28,12 +47,32 @@ export default {
 </script>
 
 <style scoped>
-.select {
-  width: 50%;
-  border: 1px solid teal;
+.dark_select {
+  width: 100%;
+  border: 1px solid #4d7cbc;
   padding: 18px 15px;
   margin-top: 10px;
   color: white;
+  border-radius: 20px;
+  background-color: transparent;
   margin-bottom: 30px;
+}
+.light_select {
+  width: 100%;
+  border: 1px solid #4d7cbc;
+  padding: 18px 15px;
+  margin-top: 10px;
+  color: black;
+  border-radius: 20px;
+  background-color: transparent;
+  margin-bottom: 30px;
+}
+.dark_option {
+  background-color: #333333;
+  color: white;
+}
+.light_option {
+  background-color: #fff;
+  color: black;
 }
 </style>

@@ -1,10 +1,10 @@
 <template>
-  <h2>wegjegi</h2>
+
 </template>
 
 <script>
 export default {
-  name: "BuyTicket",
+  name: "AddNewProductToCafe",
 };
 </script>
 

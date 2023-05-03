@@ -1,5 +1,5 @@
 import store from "./main";
-import { registration } from "@/api/api_request";
+import { logout, registration } from "@/api/api_request";
 
 export default {
   namespaced: true,
@@ -16,11 +16,15 @@ export default {
     getUser(state) {
       return state.user;
     },
+    getAge(state) {
+      return state.age;
+    },
   },
   state: {
     token: localStorage.getItem("token"),
     roles: JSON.parse(localStorage.getItem("roles")),
     user: JSON.parse(localStorage.getItem("user")),
+    age: JSON.parse(localStorage.getItem("age")),
   },
   mutations: {
     setToken(state, token) {
@@ -35,6 +39,9 @@ export default {
     setUser(state, user) {
       state.user = user;
     },
+    setAge(state, age) {
+      state.age = age;
+    },
   },
   actions: {
     async register(_, form) {
@@ -48,14 +55,17 @@ export default {
           console.log(e);
         });
     },
-    logout({ commit }) {
+    async logout({ commit }) {
+      await logout();
       store.commit("setLoading", true);
       localStorage.removeItem("token");
       localStorage.removeItem("user");
       localStorage.removeItem("roles");
+      localStorage.removeItem("age");
       commit("setToken", null);
       commit("setRoles", null);
       commit("setUser", null);
+      commit("setAge", null);
       store.commit("setLoading", false);
     },
   },

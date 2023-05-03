@@ -1,0 +1,126 @@
+{
+  "navbar": {
+    "exit": "Exit",
+    "login": "Login",
+    "profile": "Profile",
+    "contacts": "Contacts",
+    "language": "Language",
+    "addFilm": "Add Movie",
+    "main": "Main",
+    "item" : "",
+    "menu" : "Kafe",
+    "souvenir" : "Souvenirs",
+    "allMovies": "All movies"
+  },
+  
+  
+  "main": {
+    "now": "Now at the box office",
+    "confines": "Confines",
+    "genre": "Genre",
+    "language": "Language",
+    "format": "Format",
+    "accept": "Accept",
+    "reset": "Reset",
+    "future": "Soon in cinema",
+    "actual" : "Actual",
+    "late": "Past",
+    "search": "Search",
+    "news_week": "Weekly news",
+    "shopsouvenirs": "Souvenir shop 'MovieWorld'",
+    "cafe": "Cafe “MovieWorld”"
+  },
+  "welcome": {
+    "cinema" : "Cinema",
+    "welcome_text" : "We kindly ask you to our cinema! We know that your hour is already\n           important, we have done everything possible to make the process of buying\n           vouchers of a yakomoga are simple and easy.",
+    "weekly_news" : "News of the week",
+    "read_more" : "Read more",
+    "read_more_about_news": "Read other news",
+    "recommendation": "Recommendations",
+    "advantages": "Our advantages",
+    "social" : " Social poll",
+    "poll" : "Poll",
+    "poll_text": "Good day! We'd love to hear your thoughts on viewing the old ones\n           films in our cinema. Would you be interested in viewing\n           movie classics on the big screen? If so, what kind of movies would you like?\n           interested? We would like to do our best to satisfy your\n           needs and provide quality and exciting movie viewing in\n           our cinema. Please complete the survey at the link below\n           about choosing to watch old movies. Thank you for your time and attention!"
+  },
+  "profile": {
+    "profile": "Profile",
+    "name": "Name",
+    "surname":"Surname",
+    "email": "Email",
+    "phone": "Phone",
+    "age": "Age",
+    "actual_ticket": "Actual tickets",
+    "archive": "Archive of tickets",
+    "change": "Change"
+  },
+  "movie_info": {
+    "info_buy": "If you want to buy a ticket you need to log in",
+    "actors": "Actors",
+    "director": "Director",
+    "screenwriter": "Screenwriter",
+    "hire": "Hire",
+    "from": "From",
+    "to": "To",
+    "languages": "Languages",
+    "genres": "Genres",
+    "formats": "Formats",
+    "halls": "Halls",
+    "description": "Description",
+    "choose_session": "Choose_session",
+    "choose_date": "Choose_date",
+    "change": "Change",
+    "archive": "Archive"
+  },
+
+  "change_movie": {
+    "title": "Change data about movie",
+    "choose_photo": "Choose_photo",
+    "change": "Change",
+    "choose_halls":"Choose halls",
+    "choose_genres": "Choose genres",
+    "choose_formats": "Choose formats",
+    "choose_languages": "Choose languages",
+    "submit": "Submit"
+  },
+  "create_movie": {
+    "create": "New film",
+    "submit": "Add movie"
+  },
+  "table": {
+    "name": "Name",
+    "price": "Price",
+    "release_year": "Release year",
+    "date_start": "Date start",
+    "date_finish": "Date finish",
+    "duration": "Duration",
+    "confines": "Confines",
+    "country": "Country",
+    "photo": "Photo",
+    "details": "More details"
+  },
+  "auth": {
+    "register": "Registration",
+    "name": "Enter name",
+    "surname": "Enter surname",
+    "age" : "Enter age",
+    "phone": "Enter phone",
+    "email": "Enter email",
+    "password": "Enter password",
+    "login": "Login"
+  },
+  "login_exception": {
+    "error": "Error",
+    "message": "Invalid login or password"
+  },
+  "something_went_wrong": {
+    "title": "Oops...",
+    "text": "Something went wrong!"
+  },
+  "contacts": {
+    "contacts": "Contacts",
+    "address": "Address",
+    "phone": "Phone",
+    "email" : "Email",
+    "instagram": "Instagram"
+  }
+}

@@ -1,120 +1,194 @@
 <template>
-  <form class="form container" @submit.prevent>
-    <h4 style="color: white">Create post</h4>
-    <MyInput v-focus v-model="movie.title" type="text" placeholder="Назва" />
-    <MyInput
-      v-focus
-      v-model="movie.release_year"
-      type="number"
-      placeholder="Рік виходу"
-    />
-    <MyInput
-      v-focus
-      v-model="movie.date_start"
-      type="date"
-      placeholder="Час початку виходу "
-    />
-    <MyInput
-      v-focus
-      v-model="movie.date_finish"
-      type="date"
-      placeholder="Час початку виходу "
-    />
-    <MyInput
-      v-focus
-      v-model="movie.director"
-      type="text"
-      placeholder="Режисер"
-    />
-    <MyInput v-focus v-model="movie.actors" type="text" placeholder="Актори" />
-    <MyInput v-focus v-model="movie.country" type="text" placeholder="Країна" />
-    <MyInput
-      v-focus
-      v-model="movie.screenwriter"
-      type="text"
-      placeholder="Сценарист"
-    />
-    <MyInput v-focus v-model="movie.price" type="number" placeholder="Ціна" />
-    <MyInput
-      v-focus
-      v-model="movie.duration"
-      type="text"
-      placeholder="Тривалість"
-    />
-    <MySelect v-model="movie.confines" :options="sortOption" />
-
-    <div class="d-flex justify-content-between">
-      <div>
-        <p>Оберіть зали</p>
-        <div
-          v-for="hall in checkbox.halls"
-          class="hall d-flex justify-content-between"
-          :key="hall.id"
-        >
-          <label for=""
-            ><input v-model="movie.halls" :value="hall.id" type="checkbox" />{{
-              hall.hall
-            }}</label
-          >
+  <form class="form cont m-auto" @submit.prevent>
+    <h4
+      :class="this.getDarkTheme ? 'dark_h4' : 'light_h4'"
+      style="margin-bottom: 50px"
+    >
+      {{ $t("create_movie.create") }}
+    </h4>
+    <div class="container-fluid d-flex justify-content-between">
+      <div style="width: 45%">
+        <div>
+          <MyInput
+            v-focus
+            class="input"
+            v-model="movie.title"
+            type="text"
+            :placeholder="$t(`table.name`)"
+          />
         </div>
-      </div>
-      <div>
-        <p>Оберіть жанр</p>
-        <div
-          v-for="genre in checkbox.genres"
-          class="genre d-flex justify-content-between"
-          :key="genre.id"
-        >
-          <label for=""
-            ><input
-              v-model="movie.genres"
-              :value="genre.id"
-              type="checkbox"
-            />{{ genre.genre }}</label
-          >
+        <div>
+          <MyInput
+            v-focus
+            v-model="movie.release_year"
+            type="number"
+            :placeholder="$t(`table.release_year`)"
+          />
         </div>
-      </div>
-      <div>
-        <p>Оберіть мову</p>
-        <div
-          v-for="language in checkbox.language"
-          class="language d-flex justify-content-between"
-          :key="language.id"
-        >
-          <label for=""
-            ><input
-              v-model="movie.languages"
-              :value="language.id"
-              type="checkbox"
-            />{{ language.language }}</label
-          >
+        <div>
+          <MyInput
+            v-focus
+            v-model="movie.date_start"
+            type="date"
+            :placeholder="$t(`table.date_start`)"
+          />
         </div>
+        <div>
+          <MyInput
+            v-focus
+            v-model="movie.date_finish"
+            type="date"
+            :placeholder="$t(`table.date_finish`)"
+          />
+        </div>
+        <div>
+          <MyInput
+            v-focus
+            v-model="movie.director"
+            type="text"
+            :placeholder="$t(`movie_info.director`)"
+          />
+        </div>
+        <div>
+          <MyInput
+            v-focus
+            v-model="movie.actors"
+            type="text"
+            :placeholder="$t(`movie_info.actors`)"
+          />
+        </div>
+        <div>
+          <MyInput
+            v-focus
+            v-model="movie.country"
+            type="text"
+            :placeholder="$t(`table.country`)"
+          />
+        </div>
+        <div>
+          <MyInput
+            v-focus
+            v-model="movie.screenwriter"
+            type="text"
+            :placeholder="$t(`movie_info.screenwriter`)"
+          />
+        </div>
+        <div>
+          <MyInput
+            v-focus
+            v-model="movie.price"
+            type="number"
+            :placeholder="$t(`table.price`)"
+          />
+        </div>
+        <div>
+          <MyInput
+            v-focus
+            v-model="movie.duration"
+            type="text"
+            :placeholder="$t(`table.duration`)"
+          />
+        </div>
+        <MySelect v-model="movie.confines" :options="sortOption" />
       </div>
-      <div>
-        <p>Оберіть формат</p>
-        <div
-          v-for="format in checkbox.formats"
-          class="format d-flex justify-content-between"
-          :key="format.id"
-        >
-          <label for=""
-            ><input
-              v-model="movie.formats"
-              :value="format.id"
-              type="checkbox"
-            />{{ format.format }}</label
-          >
+      <hr class="vertical" />
+      <div style="width: 40%">
+        <input
+          type="file"
+          :class="this.getDarkTheme ? 'dark_file' : 'light_file'"
+          style="margin-top: 50px; margin-right: 150px"
+          @change="choosePhoto"
+        />
+        <div class="d-flex justify-content-between mt-5 mb-5">
+          <div>
+            <p :class="this.getDarkTheme ? 'dark_p' : 'light_p'" class="mb-5">
+              {{ $t("change_movie.choose_languages") }}
+            </p>
+            <div
+              v-for="language in checkbox.language"
+              :class="this.getDarkTheme ? 'dark_language' : 'light_language'"
+              class="d-flex justify-content-between"
+              :key="language.id"
+            >
+              <label for="">{{ language.language }}</label>
+              <input
+                v-model="movie.languages"
+                :value="language.id"
+                type="checkbox"
+              />
+            </div>
+          </div>
+          <div>
+            <p :class="this.getDarkTheme ? 'dark_p' : 'light_p'" class="mb-5">
+              {{ $t("change_movie.choose_formats") }}
+            </p>
+            <div
+              v-for="format in checkbox.formats"
+              :class="this.getDarkTheme ? 'dark_format' : 'light_format'"
+              class="d-flex justify-content-between"
+              :key="format.id"
+            >
+              <label for="">{{ format.format }}</label>
+              <input
+                v-model="movie.formats"
+                :value="format.id"
+                type="checkbox"
+              />
+            </div>
+          </div>
+        </div>
+        <hr class="gorisonal" />
+        <div class="d-flex justify-content-between">
+          <div>
+            <p :class="this.getDarkTheme ? 'dark_p' : 'light_p'" class="mb-5">
+              {{ $t("change_movie.choose_halls") }}
+            </p>
+            <div
+              v-for="hall in checkbox.halls"
+              :class="this.getDarkTheme ? 'dark_hall' : 'light_hall'"
+              class="d-flex justify-content-between"
+              :key="hall.id"
+            >
+              <label for="">{{ hall.hall }}</label>
+              <input v-model="movie.halls" :value="hall.id" type="checkbox" />
+            </div>
+          </div>
+          <div>
+            <p :class="this.getDarkTheme ? 'dark_p' : 'light_p'" class="mb-5">
+              {{ $t("change_movie.choose_genres") }}
+            </p>
+            <div
+              v-for="genre in checkbox.genres"
+              :class="this.getDarkTheme ? 'dark_genre' : 'light_genre'"
+              class="d-flex justify-content-between"
+              :key="genre.id"
+            >
+              <label for="">{{ genre.genre }}</label>
+              <input v-model="movie.genres" :value="genre.id" type="checkbox" />
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <input type="file" @change="choosePhoto" />
-
-    <MyTextArea v-model="movie.description" type="text" placeholder="Опис" />
+    <MyTextArea
+      v-model="movie.description"
+      type="text"
+      style="border-radius: 20px; height: 120px; margin-top: 40px"
+      :placeholder="$t(`movie_info.description`)"
+    />
     <div>
-      <MyButton style="align-self: flex-end" class="btn" @click="createMovie"
-        >Створити</MyButton
-      >
+      <MyButton
+        style="align-self: flex-end"
+        class="btn-access"
+        @click="createMovie"
+        >{{ $t("create_movie.submit") }}
+      </MyButton>
+    </div>
+    <div>
+      <MyButton style="align-self: flex-end" class="btn-cancel" @click="cancel"
+        >Скасувати
+      </MyButton>
     </div>
   </form>
 </template>
@@ -130,6 +204,8 @@ import {
   getLanguages,
   imageUpload,
 } from "@/api/api_request";
+import { mapGetters } from "vuex";
+
 export default {
   name: "CreateMovie",
   components: { MyTextArea, MyButton },
@@ -168,6 +244,9 @@ export default {
       },
     };
   },
+  computed: {
+    ...mapGetters(["getDarkTheme"]),
+  },
   methods: {
     choosePhoto(event) {
       this.movie.photo = event.target.files[0];
@@ -197,10 +276,35 @@ export default {
           let formData = new FormData();
           formData.append("file", this.movie.photo);
           imageUpload(response.data.movie_id, formData);
-          // this.$router.push("/adminMain");
+          this.$swal({
+            icon: "success",
+            color: "#000",
+            timer: 4000,
+            timerProgressBar: true,
+            showClass: {
+              popup: "animate__animated animate__fadeInDown",
+            },
+            hideClass: {
+              popup: "animate__animated animate__fadeOutUp",
+            },
+          });
+          this.$router.push("/adminMain");
         })
         .catch(() => {
-          alert("Некоректні дані");
+          this.$swal({
+            icon: "error",
+            color: "#000",
+            title: this.$t("something_went_wrong.title"),
+            text: this.$t("something_went_wrong.text"),
+            timer: 4000,
+            showClass: {
+              popup: "animate__animated animate__fadeInDown",
+            },
+            hideClass: {
+              popup: "animate__animated animate__fadeOutUp",
+            },
+            timerProgressBar: true,
+          });
         });
     },
   },
@@ -229,14 +333,115 @@ export default {
 <style scoped>
 .form {
   text-align: center;
+  min-height: 170vh;
 }
-.hall,
-.genre,
-.format,
-.language {
+.dark_h4 {
   color: white;
 }
-p {
+.light_h4 {
+  color: black;
+}
+.dark_file {
   color: white;
+}
+.light_file {
+  color: black;
+}
+.dark_hall,
+.dark_genre,
+.dark_format,
+.dark_language {
+  color: white;
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+.light_hall,
+.light_genre,
+.light_format,
+.light_language {
+  color: black;
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+.dark_p {
+  color: white;
+  font-size: 20px;
+}
+.light_p {
+  color: black;
+  font-size: 20px;
+}
+
+select {
+  border: 1px solid #4d7cbc;
+  border-radius: 26px;
+  padding: 15px 15px;
+  margin-top: 10px;
+  color: white;
+}
+
+.vertical {
+  border: none;
+  margin-top: 40px;
+  height: 600px;
+  width: 1px;
+  color: #4d7cbc;
+  background-color: #4d7cbc;
+}
+
+.gorisonal {
+  width: 100%;
+  height: 3px;
+  color: #4d7cbc;
+  background-color: #4d7cbc;
+}
+
+.btn-access {
+  border-radius: 30px;
+  background-color: #fff;
+  margin-top: 30px;
+  width: 20%;
+  font-weight: 500;
+  margin-bottom: 20px;
+  border: 1px solid #4d7cbc;
+  color: #4d7cbc;
+}
+.btn-cancel {
+  border-radius: 20px;
+  background-color: #000;
+  border: 1px solid #ffffff;
+  color: #4d7cbc;
+  width: 20%;
+  font-weight: 500;
+}
+.btn-access:hover {
+  border-radius: 30px;
+  background-color: #4d7cbc;
+  margin-top: 30px;
+  width: 20%;
+  font-weight: 500;
+  margin-bottom: 20px;
+  border: 1px solid #4d7cbc;
+  color: #fff;
+}
+.btn-cancel:hover {
+  border-radius: 20px;
+  background-color: #4d7cbc;
+  border: 1px solid #ffffff;
+  color: #fff;
+  width: 20%;
+  font-weight: 500;
+}
+input[type="checkbox"] {
+  width: 20px;
+}
+h4 {
+  font-size: 42px;
+  letter-spacing: 5px;
+  position: relative;
+  top: 40px;
+}
+.cont {
+  width: 90%;
 }
 </style>

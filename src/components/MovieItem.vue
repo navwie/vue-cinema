@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mb-5 p-4">
     <div class="card center img-fluid">
       <div class="front">
         <button @click="$router.push(`/movie/${movie.id}`)">
@@ -9,31 +9,43 @@
 
       <div class="back">
         <div class="back-content center img-fluid">
-          <div class="name"><strong>Название: </strong>{{ movie.title }}</div>
-          <div class="actors">
-            <strong>Головні актори: </strong> {{ movie.actors }}
+          <div class="name">
+            <strong>{{ $t("table.name") }}: </strong>{{ movie.title }}
           </div>
-
-          <div class="date">
-            <strong>Дата начала проката:</strong>
+          <div class="actors">
+            <strong>{{ $t("movie_info.actors") }}: </strong> {{ movie.actors }}
+          </div>
+          <div class="confines" v-if="movie.confines !== null">
+            <strong>{{ $t("table.confines") }}: </strong> {{ movie.confines }}
+          </div>
+          <div class="confines" v-else>
+            <strong>{{ $t("table.confines") }}: </strong> -
+          </div>
+          <div class="datestart">
+            <strong>{{ $t("table.date_start") }}:</strong>
             {{ momentDate(movie.date_start) }}
           </div>
-          <div class="date">
-            <strong>Дата конца проката:</strong>
+          <div class="datefinish">
+            <strong>{{ $t("table.date_finish") }}:</strong>
             {{ momentDate(movie.date_finish) }}
           </div>
           <button class="btn" @click="$router.push(`/movie/${movie.id}`)">
-            Детальніше
+            {{ $t("table.details") }}
           </button>
-          <!--            <MyButton @click="$emit('remove', post)">Удалить</MyButton>-->
         </div>
       </div>
+    </div>
+    <div class="d-flex justify-content-center">
+      <p :class="this.getDarkTheme ? 'dark_movie_title' : 'light_movie_title'">
+        {{ movie.title }}
+      </p>
     </div>
   </div>
 </template>
 
 <script>
 import moment from "moment/moment";
+import { mapGetters } from "vuex";
 
 export default {
   name: "MovieItem",
@@ -42,6 +54,9 @@ export default {
       type: Object,
       required: true,
     },
+  },
+  computed: {
+    ...mapGetters(["getDarkTheme"]),
   },
   methods: {
     getImagePath: function (imagePath) {
@@ -64,24 +79,38 @@ body {
     padding: 1rem 3rem;
   }
 }
+
 .card {
   position: relative;
   padding: 0 0 130% 0;
   border-radius: 10px;
-  margin: 0 0px 30px 20px;
+  margin: 0 0 30px 20px;
   border: none;
   background: transparent;
   cursor: pointer;
-  /*width: 100%;*/
-  /*height: 100%;*/
+  height: 420px;
+}
+
+.dark_movie_title {
+  color: white;
+  font-size: 23px;
+  font-weight: 500;
+}
+
+.light_movie_title {
+  color: black;
+  font-size: 23px;
+  font-weight: 500;
 }
 
 .front,
 .back {
+  max-width: 100%;
+  max-height: 100%;
   width: 100%;
   height: 100%;
-  min-width: 50%;
-  min-height: 50%;
+  padding-left: 40px;
+  padding-right: 40px;
   overflow: hidden;
   backface-visibility: hidden;
   position: absolute;
@@ -89,19 +118,20 @@ body {
 }
 
 .front img {
-  border-radius: 10px;
-  min-width: 50%;
-  min-height: 50%;
   max-width: 100%;
   max-height: 100%;
   object-fit: cover;
   position: absolute;
+  width: 100%;
+  height: 500px;
   left: 0;
   top: 0;
 }
+
 strong {
   background-color: transparent;
 }
+
 .front {
   transform: perspective(600px) rotateY(0deg);
 }
@@ -136,22 +166,30 @@ span {
 
 .name,
 .actors,
-.date,
-.btn {
+.datestart,
+.datefinish,
+.confines {
   position: relative;
   left: 10px;
   background-color: transparent;
-  top: 10px;
+  top: 50px;
+  font-size: 19px;
 }
 
 .actors {
-  top: 40px;
-}
-
-.date {
   top: 60px;
 }
 
+.confines {
+  top: 80px;
+}
+
+.datestart {
+  top: 100px;
+}
+.datefinish {
+  top: 120px;
+}
 .fas {
   display: block;
   margin: 20px 0;
@@ -182,9 +220,10 @@ span {
 }
 
 .btn {
-  top: 100px;
   text-align: center;
   left: 80px;
+  position: absolute;
+  bottom: 20px;
   color: #ffffff;
   background-color: #4d7cbc;
   border: 1px solid #4d7cbc;

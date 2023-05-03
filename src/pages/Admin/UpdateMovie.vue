@@ -1,176 +1,353 @@
 <template>
   <div class="container">
-    <h3 style="text-align: center; color: white">Змінити дані про фільм</h3>
-    <div class="d-flex mt-5 mb-5">
-      <div>
-        <img :src="getImagePath(movie.imagePath)" class="img-fluid" alt="" />
-      </div>
-      <button
-        style="height: 50px; margin-top: 100px; margin-left: 50px"
-        @click="showPhoto"
-      >
-        Змінити
-      </button>
-      <div v-if="isHiddenPhoto" style="margin-top: 100px; margin-left: 50px">
-        <input type="file" @change="choosePhoto" />
-      </div>
-    </div>
-    <MyInput v-focus v-model="movie.title" type="text" placeholder="Назва" />
-    <MyInput
-      v-focus
-      v-model="movie.releaseYear"
-      type="number"
-      placeholder="Рік виходу"
-    />
-    <MyInput
-      v-model="movie.dateStart"
-      type="date"
-      placeholder="Час початку виходу "
-    />
-    <MyInput
-      v-focus
-      v-model="movie.dateFinish"
-      type="date"
-      placeholder="Час початку виходу "
-    />
-    <MyInput
-      v-focus
-      v-model="movie.director"
-      type="text"
-      placeholder="Режисер"
-    />
-    <MyInput v-focus v-model="movie.actors" type="text" placeholder="Актори" />
-    <MyInput v-focus v-model="movie.country" type="text" placeholder="Країна" />
-    <MyInput
-      v-focus
-      v-model="movie.screenwriter"
-      type="text"
-      placeholder="Сценарист"
-    />
-    <MyInput v-focus v-model="movie.price" type="number" placeholder="Ціна" />
-    <MyInput
-      v-focus
-      v-model="movie.duration"
-      type="text"
-      placeholder="Тривалість"
-    />
-    <select
-      class="form-select form-select-lg mb-3"
-      aria-label=".form-select-lg example"
-      v-model="movie.confines"
+    <h3
+      :class="this.getDarkTheme ? 'dark_h3' : 'light_h3'"
+      style="
+        text-align: center;
+        position: relative;
+        top: 20px;
+        margin-bottom: 50px;
+      "
     >
-      <option v-for="(confines, index) in sortOption" :key="index">
-        {{ confines.name }}
-      </option>
-    </select>
-    <div>
-      <div class="d-flex mt-5 mb-4 justify-content-between">
-        <ul class="d-flex">
-          <li class="hall" v-for="hall in movie.halls" :key="hall.id">
-            {{ hall.hall }}
-          </li>
-        </ul>
-        <button @click="showHall">Змінити</button>
-      </div>
-      <div v-if="isHiddenHall" class="mb-3">
-        <div
-          v-for="hall in checkbox.halls"
-          class="hall-checkbox d-flex justify-content-center"
-          :key="hall.id"
-        >
-          <label for=""
-            ><input v-model="movie.halls" :value="hall.id" type="checkbox" />{{
-              hall.hall
-            }}</label
-          >
+      {{ $t("change_movie.title") }}
+    </h3>
+    <div class="d-flex justify-content-between">
+      <div style="width: 40%">
+        <div>
+          <MyInput
+            v-focus
+            v-model="movie.title"
+            type="text"
+            placeholder="Назва"
+          />
+        </div>
+        <div>
+          <MyInput
+            v-focus
+            v-model="movie.releaseYear"
+            type="number"
+            placeholder="Рік виходу"
+          />
+        </div>
+        <div>
+          <MyInput
+            v-model="movie.date_start"
+            type="date"
+            placeholder="Час початку виходу "
+          />
+        </div>
+        <div>
+          <MyInput
+            v-focus
+            v-model="movie.date_finish"
+            type="date"
+            placeholder="Час початку виходу "
+          />
+        </div>
+        <div>
+          <MyInput
+            v-focus
+            v-model="movie.director"
+            type="text"
+            placeholder="Режисер"
+          />
+        </div>
+        <div>
+          <MyInput
+            v-focus
+            v-model="movie.actors"
+            type="text"
+            placeholder="Актори"
+          />
+        </div>
+        <div>
+          <MyInput
+            v-focus
+            v-model="movie.country"
+            type="text"
+            placeholder="Країна"
+          />
+        </div>
+        <div>
+          <MyInput
+            v-focus
+            v-model="movie.screenwriter"
+            type="text"
+            placeholder="Сценарист"
+          />
+        </div>
+        <div>
+          <MyInput
+            v-focus
+            v-model="movie.price"
+            type="number"
+            placeholder="Ціна"
+          />
+        </div>
+        <div>
+          <MyInput
+            v-focus
+            v-model="movie.duration"
+            type="text"
+            placeholder="Тривалість"
+          />
+        </div>
+        <div>
+          <MySelect v-model="movie.confines" :options="sortOption" />
         </div>
       </div>
-
-      <div class="d-flex mb-4 justify-content-between">
-        <ul class="d-flex">
-          <li class="genre" v-for="genre in movie.genres" :key="genre.id">
-            {{ genre.genre }}
-          </li>
-        </ul>
-        <button @click="showGenre">Змінити</button>
-      </div>
-      <div v-if="isHiddenGenre" class="mb-3">
-        <div
-          v-for="genre in checkbox.genres"
-          class="genre-checkbox d-flex justify-content-center"
-          :key="genre.id"
-        >
-          <label for=""
-            ><input
-              v-model="movie.genres"
-              :value="genre.id"
-              type="checkbox"
-            />{{ genre.genre }}</label
+      <hr />
+      <div style="width: 50%">
+        <div class="d-flex mt-5 mb-5">
+          <div v-if="isNewPhoto == false">
+            <img
+              :src="getImagePath(movie.imagePath)"
+              class="img-fluid"
+              alt=""
+            />
+          </div>
+          <div v-else>
+            <p>{{ $t("change_movie.choose_photo") }}</p>
+          </div>
+          <button
+            :class="
+              this.getDarkTheme ? 'dark_change-photo' : 'light_change-photo'
+            "
+            @click="showPhoto"
           >
+            {{ $t("change_movie.change") }}
+          </button>
+          <div
+            v-if="isHiddenPhoto === false"
+            style="margin-top: 100px; margin-left: 50px"
+          >
+            <input type="file" @change="choosePhoto" />
+          </div>
         </div>
-      </div>
 
-      <div class="d-flex mb-3 justify-content-between">
-        <ul class="d-flex">
-          <li
-            class="language"
-            v-for="language in movie.languages"
-            :key="language.id"
-          >
-            {{ language.language }}
-          </li>
-        </ul>
-        <button @click="showLanguage">Змінити</button>
-      </div>
-      <div v-if="isHiddenLanguage" class="mb-3">
-        <div
-          v-for="language in checkbox.language"
-          class="language-checkbox d-flex justify-content-center"
-          :key="language.id"
-        >
-          <label for=""
-            ><input
-              v-model="movie.languages"
-              :value="language.id"
-              type="checkbox"
-            />{{ language.language }}</label
-          >
-        </div>
-      </div>
+        <div>
+          <div class="d-flex justify-content-between">
+            <div>
+              <div class="mt-5 mb-4">
+                <div v-if="movie.halls.length > 0">
+                  <p>В залах</p>
+                  <ul>
+                    <li
+                      :class="this.getDarkTheme ? 'dark_hall' : 'light_hall'"
+                      v-for="hall in movie.halls"
+                      :key="hall.id"
+                    >
+                      {{ hall.hall }}
+                    </li>
+                  </ul>
+                </div>
+                <div v-else>
+                  <p>1) {{ $t("change_movie.choose_halls") }}</p>
+                </div>
+                <button
+                  v-if="isHiddenHall !== false"
+                  @click="showHall"
+                  :class="
+                    this.getDarkTheme
+                      ? 'dark_change-filters'
+                      : 'light_change-filters'
+                  "
+                >
+                  {{ $t("change_movie.change") }}
+                </button>
+              </div>
+              <div v-if="isHiddenHall === false" class="mb-3">
+                <div
+                  v-for="hall in checkbox.halls"
+                  :class="
+                    this.getDarkTheme
+                      ? 'dark_hall-checkbox'
+                      : 'light_hall-checkbox'
+                  "
+                  class="d-flex justify-content-between"
+                  :key="hall.id"
+                >
+                  <label for="">{{ hall.hall }}</label>
+                  <input
+                    v-model="newMovieHall"
+                    :value="hall.id"
+                    type="checkbox"
+                  />
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="mt-5 mb-4">
+                <div v-if="movie.genres.length > 0">
+                  <p>Жанри</p>
+                  <ul>
+                    <li
+                      :class="this.getDarkTheme ? 'dark_genre' : 'light_genre'"
+                      v-for="genre in movie.genres"
+                      :key="genre.id"
+                    >
+                      {{ genre.genre }}
+                    </li>
+                  </ul>
+                </div>
+                <div v-else>
+                  <p>2) {{ $t("change_movie.choose_genres") }}</p>
+                </div>
+                <button
+                  v-if="isHiddenGenre !== false"
+                  @click="showGenre"
+                  :class="
+                    this.getDarkTheme
+                      ? 'dark_change-filters'
+                      : 'light_change-filters'
+                  "
+                >
+                  {{ $t("change_movie.change") }}
+                </button>
+              </div>
+              <div v-if="isHiddenGenre === false" class="mb-3">
+                <div
+                  v-for="genre in checkbox.genres"
+                  :class="
+                    this.getDarkTheme
+                      ? 'dark_genre-checkbox'
+                      : 'light_genre-checkbox'
+                  "
+                  class="d-flex justify-content-between"
+                  :key="genre.id"
+                >
+                  <label for="">{{ genre.genre }}</label>
+                  <input
+                    v-model="newMovieGenres"
+                    :value="genre.id"
+                    type="checkbox"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-between">
+            <div>
+              <div class="mt-5 mb-4">
+                <div v-if="movie.languages.length > 0">
+                  <p>Мова</p>
+                  <ul>
+                    <li
+                      :class="
+                        this.getDarkTheme ? 'dark_language' : 'light_language'
+                      "
+                      v-for="language in movie.languages"
+                      :key="language.id"
+                    >
+                      {{ language.language }}
+                    </li>
+                  </ul>
+                </div>
+                <div v-else>
+                  <p>3) {{ $t("change_movie.choose_languages") }}</p>
+                </div>
+                <button
+                  v-if="isHiddenLanguage !== false"
+                  @click="showLanguage"
+                  :class="
+                    this.getDarkTheme
+                      ? 'dark_change-filters'
+                      : 'light_change-filters'
+                  "
+                >
+                  {{ $t("change_movie.change") }}
+                </button>
+              </div>
+              <div v-if="isHiddenLanguage === false" class="mb-3">
+                <div
+                  v-for="language in checkbox.language"
+                  :class="
+                    this.getDarkTheme
+                      ? 'dark_language-checkbox'
+                      : 'light_language-checkbox'
+                  "
+                  class="d-flex justify-content-between"
+                  :key="language.id"
+                >
+                  <label for="">{{ language.language }}</label>
+                  <input
+                    v-model="newMovieLanguages"
+                    :value="language.id"
+                    type="checkbox"
+                  />
+                </div>
+              </div>
+            </div>
 
-      <div class="d-flex mb-3 justify-content-between">
-        <ul class="d-flex">
-          <li class="format" v-for="format in movie.formats" :key="format.id">
-            {{ format.format }}
-          </li>
-        </ul>
-        <button @click="showFormat">Змінити</button>
-      </div>
-      <div v-if="isHiddenFormat" class="mb-3">
-        <div
-          v-for="format in checkbox.formats"
-          class="format-checkbox d-flex justify-content-center"
-          :key="format.id"
-        >
-          <label for=""
-            ><input
-              v-model="movie.formats"
-              :value="format.id"
-              type="checkbox"
-            />{{ format.format }}</label
-          >
+            <div>
+              <div class="mt-5 mb-4">
+                <div v-if="movie.formats.length > 0">
+                  <p>Формат</p>
+                  <ul>
+                    <li
+                      :class="
+                        this.getDarkTheme ? 'dark_format' : 'light_format'
+                      "
+                      v-for="format in movie.formats"
+                      :key="format.id"
+                    >
+                      {{ format.format }}
+                    </li>
+                  </ul>
+                </div>
+                <div v-else>
+                  <p>4){{ $t("change_movie.choose_formats") }}</p>
+                </div>
+                <button
+                  v-if="isHiddenFormat !== false"
+                  @click="showFormat"
+                  :class="
+                    this.getDarkTheme
+                      ? 'dark_change-filters'
+                      : 'light_change-filters'
+                  "
+                >
+                  {{ $t("change_movie.change") }}
+                </button>
+              </div>
+              <div v-if="isHiddenFormat === false" class="mb-3">
+                <div
+                  v-for="format in checkbox.formats"
+                  :class="
+                    this.getDarkTheme
+                      ? 'dark_format-checkbox'
+                      : 'light_format-checkbox '
+                  "
+                  class="d-flex justify-content-between"
+                  :key="format.id"
+                >
+                  <label for="">{{ format.format }}</label>
+                  <input
+                    v-model="newMovieFormats"
+                    :value="format.id"
+                    type="checkbox"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
     <MyTextArea
       v-model="movie.description"
-      class="textarea"
+      style="border-radius: 20px; margin-top: 40px"
       type="text"
       placeholder="Опис"
     />
 
     <div class="submit d-flex justify-content-center mt-5">
-      <button>Внести змінення</button>
+      <button @click="changeMovie" class="btn-access">
+        {{ $t("change_movie.submit") }}
+      </button>
+    </div>
+    <div class="submit d-flex justify-content-center mt-5">
+      <button class="btn-cancel" @click="cancel">Скасувати</button>
     </div>
   </div>
 </template>
@@ -183,8 +360,11 @@ import {
   getHalls,
   getLanguages,
   getOneMovie,
+  imageUpload,
+  updateMovie,
 } from "@/api/api_request";
 import MyInput from "@/components/UI/MyInput";
+import { mapGetters } from "vuex";
 
 export default {
   name: "UpdateMovie",
@@ -204,25 +384,48 @@ export default {
         genres: "",
         halls: "",
       },
-      isHiddenHall: false,
-      isHiddenGenre: false,
-      isHiddenLanguage: false,
-      isHiddenFormat: false,
-      isHiddenPhoto: false,
+      newMovieGenres: [],
+      newMovieFormats: [],
+      newMovieLanguages: [],
+      newMovieHall: [],
+      isHiddenHall: true,
+      isHiddenGenre: true,
+      isHiddenLanguage: true,
+      isHiddenFormat: true,
+      isHiddenPhoto: true,
+      isNewPhoto: false,
+      button: {
+        hall: false,
+        genre: false,
+        language: false,
+        format: false,
+        photo: false,
+      },
     };
+  },
+  computed: {
+    ...mapGetters(["getDarkTheme"]),
   },
   methods: {
     showHall() {
+      this.movie.halls = [];
       this.isHiddenHall = !this.isHiddenHall;
+      this.button.hall = this.button.hall === true;
     },
     showGenre() {
+      this.movie.genres = [];
       this.isHiddenGenre = !this.isHiddenGenre;
+      this.button.genre = this.button.genre === true;
     },
     showLanguage() {
+      this.movie.languages = [];
       this.isHiddenLanguage = !this.isHiddenLanguage;
+      this.button.language = this.button.language === true;
     },
     showFormat() {
+      this.movie.formats = [];
       this.isHiddenFormat = !this.isHiddenFormat;
+      this.button.format = this.button.format === true;
     },
     showPhoto() {
       this.isHiddenPhoto = !this.isHiddenPhoto;
@@ -230,15 +433,118 @@ export default {
     getImagePath: function (imagePath) {
       return `http://localhost/uploads/movies/${imagePath}`;
     },
+    choosePhoto(event) {
+      this.movie.imagePath = event.target.files[0];
+      this.isNewPhoto = true;
+    },
+    cancel: function () {
+      this.$router.push(`/movie/${this.movie.id}`);
+    },
+    changeMovie: function () {
+      this.$emit("create", this.movie);
+      console.log(this.movie.imagePath);
+      updateMovie({
+        id: this.movie.id,
+        title: this.movie.title,
+        release_year: this.movie.releaseYear,
+        description: this.movie.description,
+        imagePath: this.isNewPhoto
+          ? this.movie.imagePath.name
+          : this.movie.imagePath,
+        date_start: this.movie.date_start,
+        date_finish: this.movie.date_finish,
+        confines: this.movie.confines,
+        director: this.movie.director,
+        actors: this.movie.actors,
+        country: this.movie.country,
+        screenwriter: this.movie.screenwriter,
+        price: this.movie.price,
+        duration: this.movie.duration,
+        halls: this.newMovieHall.map((hall) => {
+          if (typeof hall === "object") {
+            return hall.id;
+          }
+          return hall;
+        }),
+        languages: this.newMovieLanguages.map((language) => {
+          if (typeof language === "object") {
+            return language.id;
+          }
+          return language;
+        }),
+        formats: this.newMovieFormats.map((format) => {
+          if (typeof format === "object") {
+            return format.id;
+          }
+          return format;
+        }),
+        genres: this.newMovieGenres.map((genre) => {
+          if (typeof genre === "object") {
+            return genre.id;
+          }
+          return genre;
+        }),
+      })
+        .then(() => {
+          if (this.isNewPhoto) {
+            let formData = new FormData();
+            formData.append("file", this.movie.imagePath);
+            imageUpload(this.movie.id, formData);
+            this.$swal({
+              icon: "success",
+              color: "#000",
+              timer: 4000,
+              timerProgressBar: true,
+              showClass: {
+                popup: "animate__animated animate__fadeInDown",
+              },
+              hideClass: {
+                popup: "animate__animated animate__fadeOutUp",
+              },
+            });
+            this.$router.push("/adminMain");
+          } else {
+            this.$swal({
+              icon: "success",
+              color: "#000",
+              timer: 4000,
+              timerProgressBar: true,
+              showClass: {
+                popup: "animate__animated animate__fadeInDown",
+              },
+              hideClass: {
+                popup: "animate__animated animate__fadeOutUp",
+              },
+            });
+            this.$router.push("/adminMain");
+          }
+        })
+        .catch(() => {
+          this.$swal({
+            icon: "error",
+            color: "#000",
+            title: this.$t("something_went_wrong.title"),
+            text: this.$t("something_went_wrong.text"),
+            timer: 4000,
+            showClass: {
+              popup: "animate__animated animate__fadeInDown",
+            },
+            hideClass: {
+              popup: "animate__animated animate__fadeOutUp",
+            },
+            timerProgressBar: true,
+          });
+        });
+    },
   },
   beforeMount() {
     this.loading = true;
     getOneMovie(this.$route.params.id).then((response) => {
       this.movie = response.data;
-      this.movie.dateStart = moment(response.data.dateStart).format(
+      this.movie.date_start = moment(response.data.date_start).format(
         "yyyy-MM-DD"
       );
-      this.movie.dateFinish = moment(response.data.dateFinish).format(
+      this.movie.date_finish = moment(response.data.date_finish).format(
         "yyyy-MM-DD"
       );
       this.loading = false;
@@ -264,53 +570,72 @@ export default {
 </script>
 
 <style scoped>
+.dark_h3 {
+  color: white;
+}
+.light_h3 {
+  color: black;
+}
 select {
   background-color: transparent;
   color: white;
   width: 50%;
 }
+.textarea {
+  height: 150px;
+  border-radius: 20px;
+}
 
-.hall,
-.genre,
-.format,
-.language {
+.dark_hall,
+.dark_genre,
+.dark_format,
+.dark_language {
   color: white;
-  margin-left: 25px;
-  /*font-weight: 500;*/
   font-size: 20px;
 }
-.hall-checkbox,
-.genre-checkbox,
-.format-checkbox,
-.language-checkbox {
+.light_hall,
+.light_genre,
+.light_format,
+.light_language {
+  color: black;
+  font-size: 20px;
+}
+
+.dark_hall-checkbox,
+.dark_genre-checkbox,
+.dark_format-checkbox,
+.dark_language-checkbox {
   color: white;
   font-size: 20px;
   text-align: start;
 }
 
-.hall:first-child,
-.genre:first-child,
-.format:first-child,
-.language:first-child {
-  color: white;
-  margin-left: 0;
+.light_hall-checkbox,
+.light_genre-checkbox,
+.light_format-checkbox,
+.light_language-checkbox {
+  color: black;
+  font-size: 20px;
+  text-align: start;
 }
+
 img {
-  width: 200px;
-  height: 100%;
+  width: 60%;
+  height: 80%;
   object-fit: cover;
-  min-width: 90%;
+  min-width: 60%;
   min-height: 100%;
-  border-radius: 20px;
 }
 p {
   color: white;
+  font-size: 20px;
 }
 button {
   color: white;
   width: 20%;
   border-radius: 20px;
   border: 1px solid #4d7cbc;
+  background-color: transparent;
   font-weight: 500;
 }
 button:hover {
@@ -325,5 +650,73 @@ button:hover {
   display: flex;
   height: 50px;
   justify-content: center;
+}
+input {
+  color: white;
+}
+.select {
+  border: 1px solid #4d7cbc;
+  border-radius: 26px;
+  padding: 15px 15px;
+  margin-top: 10px;
+  width: 100%;
+  color: white;
+}
+hr {
+  border: none;
+  margin-top: 40px;
+  height: 700px;
+  width: 1px;
+  color: #4d7cbc;
+  background-color: #4d7cbc;
+}
+.dark_change-photo {
+  height: 50px;
+  margin-top: 100px;
+  width: 25%;
+  border: 1px solid #ffffff;
+  color: #4d7cbc;
+}
+.light_change-photo {
+  height: 50px;
+  margin-top: 100px;
+  width: 25%;
+  border: 1px solid #4d7cbc;
+  color: #4d7cbc;
+}
+.dark_change-filters {
+  min-width: 100%;
+  padding: 5px;
+  width: 150px;
+  color: white;
+}
+.light_change-filters {
+  min-width: 100%;
+  padding: 5px;
+  color: #4d7cbc;
+  width: 150px;
+}
+.btn-access {
+  border-radius: 30px;
+  background-color: #fff;
+  margin-top: 30px;
+  width: 20%;
+  font-weight: 500;
+  margin-bottom: 20px;
+  border: 1px solid #4d7cbc;
+  color: #4d7cbc;
+  height: 100%;
+}
+.btn-cancel {
+  border-radius: 20px;
+  background-color: #000;
+  border: 1px solid #ffffff;
+  color: #4d7cbc;
+  width: 20%;
+  font-weight: 500;
+  height: 100%;
+}
+.container {
+  min-height: 100vh;
 }
 </style>
