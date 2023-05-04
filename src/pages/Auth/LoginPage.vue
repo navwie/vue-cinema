@@ -57,6 +57,7 @@ export default {
     ...mapGetters({
       getToken: "auth/getToken",
       getRole: "auth/getRoles",
+      getUserId: "auth/getUserId"
     }),
     ...mapGetters(["getDarkTheme"]),
   },
@@ -66,6 +67,7 @@ export default {
       setRoles: "auth/setRoles",
       setUser: "auth/setUser",
       setAge: "auth/setAge",
+      setUserId: "auth/setUserId"
     }),
     async submit() {
       await login({
@@ -73,7 +75,9 @@ export default {
         password: this.form.password,
       })
         .then((response) => {
+          console.log(response);
           this.setToken(response.data?.token);
+          this.setToken(response.data?.userId);
         })
         .catch(() => {
           this.$swal({
@@ -92,7 +96,7 @@ export default {
           });
         });
 
-      await getUserRoles(this.getToken).then((response) => {
+      await getUserRoles(this.getUserId).then((response) => {
         let user = JSON.parse(response.data.user);
         this.setRoles(response.data.roles);
         this.setUser(user);

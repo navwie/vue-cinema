@@ -99,6 +99,38 @@
               {{ $t("navbar.profile") }}</a
             >
           </li>
+          <li v-if="!isAuth" class="nav-item">
+            <a
+              class="nav-link btn"
+              style="
+                color: white;
+                font-size: 25px;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+              "
+              @click="$router.push(`/shop-souvenir`)"
+              :class="{ 'active-link': $route.path === '/shop-souvenir' }"
+              href="#"
+            >
+              Сувеніри</a
+            >
+          </li>
+
+          <li v-if="!isAuth" class="nav-item">
+            <a
+              class="nav-link btn"
+              style="
+                color: white;
+                font-size: 25px;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+              "
+              @click="$router.push(`/menu`)"
+              :class="{ 'active-link': $route.path === '/menu' }"
+              href="#"
+            >
+              Меню</a
+            >
+          </li>
+
           <li class="nav-item">
             <a
               class="nav-link btn"
@@ -142,7 +174,6 @@
                     font-size: 20px;
                     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
                   "
-                  @click="setLocale('uk')"
                   >Сувеніри</a
                 >
               </li>
@@ -155,7 +186,6 @@
                   "
                   class="dropdown-item"
                   href="/menu"
-                  @click="setLocale('en-gb')"
                   >Меню</a
                 >
               </li>
@@ -204,7 +234,6 @@
                     font-size: 20px;
                     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
                   "
-                  @click="setLocale('uk')"
                   >Сувеніри</a
                 >
               </li>
@@ -217,22 +246,7 @@
                   "
                   class="dropdown-item"
                   href="/menu"
-                  @click="setLocale('en-gb')"
                   >Меню</a
-                >
-              </li>
-              <li>
-                <a
-                  style="
-                    color: #080c14;
-                    font-size: 20px;
-                    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-                  "
-                  class="dropdown-item"
-                  href="/movie/create"
-                  @click="setLocale('en-gb')"
-                >
-                  {{ $t("navbar.addFilm") }}</a
                 >
               </li>
             </ul>
@@ -265,8 +279,19 @@
                     font-size: 20px;
                     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
                   "
-                  @click="setLocale('uk')"
                   >Новий сувенір</a
+                >
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="/add-news"
+                  style="
+                    color: #080c14;
+                    font-size: 20px;
+                    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+                  "
+                  >Нову новину</a
                 >
               </li>
               <li>
@@ -278,7 +303,6 @@
                   "
                   class="dropdown-item"
                   href="/create-product-cafe"
-                  @click="setLocale('en-gb')"
                   >Новий продукт в кафе</a
                 >
               </li>
@@ -291,7 +315,6 @@
                   "
                   class="dropdown-item"
                   href="/movie/create"
-                  @click="setLocale('en-gb')"
                 >
                   {{ $t("navbar.addFilm") }}</a
                 >

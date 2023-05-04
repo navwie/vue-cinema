@@ -13,7 +13,7 @@
         src="../../assets/images/Cafe_popconr_type.png"
         alt=""
       />
-      <p>Попкорн</p>
+      <p><a href="/menu/type/popcorn">Попкорн</a></p>
     </section>
     <section>
       <img
@@ -21,7 +21,7 @@
         src="../../assets/images/Cafe_desert_type.png"
         alt=""
       />
-      <p>Десерти</p>
+      <p><a href="/menu/type/dessert">Десерти</a></p>
     </section>
     <section>
       <img
@@ -29,7 +29,7 @@
         src="../../assets/images/Cafe_crips_type.png"
         alt=""
       />
-      <p>Чіпси</p>
+      <p><a href="/menu/type/chips">Чіпси</a></p>
     </section>
     <section>
       <img
@@ -37,7 +37,7 @@
         src="../../assets/images/Cafe_drink_type.png"
         alt=""
       />
-      <p>Напої</p>
+      <p><a href="/menu/type/drink">Напої</a></p>
     </section>
   </div>
 </template>
@@ -47,6 +47,19 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "CafePage",
+  data() {
+    return {
+      options: [
+        "Титанік",
+        "Джуманджи 1",
+        "Пропозиція",
+        "Форсаж 2",
+        "Паранормальне явище 1",
+      ],
+      selectedOption: "",
+      isOpen: true,
+    };
+  },
   computed: {
     ...mapGetters(["getDarkTheme"]),
   },
@@ -78,16 +91,17 @@ export default {
   font-size: 27px;
   margin-left: 30px;
 }
-section {
-  margin-bottom: 40px;
-}
-section p {
+section p a {
   position: relative;
-  bottom: 110px;
+  bottom: 150px;
   left: 70px;
+  text-decoration: none;
   font-weight: 700;
   letter-spacing: 15px;
   font-size: 2.6vw;
   color: white;
+}
+a:hover {
+  text-decoration: underline;
 }
 </style>

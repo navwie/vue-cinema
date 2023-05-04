@@ -73,7 +73,6 @@ export default {
       setAge: "auth/setAge",
     }),
     changeData: function () {
-      console.log(this.getAge);
       updateProfile({
         id: this.getUser.id,
         name: this.getUser.name,
@@ -87,19 +86,19 @@ export default {
           this.setUser(user);
           let date = moment(user.age).format("yyyy-MM-DD");
           this.setAge(date);
-          // this.$swal({
-          //   icon: "success",
-          //   color: "#000",
-          //   showClass: {
-          //     popup: "animate__animated animate__fadeInDown",
-          //   },
-          //   hideClass: {
-          //     popup: "animate__animated animate__fadeOutUp",
-          //   },
-          //   timer: 4000,
-          //   timerProgressBar: true,
-          // });
-          // this.$router.push("/");
+          this.$swal({
+            icon: "success",
+            color: "#000",
+            showClass: {
+              popup: "animate__animated animate__fadeInDown",
+            },
+            hideClass: {
+              popup: "animate__animated animate__fadeOutUp",
+            },
+            timer: 4000,
+            timerProgressBar: true,
+          });
+          this.$router.push("/");
         })
         .catch(() => {
           console.log("error");

@@ -37,7 +37,7 @@
 
 <script>
 import { getOneSession } from "@/api/api_request";
-import ScreenSeats from "@/components/ScreenSeats.vue";
+import ScreenSeats from "@/components/ScreenSeats";
 import moment from "moment/moment";
 import image from "@/assets/images/cinema.png";
 import { mapGetters } from "vuex";

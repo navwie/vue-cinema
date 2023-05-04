@@ -30,6 +30,18 @@
     "shopsouvenirs": "Souvenir shop 'MovieWorld'",
     "cafe": "Cafe “MovieWorld”"
   },
+  "addnewproduct" : {
+    "name" : "Name",
+    "type" : "Type",
+    "price" : "Price",
+    "add" : "Add",
+    "cancel" : "Cancel",
+    "description": "Description",
+    "date" : "Date",
+    "title_souvenir" : "Add new souvenir",
+    "title_cafe" : "Add new product to menu",
+    "title_new" : "add new news"
+  },
   "welcome": {
     "cinema" : "Cinema",
     "welcome_text" : "We kindly ask you to our cinema! We know that your hour is already\n           important, we have done everything possible to make the process of buying\n           vouchers of a yakomoga are simple and easy.",
@@ -114,7 +126,17 @@
   },
   "something_went_wrong": {
     "title": "Oops...",
-    "text": "Something went wrong!"
+    "text": "Something went wrong!",
+    "not_authorized": "Not authorized",
+    "text_not_authorized": "Sorry, but if you want to vote, you need to log in"
+  },
+  "voting": {
+    "voting" : "Voting on",
+    "weekly" : "Weekly",
+    "review" :"Review",
+    "old_movie": "Old_movie",
+    "voting_is_continue": "Voting is still going on, but so far the film has more votes - ",
+    "voting_is_closed" : "Voting is closed, the movie is selected -"
   },
   "contacts": {
     "contacts": "Contacts",

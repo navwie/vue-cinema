@@ -511,7 +511,6 @@ strong {
 
 .light_btn_update {
   padding: 10px;
-  background-color: #w-25;
   color: white;
   border-radius: 20px;
   border: 1px solid;

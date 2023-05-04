@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const BASE_PATH_API = "http://localhost/api/";
-const PATH_AUTH = "http://localhost/";
+const PATH_AUTH = "http://localhost/api/auth/";
 
 const AUTH_HEADERS = (authToken) => {
   return {
@@ -23,11 +23,10 @@ export const updateMovie = (data) => axios.put(`${BASE_PATH_API}movies`, data);
 export const imageUpload = (id, data) =>
   axios.post(`${BASE_PATH_API}image/upload/movie/${id}`, data);
 
-export const registration = (data) =>
-  axios.post(`${BASE_PATH_API}register`, data);
+export const registration = (data) => axios.post(`${PATH_AUTH}register`, data);
 export const login = (data) => axios.post(`${PATH_AUTH}login`, data);
 export const logout = () => axios.post(`${PATH_AUTH}logout`);
 export const getUserRoles = (authToken) =>
-  axios.get(`${BASE_PATH_API}user`, { headers: AUTH_HEADERS(authToken) });
+  axios.get(`${BASE_PATH_API}users`, { headers: AUTH_HEADERS(authToken) });
 
 export const updateProfile = (data) => axios.put(`${BASE_PATH_API}user`, data);

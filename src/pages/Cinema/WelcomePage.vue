@@ -198,7 +198,7 @@
         <p>
           {{ $t("welcome.poll_text") }}
         </p>
-        <button>{{ $t("welcome.poll") }}</button>
+        <button @click="redirection">{{ $t("welcome.poll") }}</button>
       </div>
     </div>
   </section>
@@ -234,10 +234,34 @@ export default {
   },
   computed: {
     ...mapGetters(["getDarkTheme"]),
+    ...mapGetters({
+      isAuth: "auth/isAuth",
+    }),
   },
   methods: {
     getImagePath: function (imagePath) {
       return `http://localhost/uploads/movies/${imagePath}`;
+    },
+    redirection: function () {
+      console.log(this.isAuth);
+      if (this.isAuth) {
+        this.$router.push("/voting");
+      } else {
+        this.$swal({
+          icon: "error",
+          color: "#000",
+          title: this.$t("something_went_wrong.not_authorized"),
+          text: this.$t("something_went_wrong.text_not_authorized"),
+          timer: 4000,
+          showClass: {
+            popup: "animate__animated animate__fadeInDown",
+          },
+          hideClass: {
+            popup: "animate__animated animate__fadeOutUp",
+          },
+          timerProgressBar: true,
+        });
+      }
     },
   },
   beforeMount() {

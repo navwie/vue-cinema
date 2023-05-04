@@ -11,14 +11,14 @@
         <MyInput
           v-focus
           class="input"
-          v-model="name"
+          v-model="firstname"
           style="width: 60%"
           type="text"
           :placeholder="$t(`auth.name`)"
         />
         <MyInput
           v-focus
-          v-model="surname"
+          v-model="lastname"
           style="width: 60%"
           type="text"
           class="input"
@@ -26,7 +26,7 @@
         />
         <MyInput
           v-focus
-          v-model="age"
+          v-model="birthday"
           style="width: 60%"
           type="date"
           class="input"
@@ -70,9 +70,9 @@ export default {
     return {
       email: "",
       password: "",
-      name: "",
-      surname: "",
-      age: null,
+      firstname: "",
+      lastname: "",
+      birthday: null,
       phone: "",
     };
   },
@@ -85,14 +85,15 @@ export default {
     }),
     submit() {
       this.register({
-        name: this.name,
-        surname: this.surname,
-        age: this.age,
+        firstname: this.firstname,
+        lastname: this.lastname,
+        birthday: this.birthday,
         phone: this.phone,
         email: this.email,
         password: this.password,
       })
-        .then(() => {
+        .then((response) => {
+          console.log(response);
           this.$swal({
             icon: "success",
             color: "#000",
@@ -107,7 +108,8 @@ export default {
           });
           this.$router.push("/login");
         })
-        .catch(() => {
+        .catch((er) => {
+          console.log(er);
           this.$swal({
             icon: "error",
             color: "#000",

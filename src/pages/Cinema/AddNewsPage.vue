@@ -2,16 +2,16 @@
   <div class="container">
     <div class="d-flex" style="position: relative; top: 20px">
       <img
-        src="../../assets/images/eda.png"
+        src="../../assets/images/world-news.png"
         alt=""
         class="icon mt-5 img-fluid"
       />
       <p :class="this.getDarkTheme ? 'dark_text' : 'light_text'" class="mt-5">
-        {{ $t("addnewproduct.title_cafe") }}
+        {{ $t("addnewproduct.title_new") }}
       </p>
     </div>
     <hr />
-    <form class="form" @submit.prevent>
+    <form class="form container" @submit.prevent>
       <div class="form-element">
         <div>
           <MyInput
@@ -23,17 +23,17 @@
           />
           <MyInput
             v-focus
-            v-model="form.price"
-            type="text"
+            v-model="form.date"
+            type="date"
             style="width: 60%"
-            :placeholder="$t(`addnewproduct.price`)"
+            :placeholder="$t(`addnewproduct.date`)"
           />
-          <MyInput
-            v-focus
-            v-model="form.type"
+          <MyInput v-focus v-model="form.file" type="file" style="width: 60%" />
+
+          <MyTextArea
             type="text"
-            style="width: 60%"
-            :placeholder="$t(`addnewproduct.type`)"
+            style="border-radius: 20px; height: 120px; width: 60%"
+            :placeholder="$t(`addnewproduct.description`)"
           />
         </div>
         <div>
@@ -54,16 +54,18 @@
 <script>
 import MyButton from "@/components/UI/MyButton.vue";
 import { mapGetters } from "vuex";
+import MyTextArea from "@/components/UI/MyTextArea.vue";
 
 export default {
-  name: "AddNewProductToCafe",
-  components: { MyButton },
+  name: "AddNewsPage",
+  components: { MyTextArea, MyButton },
   data() {
     return {
       form: {
         name: "",
-        price: "",
-        type: "",
+        description: "",
+        file: "",
+        date: "",
       },
     };
   },

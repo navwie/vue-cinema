@@ -10,7 +10,7 @@ import AdminMain from "@/pages/Admin/AdminMain";
 import UpdateMovie from "@/pages/Admin/UpdateMovie";
 import UpdateProfile from "@/pages/User/UpdateProfile";
 import ContactPage from "@/pages/Cinema/ContactPage.vue";
-import ChooseSeat from "@/pages/Movie/ChooseSeat.vue";
+import ChooseSeat from "@/pages/ChooseSeat";
 import BuyTicket from "@/pages/Movie/BuyTicket.vue";
 import WelcomePage from "@/pages/Cinema/WelcomePage.vue";
 import CafePage from "@/pages/Cinema/CafePage.vue";
@@ -18,6 +18,9 @@ import SouvenirPage from "@/pages/Cinema/SouvenirPage.vue";
 import NewsPage from "@/pages/Cinema/NewsPage.vue";
 import AddNewSouvenir from "@/pages/Admin/AddNewSouvenir.vue";
 import AddNewProductToCafe from "@/pages/Admin/AddNewProductToCafe.vue";
+import AddNewsPage from "@/pages/Cinema/AddNewsPage.vue";
+import VotingPage from "@/pages/Cinema/VotingPage.vue";
+import MenuProductTypePage from "@/pages/Cinema/MenuProductTypePage.vue";
 
 const routes = [
   {
@@ -152,10 +155,33 @@ const routes = [
       next();
     },
   },
+
+  {
+    path: "/voting",
+    component: VotingPage,
+    name: "voting",
+    beforeEnter: (to, from, next) => {
+      if (
+        !store.getters["auth/isAuth"] &&
+        store.getters["auth/getRoles"] === "ROLE_ADMIN"
+      ) {
+        return next({
+          name: "login",
+        });
+      }
+      next();
+    },
+  },
+
   {
     path: "/register",
     component: RegistrationPage,
     name: "register",
+  },
+  {
+    path: "/menu/type/:param",
+    component: MenuProductTypePage,
+    name: "menutype",
   },
   {
     path: "/",
@@ -192,6 +218,19 @@ const routes = [
     path: "/profile",
     component: ProfilePage,
     name: "profile",
+    beforeEnter: (to, from, next) => {
+      if (!store.getters["auth/isAuth"]) {
+        return next({
+          name: "login",
+        });
+      }
+      next();
+    },
+  },
+  {
+    path: "/add-news",
+    component: AddNewsPage,
+    name: "addNews",
     beforeEnter: (to, from, next) => {
       if (!store.getters["auth/isAuth"]) {
         return next({

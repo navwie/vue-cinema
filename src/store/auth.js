@@ -13,11 +13,15 @@ export default {
     getToken(state) {
       return state.token;
     },
+
     getUser(state) {
       return state.user;
     },
     getAge(state) {
       return state.age;
+    },
+    getUserId(state) {
+      return state.userid;
     },
   },
   state: {
@@ -25,6 +29,7 @@ export default {
     roles: JSON.parse(localStorage.getItem("roles")),
     user: JSON.parse(localStorage.getItem("user")),
     age: JSON.parse(localStorage.getItem("age")),
+    userid:  localStorage.getItem("userId")
   },
   mutations: {
     setToken(state, token) {
@@ -41,6 +46,9 @@ export default {
     },
     setAge(state, age) {
       state.age = age;
+    },
+    setUserId(state, userid) {
+      state.userid = userid;
     },
   },
   actions: {
