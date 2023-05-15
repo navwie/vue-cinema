@@ -3,7 +3,7 @@
     :class="this.getDarkTheme ? 'dark_btn' : 'light_btn'"
     @click="$router.push(`/schedule/${schedule.id}`)"
   >
-    {{ momentDate(schedule.date) }}
+    {{ momentDate(schedule.date_time) }}
   </button>
 </template>
 

@@ -36,7 +36,7 @@
 
 <script>
 import { mapGetters, mapMutations } from "vuex";
-import { getUserRoles, login } from "@/api/api_request";
+import { getUsers, login } from "@/api/api_request";
 import MyButton from "@/components/UI/MyButton";
 import moment from "moment/moment";
 import store from "@/store/main";
@@ -57,7 +57,7 @@ export default {
     ...mapGetters({
       getToken: "auth/getToken",
       getRole: "auth/getRoles",
-      getUserId: "auth/getUserId"
+      getUserId: "auth/getUserId",
     }),
     ...mapGetters(["getDarkTheme"]),
   },
@@ -67,7 +67,7 @@ export default {
       setRoles: "auth/setRoles",
       setUser: "auth/setUser",
       setAge: "auth/setAge",
-      setUserId: "auth/setUserId"
+      setUserId: "auth/setUserId",
     }),
     async submit() {
       await login({
@@ -75,9 +75,46 @@ export default {
         password: this.form.password,
       })
         .then((response) => {
-          console.log(response);
           this.setToken(response.data?.token);
-          this.setToken(response.data?.userId);
+          this.setUserId(response.data?.userId);
+          this.setRoles(response.data.role);
+          getUsers(response.data?.userId).then((response) => {
+            let user = response.data.user;
+            if (user !== undefined) {
+              this.setUser(user);
+            }
+            let date = moment(user.birthday).format("yyyy-MM-DD");
+            this.setAge(date);
+          });
+          if (store.getters["auth/getRoles"] == "ROLE_ADMIN") {
+            this.$swal({
+              icon: "success",
+              color: "#000",
+              showClass: {
+                popup: "animate__animated animate__fadeInDown",
+              },
+              hideClass: {
+                popup: "animate__animated animate__fadeOutUp",
+              },
+              timer: 4000,
+              timerProgressBar: true,
+            });
+            this.$router.push("/adminMain");
+          } else {
+            this.$swal({
+              icon: "success",
+              color: "#000",
+              timer: 4000,
+              timerProgressBar: true,
+              showClass: {
+                popup: "animate__animated animate__fadeInDown",
+              },
+              hideClass: {
+                popup: "animate__animated animate__fadeOutUp",
+              },
+            });
+            this.$router.push("/");
+          }
         })
         .catch(() => {
           this.$swal({
@@ -95,43 +132,6 @@ export default {
             timerProgressBar: true,
           });
         });
-
-      await getUserRoles(this.getUserId).then((response) => {
-        let user = JSON.parse(response.data.user);
-        this.setRoles(response.data.roles);
-        this.setUser(user);
-        let date = moment(user.age).format("yyyy-MM-DD");
-        this.setAge(date);
-      });
-      if (store.getters["auth/getRoles"] == "ROLE_ADMIN") {
-        this.$swal({
-          icon: "success",
-          color: "#000",
-          showClass: {
-            popup: "animate__animated animate__fadeInDown",
-          },
-          hideClass: {
-            popup: "animate__animated animate__fadeOutUp",
-          },
-          timer: 4000,
-          timerProgressBar: true,
-        });
-        this.$router.push("/adminMain");
-      } else {
-        this.$swal({
-          icon: "success",
-          color: "#000",
-          timer: 4000,
-          timerProgressBar: true,
-          showClass: {
-            popup: "animate__animated animate__fadeInDown",
-          },
-          hideClass: {
-            popup: "animate__animated animate__fadeOutUp",
-          },
-        });
-        this.$router.push("/");
-      }
     },
   },
 };

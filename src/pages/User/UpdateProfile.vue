@@ -9,17 +9,17 @@
     <div>
       <MyInput
         v-focus
-        v-model="getUser.name"
+        v-model="getUser.firstname"
         style="width: 60%"
         type="text"
-        placeholder="Name"
+        placeholder="firstname"
       />
       <MyInput
         v-focus
-        v-model="getUser.surname"
+        v-model="getUser.lastname"
         style="width: 60%"
         type="text"
-        placeholder="Surname"
+        placeholder="lastname"
       />
       <MyInput
         v-focus
@@ -73,18 +73,18 @@ export default {
       setAge: "auth/setAge",
     }),
     changeData: function () {
-      updateProfile({
-        id: this.getUser.id,
-        name: this.getUser.name,
-        surname: this.getUser.surname,
+      updateProfile(this.getUser.id, {
+        firstname: this.getUser.firstname,
+        lastname: this.getUser.lastname,
         phone: this.getUser.phone,
         email: this.getUser.email,
-        age: this.getAge,
+        birthday: this.getAge,
       })
         .then((response) => {
-          let user = JSON.parse(response.data.user);
+          let user = response.data.user;
+          localStorage.setItem("user", JSON.stringify(user));
           this.setUser(user);
-          let date = moment(user.age).format("yyyy-MM-DD");
+          let date = moment(user.birthday).format("yyyy-MM-DD");
           this.setAge(date);
           this.$swal({
             icon: "success",
@@ -98,7 +98,7 @@ export default {
             timer: 4000,
             timerProgressBar: true,
           });
-          this.$router.push("/");
+          this.$router.push(`/profile/${user.id}`);
         })
         .catch(() => {
           console.log("error");

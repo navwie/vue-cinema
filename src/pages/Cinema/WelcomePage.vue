@@ -55,19 +55,20 @@
     </div>
     <hr />
     <div>
-      <div class="news d-flex justify-content-between">
-        <p>Остання поїздка: вийшов новий вибуховий трейлер "Форсажу 10"</p>
+      <div
+        v-for="(news, index) in this.news.slice(0, 3)"
+        :key="index"
+        class="news d-flex justify-content-between"
+      >
+        <div class="p">
+          <p style="font-size: 1.5vw; font-weight: 700">{{ news.title }} ...</p>
+          <p style="font-size: 1.3vw; text-decoration: underline">
+            {{ momentDate(news.created_at) }}
+          </p>
+        </div>
         <button @click="$router.push(`/news`)">
           {{ $t("welcome.read_more") }}
         </button>
-      </div>
-      <div class="news d-flex justify-content-between">
-        <p>Остання поїздка: вийшов новий вибуховий трейлер "Форсажу 10"</p>
-        <button @click="$router.push(`/news`)">Читати далі</button>
-      </div>
-      <div class="news d-flex justify-content-between">
-        <p>Остання поїздка: вийшов новий вибуховий трейлер "Форсажу 10"</p>
-        <button @click="$router.push(`/news`)">Читати далі</button>
       </div>
     </div>
     <div class="text-center">
@@ -206,9 +207,10 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getMovies } from "@/api/api_request";
+import { getMovies, getNews } from "@/api/api_request";
 import { Carousel, Navigation, Slide } from "vue3-carousel";
 import "vue3-carousel/dist/carousel.css";
+import moment from "moment/moment";
 
 export default {
   name: "WelcomePage",
@@ -216,6 +218,7 @@ export default {
   data() {
     return {
       recommendedMovie: [],
+      news: [],
       propositions: [
         {
           imagePath: "../../assets/images/proposition1.jpg",
@@ -239,6 +242,16 @@ export default {
     }),
   },
   methods: {
+    momentDate: function (date) {
+      let locale = localStorage.getItem("locale");
+      if (locale === "uk") {
+        return moment(date, "YYYY-MM-DD, h:mm")
+          .locale(locale)
+          .format("MMMM Do YYYY, HH:mm");
+      } else {
+        return moment(date, "YYYY-MM-DD, h:mm").format("LLL");
+      }
+    },
     getImagePath: function (imagePath) {
       return `http://localhost/uploads/movies/${imagePath}`;
     },
@@ -269,7 +282,9 @@ export default {
     this.loading = true;
     getMovies().then((response) => {
       this.recommendedMovie = response.data;
-      this.loading = false;
+    });
+    getNews().then((response) => {
+      this.news = response.data.news.data;
     });
   },
 };
@@ -296,7 +311,7 @@ hr {
 p {
   font-size: 20px;
 }
-.news p {
+.news .p {
   border: 1px solid #4d7cbc;
   border-radius: 20px;
   padding: 10px;

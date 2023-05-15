@@ -7,21 +7,30 @@
       <div class="d-flex" style="position: relative; top: 20px">
         <img :src="image" alt="" class="icon mt-5 img-fluid" />
         <p :class="this.getDarkTheme ? 'dark_text' : 'light_text'" class="mt-5">
-          Інформація про фільм - "{{ movie.title }}"
+          Інформація про фільм - "{{ movie.name }}"
         </p>
       </div>
       <hr />
-      <div class="center">
+      <div class="center mb-5">
         <div v-if="!isAuth">
-          <p class="h3 text-danger">{{ $t("movie_info.info_buy") }}</p>
+          <p style="font-size: 1.7vw" class="h3 text-danger">
+            {{ $t("movie_info.info_buy") }}
+          </p>
         </div>
       </div>
       <div
         :class="this.getDarkTheme ? 'dark_movie-block' : 'light_movie-block'"
         class="d-flex justify-content-between mt-xxl-5"
       >
+        <div>
+          <img
+            :src="getImagePath(movie.image_path)"
+            class="img-fluid image"
+            alt=""
+          />
+        </div>
         <div
-          style="width: 40%"
+          style="width: 60%"
           :class="this.getDarkTheme ? 'dark_movie-info' : 'light_movie-info'"
         >
           <div class="d-flex justify-content-evenly">
@@ -39,7 +48,7 @@
                   left: 10px;
                 "
               >
-                5.9
+                {{ movie.rating }}
               </p>
             </div>
             <div class="d-flex">
@@ -56,7 +65,9 @@
                   left: 10px;
                 "
               >
-                43
+                <a :href="'/comments/' + movie.id" style="color: white">{{
+                  commentsCount
+                }}</a>
               </p>
             </div>
           </div>
@@ -125,7 +136,7 @@
                   v-for="language in movie.languages"
                   :key="language.id"
                 >
-                  {{ language.language }}
+                  {{ language.name }}
                 </p>
               </div>
             </div>
@@ -135,7 +146,7 @@
               </p>
               <div class="d-flex">
                 <p class="genre" v-for="genre in movie.genres" :key="genre.id">
-                  {{ genre.genre }}
+                  {{ genre.name }}
                 </p>
               </div>
             </div>
@@ -149,7 +160,7 @@
                   v-for="format in movie.formats"
                   :key="format.id"
                 >
-                  {{ format.format }}
+                  {{ format.name }}
                 </p>
               </div>
             </div>
@@ -159,7 +170,7 @@
               </p>
               <div class="d-flex">
                 <p class="hall" v-for="hall in movie.halls" :key="hall.id">
-                  {{ hall.hall }}
+                  {{ hall.name }}
                 </p>
               </div>
             </div>
@@ -172,19 +183,22 @@
             >
               <strong>{{ $t("movie_info.description") }}:</strong>
             </h6>
-            <p>
+            <p style="text-align: justify">
               {{ movie.description }}
             </p>
           </div>
           <hr />
         </div>
-        <div>
-          <img
-            :src="getImagePath(movie.imagePath)"
-            class="img-fluid image"
-            alt=""
-          />
-        </div>
+      </div>
+      <div class="d-flex mb-5 justify-content-center">
+        <iframe
+          width="1200"
+          height="600"
+          style="margin-top: 40px"
+          :src="`https://www.youtube.com/embed/${videoId}`"
+          frameborder="0"
+          allowfullscreen
+        ></iframe>
       </div>
       <div v-if="isAuth && getRoles == 'ROLE_USER'" class="d-flex">
         <img :src="image" alt="" class="icon mt-5 img-fluid" />
@@ -210,9 +224,6 @@
         <div>
           <div v-if="sessions.length > 0">
             <ScheduleList :schedules="sessions" />
-          </div>
-          <div v-else>
-            <ScheduleList :schedules="movie.sessions" />
           </div>
         </div>
       </div>
@@ -241,7 +252,7 @@
 import moment from "moment";
 import { getOneMovie } from "@/api/api_request";
 import { mapGetters } from "vuex";
-import ScheduleList from "@/components/ScheduleList";
+import ScheduleList from "@/components/ComponentLists/ScheduleList.vue";
 import MySelect from "@/components/UI/MySelect";
 import image from "@/assets/images/cinema.png";
 
@@ -252,9 +263,10 @@ export default {
     return {
       movie: [],
       sessions: [],
+      commentsCount: 0,
       image,
       loading: false,
-      selectedFilter: "today",
+      selectedFilter: "week",
       chooseDate: "",
       sortOption: [
         { value: "week", name: "Вся неділя" },
@@ -265,6 +277,9 @@ export default {
     };
   },
   computed: {
+    videoId() {
+      return this.movie.trailer.split("v=")[1];
+    },
     ...mapGetters({
       isAuth: "auth/isAuth",
       getRoles: "auth/getRoles",
@@ -273,7 +288,7 @@ export default {
   },
   methods: {
     getImagePath: function (imagePath) {
-      return `http://localhost/uploads/movies/${imagePath}`;
+      return `http://localhost/storage/${imagePath}`;
     },
     momentDate: function (date) {
       return moment(date, "YYYY-MM-DD").format("DD.MM.YYYY");
@@ -288,9 +303,10 @@ export default {
       if (this.selectedFilter === "today") {
         let day = new Date();
         let localeDate = moment(day).locale("uk").format("LL");
+        console.log(localeDate);
         this.sessions = this.movie.sessions.filter(
           (session) =>
-            moment(session.date).locale("uk").format("LL") === localeDate
+            moment(session.date_time).locale("uk").format("LL") === localeDate
         );
       }
       if (this.selectedFilter === "tomorrow") {
@@ -300,20 +316,20 @@ export default {
 
         this.sessions = this.movie.sessions.filter(
           (session) =>
-            moment(session.date).locale("uk").format("LL") === localeDate
+            moment(session.date_time).locale("uk").format("LL") === localeDate
         );
       }
       if (this.selectedFilter === "week") {
         let day = new Date();
         let week = new Date();
         week.setDate(day.getDate() + 7);
-        let localeDay = moment(day).locale("uk").format("YYYY-MM-DDTHH:mm");
-        let localeWeek = moment(week).locale("uk").format("YYYY-MM-DDTHH:mm");
+        let localeDay = moment(day).locale("uk").format("YYYY-MM-DD");
+        let localeWeek = moment(week).locale("uk").format("YYYY-MM-DD");
         this.sessions = this.movie.sessions.filter(
           (session) =>
-            moment(session.date).locale("uk").format("YYYY-MM-DDTHH:mm") >=
+            moment(session.date_time).locale("uk").format("YYYY-MM-DD") >=
               localeDay &&
-            moment(session.date).locale("uk").format("YYYY-MM-DDTHH:mm") <=
+            moment(session.date_time).locale("uk").format("YYYY-MM-DD") <=
               localeWeek
         );
       }
@@ -322,20 +338,22 @@ export default {
   beforeMount() {
     this.loading = true;
     getOneMovie(this.$route.params.id).then((response) => {
-      this.movie = response.data;
+      this.movie = response.data.movie;
+      this.commentsCount = this.movie.comments.length;
       this.loading = false;
       let day = new Date();
       let week = new Date();
       week.setDate(day.getDate() + 7);
-      let localeDay = moment(day).locale("uk").format("YYYY-MM-DDTHH:mm");
-      let localeWeek = moment(week).locale("uk").format("YYYY-MM-DDTHH:mm");
-      this.movie.sessions = this.movie.sessions.filter(
-        (session) =>
-          moment(session.date).locale("uk").format("YYYY-MM-DDTHH:mm") >
-            localeDay &&
-          moment(session.date).locale("uk").format("YYYY-MM-DDTHH:mm") <
-            localeWeek
-      );
+      let localeDay = moment(day).locale("uk").format("YYYY-MM-DD");
+      let localeWeek = moment(week).locale("uk").format("YYYY-MM-DD");
+      console.log(this.movie.sessions);
+      console.log(localeDay);
+      this.movie.sessions = this.movie.sessions.filter((session) => {
+        const sessionDate = moment(session.date_time)
+          .locale("uk")
+          .format("YYYY-MM-DD");
+        return sessionDate >= localeDay && sessionDate <= localeWeek;
+      });
     });
   },
 };
@@ -348,12 +366,10 @@ export default {
 .dark_movie-info {
   font-size: 18px;
   color: white;
-  margin-left: 70px;
   letter-spacing: 0.1em;
 }
 .light_movie-info {
   font-size: 18px;
-  margin-left: 70px;
   color: black;
   letter-spacing: 0.1em;
 }
@@ -376,6 +392,8 @@ export default {
 }
 .icon {
   width: 60px;
+  position: relative;
+  top: -10px;
   height: 30%;
 }
 hr {
@@ -390,18 +408,14 @@ p {
 .dark_text {
   opacity: 1;
   color: white;
-  position: relative;
   font-weight: 700;
-  top: 22px;
   font-size: 27px;
   margin-left: 30px;
 }
 .light_text {
   opacity: 1;
   color: black;
-  position: relative;
   font-weight: 700;
-  top: 22px;
   font-size: 27px;
   margin-left: 30px;
 }
@@ -430,11 +444,9 @@ p {
 }
 
 .image {
-  width: 400px;
-  height: 100%;
+  width: 500px;
   object-fit: cover;
-  min-width: 90%;
-  min-height: 95%;
+  margin-top: 100px;
   border-radius: 20px;
 }
 .dark_description {
@@ -540,6 +552,7 @@ strong {
 .cont {
   width: 90%;
   position: relative;
+  top: 30px;
   bottom: 50px;
 }
 </style>

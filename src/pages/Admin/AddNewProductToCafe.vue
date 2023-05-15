@@ -28,12 +28,10 @@
             style="width: 60%"
             :placeholder="$t(`addnewproduct.price`)"
           />
-          <MyInput
-            v-focus
+          <MySelect
             v-model="form.type"
-            type="text"
             style="width: 60%"
-            :placeholder="$t(`addnewproduct.type`)"
+            :options="sortOption"
           />
         </div>
         <div>
@@ -54,6 +52,7 @@
 <script>
 import MyButton from "@/components/UI/MyButton.vue";
 import { mapGetters } from "vuex";
+import { createProduct } from "@/api/api_request";
 
 export default {
   name: "AddNewProductToCafe",
@@ -65,7 +64,53 @@ export default {
         price: "",
         type: "",
       },
+      sortOption: [
+        { value: "drink", name: "Напій" },
+        { value: "dessert", name: "Десерт" },
+        { value: "popcorn", name: "Попкорн" },
+        { value: "chips", name: "Чіпси" },
+      ],
     };
+  },
+  methods: {
+    submit() {
+      createProduct({
+        name: this.form.name,
+        price: this.form.price,
+        type: this.form.type,
+      })
+        .then(() => {
+          this.$swal({
+            icon: "success",
+            color: "#000",
+            timer: 4000,
+            timerProgressBar: true,
+            showClass: {
+              popup: "animate__animated animate__fadeInDown",
+            },
+            hideClass: {
+              popup: "animate__animated animate__fadeOutUp",
+            },
+          });
+          this.$router.push("/adminMain");
+        })
+        .catch(() => {
+          this.$swal({
+            icon: "error",
+            color: "#000",
+            title: this.$t("something_went_wrong.title"),
+            text: this.$t("something_went_wrong.text"),
+            timer: 4000,
+            showClass: {
+              popup: "animate__animated animate__fadeInDown",
+            },
+            hideClass: {
+              popup: "animate__animated animate__fadeOutUp",
+            },
+            timerProgressBar: true,
+          });
+        });
+    },
   },
   computed: {
     ...mapGetters(["getDarkTheme"]),

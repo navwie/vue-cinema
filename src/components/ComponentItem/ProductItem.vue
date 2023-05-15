@@ -1,33 +1,43 @@
 <template>
   <div class="card">
     <div class="card-image">
-      <img :src="souvenir.image" alt="" />
+      <img
+        v-if="this.$route.params.param === 'popcorn'"
+        src="../../assets/images/product-item-popcorn.png"
+        alt=""
+      />
+      <img
+        v-else-if="this.$route.params.param === 'chips'"
+        src="../../assets/images/product-item-chips.jpg"
+        alt=""
+      />
+      <img
+        v-else-if="this.$route.params.param === 'drink'"
+        src="../../assets/images/product-item-drink.avif"
+        alt=""
+      />
+      <img v-else src="../../assets/images/product-item-dessert.jpg" alt="" />
     </div>
-    <div class="card-name">{{ souvenir.name }}</div>
+    <div class="card-name">{{ product.name }}</div>
     <hr />
     <div class="d-flex justify-content-between">
       <div class="card-price">
         {{ $t("table.price") }}
-        : <span>{{ souvenir.price }}</span>
+        : <span>{{ product.price }}</span>
       </div>
-      <button><img src="../assets/images/корзина.png" alt="" /></button>
+      <button><img src="../../assets/images/корзина.png" alt="" /></button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "SouvenirItem",
+  name: "ProductItem",
   props: {
-    souvenir: {
+    product: {
       type: Object,
       required: true,
     },
-  },
-  data() {
-    return {
-      showDetails: false,
-    };
   },
 };
 </script>
@@ -52,7 +62,7 @@ hr {
 .card-image {
   position: relative;
   width: 100%;
-  height: 320px;
+  height: 500px;
   padding-bottom: 75%;
   overflow: hidden;
   transition: height 0.3s ease-out;
@@ -70,7 +80,7 @@ hr {
   font-weight: 700;
   text-align: center;
   margin-top: 10px;
-  font-size: 22px;
+  font-size: 20px;
   font-family: "Arsenal", sans-serif;
 }
 .card-price {

@@ -50,7 +50,8 @@
     "date": "Дата",
     "title_souvenir" : "Додати новий сувенір",
     "title_cafe" : "Додати новий продукт в меню",
-    "title_new" : "Додати нову новину"
+    "title_new" : "Додати нову новину",
+    "title_voting" : " Додати нове опитування"
   },
   "profile": {
     "profile": "Профіль",
@@ -70,9 +71,17 @@
     "email" : "Email",
     "instagram": "Інстаграм"
   },
+
+  "types_product" : {
+    "popcorn" : "Попкорн",
+    "desserts" : "Десерти",
+    "drinks" : "Напої",
+    "chips" : "Чіпси"
+  },
+
   "table": {
     "name": "Назва",
-    "release_year": "Дата виходу",
+    "release_year": "Рік виходу",
     "price": "Ціна",
     "date_start": "Дата початку",
     "date_finish": "Дата кінця",
@@ -80,7 +89,10 @@
     "confines": "Обмеження у віці",
     "country": "Країна",
     "photo": "Фото",
-    "details": "Більше інформації"
+    "details": "Більше інформації",
+    "trailer" : "Трейлер",
+    "rating": "IMDb рейтинг"
+
   },
   "auth": {
     "register": "Реєстрація",

@@ -21,12 +21,12 @@
             "
             class=" "
           >
-            <img :src="getImagePath(movie.imagePath)" class="" alt="" />
+            <img :src="getImagePath(movie.image_path)" class="" alt="" />
             <h5 :class="this.getDarkTheme ? 'dark_h5' : 'light_h5'">
               <a
                 :class="this.getDarkTheme ? 'dark_a' : 'light_a'"
                 :href="'/movie/' + movie.id"
-                >{{ movie.title }}</a
+                >{{ movie.name }}</a
               >
             </h5>
             <p :class="this.getDarkTheme ? 'dark_p' : 'light_p'">
@@ -127,7 +127,7 @@
   </div>
 </template>
 <script>
-import MovieList from "@/components/MovieList";
+import MovieList from "@/components/ComponentLists/MovieList.vue";
 import {
   getFormats,
   getGenres,
@@ -186,7 +186,7 @@ export default {
   },
   methods: {
     getImagePath: function (imagePath) {
-      return `http://localhost/uploads/movies/${imagePath}`;
+      return `http://localhost/storage/${imagePath}`;
     },
     momentDate: function (date) {
       return moment(date, "YYYY-MM-DD").format("DD.MM.YYYY");
@@ -231,20 +231,24 @@ export default {
     ...mapGetters(["getDarkTheme"]),
   },
   beforeMount() {
-    console.log(this.getDarkTheme);
     this.loading = true;
     getMovies().then((response) => {
-      let allMovies = response.data;
+      let allMovies = response.data.movies.data;
       let currentDate = moment().format("YYYY-MM-DD");
 
-      this.totalMovies = allMovies;
+      this.totalMovies = allMovies.filter((e) => e.quizled === 0);
+
       this.actualMovies = allMovies.filter(
         (e) =>
           moment(e.date_start).format("YYYY-MM-DD") <= currentDate &&
-          currentDate <= moment(e.date_finish).format("YYYY-MM-DD")
+          currentDate <= moment(e.date_finish).format("YYYY-MM-DD") &&
+          e.quizled === 0
       );
+
       this.futureMovies = allMovies.filter(
-        (e) => moment(e.date_start).format("YYYY-MM-DD") > currentDate
+        (e) =>
+          moment(e.date_start).format("YYYY-MM-DD") > currentDate &&
+          e.quizled === 0
       );
 
       this.loading = false;

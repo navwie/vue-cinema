@@ -19,7 +19,7 @@
               {{ $t("profile.name") }}
             </p>
             <p :class="this.getDarkTheme ? 'dark_p' : 'light_p'">
-              {{ getUser.name }}
+              {{ getUser.firstname }}
             </p>
           </div>
           <div class="d-flex justify-content-around">
@@ -27,7 +27,7 @@
               {{ $t("profile.surname") }}
             </p>
             <p :class="this.getDarkTheme ? 'dark_p' : 'light_p'">
-              {{ getUser.surname }}
+              {{ getUser.lastname }}
             </p>
           </div>
           <div class="d-flex justify-content-around">
@@ -51,7 +51,7 @@
               {{ $t("profile.age") }}
             </p>
             <p :class="this.getDarkTheme ? 'dark_p' : 'light_p'">
-              {{ momentDate(getUser.age) }}
+              {{ momentDate(getUser.birthday) }}
             </p>
           </div>
         </div>

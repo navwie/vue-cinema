@@ -40,7 +40,8 @@
     "date" : "Date",
     "title_souvenir" : "Add new souvenir",
     "title_cafe" : "Add new product to menu",
-    "title_new" : "add new news"
+    "title_new" : "add new news",
+    "title_voting" : " Add new voting"
   },
   "welcome": {
     "cinema" : "Cinema",
@@ -83,7 +84,12 @@
     "change": "Change",
     "archive": "Archive"
   },
-
+  "types_product" : {
+    "popcorns" : "Popcorns",
+    "desserts" : "Desserts",
+    "drinks" : "Drinks",
+    "chips" : "Chips"
+  },
   "change_movie": {
     "title": "Change data about movie",
     "choose_photo": "Choose_photo",
@@ -108,7 +114,9 @@
     "confines": "Confines",
     "country": "Country",
     "photo": "Photo",
-    "details": "More details"
+    "details": "More details",
+    "trailer" : "Trailer",
+    "rating": "IMDb Rating"
   },
   "auth": {
     "register": "Registration",

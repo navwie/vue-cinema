@@ -16,22 +16,22 @@
         <div>
           <MyInput
             v-focus
-            v-model="form.name"
+            v-model="form.title"
             style="width: 60%"
             type="text"
             :placeholder="$t(`addnewproduct.name`)"
           />
           <MyInput
             v-focus
-            v-model="form.date"
-            type="date"
+            v-model="form.picture"
+            @change="choosePhoto"
+            type="file"
             style="width: 60%"
-            :placeholder="$t(`addnewproduct.date`)"
           />
-          <MyInput v-focus v-model="form.file" type="file" style="width: 60%" />
 
           <MyTextArea
             type="text"
+            v-model="form.description"
             style="border-radius: 20px; height: 120px; width: 60%"
             :placeholder="$t(`addnewproduct.description`)"
           />
@@ -55,6 +55,7 @@
 import MyButton from "@/components/UI/MyButton.vue";
 import { mapGetters } from "vuex";
 import MyTextArea from "@/components/UI/MyTextArea.vue";
+import { createNews, imageNewsUpload } from "@/api/api_request";
 
 export default {
   name: "AddNewsPage",
@@ -62,12 +63,56 @@ export default {
   data() {
     return {
       form: {
-        name: "",
+        title: "",
         description: "",
-        file: "",
-        date: "",
+        picture: "",
       },
     };
+  },
+  methods: {
+    choosePhoto(event) {
+      this.form.picture = event.target.files[0];
+    },
+    submit() {
+      createNews({
+        title: this.form.title,
+        description: this.form.description,
+      })
+        .then((response) => {
+          let formData = new FormData();
+          formData.append("image", this.form.picture);
+          imageNewsUpload(response.data.news.id, formData);
+          this.$swal({
+            icon: "success",
+            color: "#000",
+            timer: 4000,
+            timerProgressBar: true,
+            showClass: {
+              popup: "animate__animated animate__fadeInDown",
+            },
+            hideClass: {
+              popup: "animate__animated animate__fadeOutUp",
+            },
+          });
+          this.$router.push("/adminMain");
+        })
+        .catch(() => {
+          this.$swal({
+            icon: "error",
+            color: "#000",
+            title: this.$t("something_went_wrong.title"),
+            text: this.$t("something_went_wrong.text"),
+            timer: 4000,
+            showClass: {
+              popup: "animate__animated animate__fadeInDown",
+            },
+            hideClass: {
+              popup: "animate__animated animate__fadeOutUp",
+            },
+            timerProgressBar: true,
+          });
+        });
+    },
   },
   computed: {
     ...mapGetters(["getDarkTheme"]),

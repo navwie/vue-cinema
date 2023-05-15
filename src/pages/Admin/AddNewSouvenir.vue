@@ -28,7 +28,13 @@
             style="width: 60%"
             :placeholder="$t(`addnewproduct.price`)"
           />
-          <MyInput v-focus v-model="form.file" type="file" style="width: 60%" />
+          <MyInput
+            v-focus
+            v-model="form.file"
+            type="file"
+            @change="choosePhoto"
+            style="width: 60%"
+          />
         </div>
         <div>
           <MyButton class="butn" type="submit" @click="submit">
@@ -48,6 +54,7 @@
 <script>
 import MyButton from "@/components/UI/MyButton.vue";
 import { mapGetters } from "vuex";
+import { createSouvenir, imageSouvenirUpload } from "@/api/api_request";
 
 export default {
   name: "AddNewSouvenir",
@@ -63,6 +70,51 @@ export default {
   },
   computed: {
     ...mapGetters(["getDarkTheme"]),
+  },
+  methods: {
+    choosePhoto(event) {
+      this.form.file = event.target.files[0];
+    },
+    submit() {
+      createSouvenir({
+        name: this.form.name,
+        price: this.form.price,
+      })
+        .then((response) => {
+          let formData = new FormData();
+          formData.append("image", this.form.file);
+          imageSouvenirUpload(response.data.souvenir.id, formData);
+          this.$swal({
+            icon: "success",
+            color: "#000",
+            timer: 4000,
+            timerProgressBar: true,
+            showClass: {
+              popup: "animate__animated animate__fadeInDown",
+            },
+            hideClass: {
+              popup: "animate__animated animate__fadeOutUp",
+            },
+          });
+          this.$router.push("/adminMain");
+        })
+        .catch(() => {
+          this.$swal({
+            icon: "error",
+            color: "#000",
+            title: this.$t("something_went_wrong.title"),
+            text: this.$t("something_went_wrong.text"),
+            timer: 4000,
+            showClass: {
+              popup: "animate__animated animate__fadeInDown",
+            },
+            hideClass: {
+              popup: "animate__animated animate__fadeOutUp",
+            },
+            timerProgressBar: true,
+          });
+        });
+    },
   },
 };
 </script>

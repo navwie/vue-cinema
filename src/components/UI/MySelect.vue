@@ -55,7 +55,6 @@ export default {
   color: white;
   border-radius: 20px;
   background-color: transparent;
-  margin-bottom: 30px;
 }
 .light_select {
   width: 100%;

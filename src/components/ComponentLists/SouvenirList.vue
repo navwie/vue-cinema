@@ -1,7 +1,7 @@
 <template>
-  <div class="card-grid" v-if="filteredSouvenirs.length > 0">
+  <div class="card-grid" v-if="souvenirs.length > 0">
     <SouvenirItem
-      v-for="souvenir in filteredSouvenirs"
+      v-for="souvenir in souvenirs"
       :key="souvenir.id"
       :souvenir="souvenir"
       @remove="$emit('remove', souvenir)"
@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import SouvenirItem from "@/components/SouvenirItem.vue";
+import SouvenirItem from "@/components/ComponentItem/SouvenirItem.vue";
 
 export default {
   name: "SouvenirList",
@@ -25,9 +25,10 @@ export default {
     },
   },
   computed: {
-    filteredSouvenirs: function () {
-      return this.souvenirs.filter((souvenir) => souvenir.amount > 0);
-    },
+    // filteredSouvenirs: function () {
+    //   console.log(this.souvenirs);
+    //   return this.souvenirs.filter((souvenir) => souvenir.amount > 0);
+    // },
   },
 };
 </script>

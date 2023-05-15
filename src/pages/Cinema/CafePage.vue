@@ -47,19 +47,6 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "CafePage",
-  data() {
-    return {
-      options: [
-        "Титанік",
-        "Джуманджи 1",
-        "Пропозиція",
-        "Форсаж 2",
-        "Паранормальне явище 1",
-      ],
-      selectedOption: "",
-      isOpen: true,
-    };
-  },
   computed: {
     ...mapGetters(["getDarkTheme"]),
   },

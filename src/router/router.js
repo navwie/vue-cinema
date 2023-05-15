@@ -18,9 +18,11 @@ import SouvenirPage from "@/pages/Cinema/SouvenirPage.vue";
 import NewsPage from "@/pages/Cinema/NewsPage.vue";
 import AddNewSouvenir from "@/pages/Admin/AddNewSouvenir.vue";
 import AddNewProductToCafe from "@/pages/Admin/AddNewProductToCafe.vue";
-import AddNewsPage from "@/pages/Cinema/AddNewsPage.vue";
+import AddNewsPage from "@/pages/Admin/AddNewsPage.vue";
 import VotingPage from "@/pages/Cinema/VotingPage.vue";
 import MenuProductTypePage from "@/pages/Cinema/MenuProductTypePage.vue";
+import CommentsPage from "@/pages/Movie/CommentsPage.vue";
+import AddVoting from "@/pages/Admin/AddVoting.vue";
 
 const routes = [
   {
@@ -59,6 +61,22 @@ const routes = [
     path: "/create-souvenir",
     component: AddNewSouvenir,
     name: "newSouvenir",
+    beforeEnter: (to, from, next) => {
+      if (
+        !store.getters["auth/isAuth"] &&
+        store.getters["auth/getRoles"] !== "ROLE_ADMIN"
+      ) {
+        return next({
+          name: "login",
+        });
+      }
+      next();
+    },
+  },
+  {
+    path: "/create-voting",
+    component: AddVoting,
+    name: "newVoting",
     beforeEnter: (to, from, next) => {
       if (
         !store.getters["auth/isAuth"] &&
@@ -215,7 +233,12 @@ const routes = [
     name: "contacts",
   },
   {
-    path: "/profile",
+    path: "/comments/:id",
+    component: CommentsPage,
+    name: "comments",
+  },
+  {
+    path: "/profile/:id",
     component: ProfilePage,
     name: "profile",
     beforeEnter: (to, from, next) => {

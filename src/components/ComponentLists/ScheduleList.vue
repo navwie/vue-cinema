@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import ScheduleItem from "@/components/ScheduleItem";
+import ScheduleItem from "@/components/ComponentItem/ScheduleItem.vue";
 export default {
   name: "ScheduleList",
   components: { ScheduleItem },

@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="cont m-auto">
     <div class="btn-group mb-5 d-grid gap-2 d-flex">
       <button
         :class="{ active: $route.query.type === 'future' }"
@@ -90,17 +90,17 @@ export default {
     },
     searchActual() {
       return this.actualMovies.filter((elem) => {
-        return elem.title.toLowerCase().includes(this.search.toLowerCase());
+        return elem.name.toLowerCase().includes(this.search.toLowerCase());
       });
     },
     searchLater() {
       return this.laterMovie.filter((elem) => {
-        return elem.title.toLowerCase().includes(this.search.toLowerCase());
+        return elem.name.toLowerCase().includes(this.search.toLowerCase());
       });
     },
     searchFuture() {
       return this.futureMovies.filter((elem) => {
-        return elem.title.toLowerCase().includes(this.search.toLowerCase());
+        return elem.name.toLowerCase().includes(this.search.toLowerCase());
       });
     },
     ...mapGetters(["getDarkTheme"]),
@@ -108,7 +108,7 @@ export default {
   beforeMount() {
     this.loading = true;
     getMovies().then((response) => {
-      let movies = response.data;
+      let movies = response.data.movies.data;
       let currentDate = moment().format("YYYY-MM-DD");
 
       this.actualMovies = movies.filter(
@@ -153,5 +153,8 @@ button:hover {
 }
 .input {
   margin-bottom: 50px;
+}
+.cont {
+  width: 90%;
 }
 </style>

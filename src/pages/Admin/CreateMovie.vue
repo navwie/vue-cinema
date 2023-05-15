@@ -12,7 +12,7 @@
           <MyInput
             v-focus
             class="input"
-            v-model="movie.title"
+            v-model="movie.name"
             type="text"
             :placeholder="$t(`table.name`)"
           />
@@ -76,9 +76,17 @@
         <div>
           <MyInput
             v-focus
-            v-model="movie.price"
-            type="number"
-            :placeholder="$t(`table.price`)"
+            v-model="movie.trailer"
+            type="text"
+            :placeholder="$t(`table.trailer`)"
+          />
+        </div>
+        <div>
+          <MyInput
+            v-focus
+            v-model="movie.rating"
+            type="text"
+            :placeholder="$t(`table.rating`)"
           />
         </div>
         <div>
@@ -90,6 +98,7 @@
           />
         </div>
         <MySelect v-model="movie.confines" :options="sortOption" />
+        <MySelect v-model="movie.quizled" :options="isForVoting" />
       </div>
       <hr class="vertical" />
       <div style="width: 40%">
@@ -110,7 +119,7 @@
               class="d-flex justify-content-between"
               :key="language.id"
             >
-              <label for="">{{ language.language }}</label>
+              <label for="">{{ language.name }}</label>
               <input
                 v-model="movie.languages"
                 :value="language.id"
@@ -128,7 +137,7 @@
               class="d-flex justify-content-between"
               :key="format.id"
             >
-              <label for="">{{ format.format }}</label>
+              <label for="">{{ format.name }}</label>
               <input
                 v-model="movie.formats"
                 :value="format.id"
@@ -149,7 +158,7 @@
               class="d-flex justify-content-between"
               :key="hall.id"
             >
-              <label for="">{{ hall.hall }}</label>
+              <label for="">{{ hall.name }}</label>
               <input v-model="movie.halls" :value="hall.id" type="checkbox" />
             </div>
           </div>
@@ -163,7 +172,7 @@
               class="d-flex justify-content-between"
               :key="genre.id"
             >
-              <label for="">{{ genre.genre }}</label>
+              <label for="">{{ genre.name }}</label>
               <input v-model="movie.genres" :value="genre.id" type="checkbox" />
             </div>
           </div>
@@ -212,9 +221,9 @@ export default {
   data() {
     return {
       movie: {
-        title: "",
-        release_year: "",
+        name: "",
         description: "",
+        release_year: "",
         date_start: "",
         date_finish: "",
         confines: "-",
@@ -222,12 +231,14 @@ export default {
         actors: "",
         country: "",
         screenwriter: "",
-        price: "",
         duration: "",
-        photo: "",
+        rating: "",
+        image_path: "",
+        trailer: "",
         halls: [],
         languages: [],
         genres: [],
+        quizled: "",
         formats: [],
       },
       sortOption: [
@@ -235,6 +246,10 @@ export default {
         { value: "6+", name: "6+" },
         { value: "12+", name: "12+" },
         { value: "18+", name: "18+" },
+      ],
+      isForVoting: [
+        { value: "1", name: "Для опитування" },
+        { value: "0", name: "Для прокату фільму" },
       ],
       checkbox: {
         language: "",
@@ -249,33 +264,35 @@ export default {
   },
   methods: {
     choosePhoto(event) {
-      this.movie.photo = event.target.files[0];
+      this.movie.image_path = event.target.files[0];
     },
     createMovie() {
       this.$emit("create", this.movie);
       createMovie({
-        title: this.movie.title,
-        release_year: this.movie.release_year,
+        name: this.movie.name,
         description: this.movie.description,
-        imagePath: this.movie.photo,
+        release_year: this.movie.release_year,
         date_start: this.movie.date_start,
         date_finish: this.movie.date_finish,
         confines: this.movie.confines,
         director: this.movie.director,
         actors: this.movie.actors,
         country: this.movie.country,
+        rating: this.movie.rating,
         screenwriter: this.movie.screenwriter,
-        price: this.movie.price,
         duration: this.movie.duration,
+        trailer: this.movie.trailer,
         halls: this.movie.halls,
         languages: this.movie.languages,
         formats: this.movie.formats,
         genres: this.movie.genres,
+        quizled: this.movie.quizled,
       })
         .then((response) => {
+          console.log(response.data.movie.id);
           let formData = new FormData();
-          formData.append("file", this.movie.photo);
-          imageUpload(response.data.movie_id, formData);
+          formData.append("image", this.movie.image_path);
+          imageUpload(response.data.movie.id, formData);
           this.$swal({
             icon: "success",
             color: "#000",
@@ -311,19 +328,19 @@ export default {
   beforeMount() {
     this.loading = true;
     getHalls().then((response) => {
-      this.checkbox.halls = response.data;
+      this.checkbox.halls = response.data.halls.data;
       this.loading = false;
     });
     getGenres().then((response) => {
-      this.checkbox.genres = response.data;
+      this.checkbox.genres = response.data.genres.data;
       this.loading = false;
     });
     getLanguages().then((response) => {
-      this.checkbox.language = response.data;
+      this.checkbox.language = response.data.languages.data;
       this.loading = false;
     });
     getFormats().then((response) => {
-      this.checkbox.formats = response.data;
+      this.checkbox.formats = response.data.formats.data;
       this.loading = false;
     });
   },

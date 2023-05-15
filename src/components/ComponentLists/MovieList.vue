@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import MovieItem from "@/components/MovieItem";
+import MovieItem from "@/components/ComponentItem/MovieItem.vue";
 export default {
   name: "MovieList",
   components: { MovieItem },

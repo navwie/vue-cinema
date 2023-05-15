@@ -1,5 +1,5 @@
 <template>
-  <div class="container table-responsive-xxl">
+  <div class="m-auto">
     <table class="table table-bordered border-primary">
       <thead>
         <tr>
@@ -10,7 +10,10 @@
             {{ $t("table.name") }}
           </th>
           <th :class="this.getDarkTheme ? 'dark_th' : 'light_th'" scope="col">
-            {{ $t("table.price") }}
+            {{ $t("table.rating") }}
+          </th>
+          <th :class="this.getDarkTheme ? 'dark_th' : 'light_th'" scope="col">
+            {{ $t("table.release_year") }}
           </th>
           <th :class="this.getDarkTheme ? 'dark_th' : 'light_th'" scope="col">
             {{ $t("table.date_start") }}
@@ -41,10 +44,13 @@
             {{ index + 1 }}
           </td>
           <td :class="this.getDarkTheme ? 'dark_th' : 'light_th'">
-            {{ movie.title }}
+            {{ movie.name }}
           </td>
           <td :class="this.getDarkTheme ? 'dark_th' : 'light_th'">
-            {{ movie.price }}
+            {{ movie.rating }}
+          </td>
+          <td :class="this.getDarkTheme ? 'dark_th' : 'light_th'">
+            {{ movie.release_year }}
           </td>
           <td :class="this.getDarkTheme ? 'dark_th' : 'light_th'">
             {{ momentDate(movie.date_start) }}
@@ -67,7 +73,7 @@
           </td>
           <td class="movie-img">
             <img
-              :src="getImagePath(movie.imagePath)"
+              :src="getImagePath(movie.image_path)"
               class="img-fluid"
               alt=""
             />
@@ -103,7 +109,7 @@ export default {
   },
   methods: {
     getImagePath: function (imagePath) {
-      return `http://localhost/uploads/movies/${imagePath}`;
+      return `http://localhost/storage/${imagePath}`;
     },
     momentDate: function (date) {
       return moment(date, "YYYY-MM-DD").format("DD.MM.YYYY");
@@ -113,6 +119,9 @@ export default {
 </script>
 
 <style scoped>
+.cont {
+  width: 100%;
+}
 .dark_th,
 .dark_td {
   color: white;

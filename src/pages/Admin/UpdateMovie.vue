@@ -16,7 +16,7 @@
         <div>
           <MyInput
             v-focus
-            v-model="movie.title"
+            v-model="movie.name"
             type="text"
             placeholder="Назва"
           />
@@ -24,7 +24,7 @@
         <div>
           <MyInput
             v-focus
-            v-model="movie.releaseYear"
+            v-model="movie.release_year"
             type="number"
             placeholder="Рік виходу"
           />
@@ -79,9 +79,17 @@
         <div>
           <MyInput
             v-focus
-            v-model="movie.price"
-            type="number"
-            placeholder="Ціна"
+            v-model="movie.trailer"
+            type="text"
+            :placeholder="$t(`table.trailer`)"
+          />
+        </div>
+        <div>
+          <MyInput
+            v-focus
+            v-model="movie.rating"
+            type="text"
+            :placeholder="$t(`table.rating`)"
           />
         </div>
         <div>
@@ -101,7 +109,7 @@
         <div class="d-flex mt-5 mb-5">
           <div v-if="isNewPhoto == false">
             <img
-              :src="getImagePath(movie.imagePath)"
+              :src="getImagePath(movie.image_path)"
               class="img-fluid"
               alt=""
             />
@@ -137,7 +145,7 @@
                       v-for="hall in movie.halls"
                       :key="hall.id"
                     >
-                      {{ hall.hall }}
+                      {{ hall.name }}
                     </li>
                   </ul>
                 </div>
@@ -167,7 +175,7 @@
                   class="d-flex justify-content-between"
                   :key="hall.id"
                 >
-                  <label for="">{{ hall.hall }}</label>
+                  <label for="">{{ hall.name }}</label>
                   <input
                     v-model="newMovieHall"
                     :value="hall.id"
@@ -186,7 +194,7 @@
                       v-for="genre in movie.genres"
                       :key="genre.id"
                     >
-                      {{ genre.genre }}
+                      {{ genre.name }}
                     </li>
                   </ul>
                 </div>
@@ -216,7 +224,7 @@
                   class="d-flex justify-content-between"
                   :key="genre.id"
                 >
-                  <label for="">{{ genre.genre }}</label>
+                  <label for="">{{ genre.name }}</label>
                   <input
                     v-model="newMovieGenres"
                     :value="genre.id"
@@ -239,7 +247,7 @@
                       v-for="language in movie.languages"
                       :key="language.id"
                     >
-                      {{ language.language }}
+                      {{ language.name }}
                     </li>
                   </ul>
                 </div>
@@ -269,7 +277,7 @@
                   class="d-flex justify-content-between"
                   :key="language.id"
                 >
-                  <label for="">{{ language.language }}</label>
+                  <label for="">{{ language.name }}</label>
                   <input
                     v-model="newMovieLanguages"
                     :value="language.id"
@@ -291,7 +299,7 @@
                       v-for="format in movie.formats"
                       :key="format.id"
                     >
-                      {{ format.format }}
+                      {{ format.name }}
                     </li>
                   </ul>
                 </div>
@@ -321,7 +329,7 @@
                   class="d-flex justify-content-between"
                   :key="format.id"
                 >
-                  <label for="">{{ format.format }}</label>
+                  <label for="">{{ format.name }}</label>
                   <input
                     v-model="newMovieFormats"
                     :value="format.id"
@@ -431,10 +439,10 @@ export default {
       this.isHiddenPhoto = !this.isHiddenPhoto;
     },
     getImagePath: function (imagePath) {
-      return `http://localhost/uploads/movies/${imagePath}`;
+      return `http://localhost/storage/${imagePath}`;
     },
     choosePhoto(event) {
-      this.movie.imagePath = event.target.files[0];
+      this.movie.image_path = event.target.files[0];
       this.isNewPhoto = true;
     },
     cancel: function () {
@@ -442,15 +450,10 @@ export default {
     },
     changeMovie: function () {
       this.$emit("create", this.movie);
-      console.log(this.movie.imagePath);
-      updateMovie({
-        id: this.movie.id,
-        title: this.movie.title,
-        release_year: this.movie.releaseYear,
+      updateMovie(this.movie.id, {
+        name: this.movie.name,
+        release_year: this.movie.release_year,
         description: this.movie.description,
-        imagePath: this.isNewPhoto
-          ? this.movie.imagePath.name
-          : this.movie.imagePath,
         date_start: this.movie.date_start,
         date_finish: this.movie.date_finish,
         confines: this.movie.confines,
@@ -458,7 +461,8 @@ export default {
         actors: this.movie.actors,
         country: this.movie.country,
         screenwriter: this.movie.screenwriter,
-        price: this.movie.price,
+        trailer: this.movie.trailer,
+        rating: this.movie.rating,
         duration: this.movie.duration,
         halls: this.newMovieHall.map((hall) => {
           if (typeof hall === "object") {
@@ -488,7 +492,7 @@ export default {
         .then(() => {
           if (this.isNewPhoto) {
             let formData = new FormData();
-            formData.append("file", this.movie.imagePath);
+            formData.append("image", this.movie.image_path);
             imageUpload(this.movie.id, formData);
             this.$swal({
               icon: "success",
@@ -540,7 +544,7 @@ export default {
   beforeMount() {
     this.loading = true;
     getOneMovie(this.$route.params.id).then((response) => {
-      this.movie = response.data;
+      this.movie = response.data.movie;
       this.movie.date_start = moment(response.data.date_start).format(
         "yyyy-MM-DD"
       );
@@ -550,19 +554,19 @@ export default {
       this.loading = false;
     });
     getHalls().then((response) => {
-      this.checkbox.halls = response.data;
+      this.checkbox.halls = response.data.halls.data;
       this.loading = false;
     });
     getGenres().then((response) => {
-      this.checkbox.genres = response.data;
+      this.checkbox.genres = response.data.genres.data;
       this.loading = false;
     });
     getLanguages().then((response) => {
-      this.checkbox.language = response.data;
+      this.checkbox.language = response.data.languages.data;
       this.loading = false;
     });
     getFormats().then((response) => {
-      this.checkbox.formats = response.data;
+      this.checkbox.formats = response.data.formats.data;
       this.loading = false;
     });
   },

@@ -28,12 +28,16 @@
         class="icon mt-5 img-fluid"
       />
       <p :class="this.getDarkTheme ? 'dark_text' : 'light_text'" class="mt-5">
-        {{ $t("voting.voting") }} 29.04.2023
+        {{ quiz.name }}
       </p>
     </div>
     <hr />
     <div class="radio-group">
-      <div v-for="(option, index) in options" :key="index" class="radio-item">
+      <div
+        v-for="(option, index) in quiz.questions"
+        :key="index"
+        class="radio-item"
+      >
         <input
           type="radio"
           :id="'option-' + index"
@@ -41,9 +45,13 @@
           v-model="selectedOption"
           class="radio-input"
         />
-        <label :for="'option-' + index" class="radio-label">{{ option }}</label>
+        <label :for="'option-' + index" class="radio-label">{{
+          option.movie.name
+        }}</label>
       </div>
-      <button v-if="isOpen" class="mx-auto">Голосувати</button>
+      <button v-if="isOpen" @click="updateVotes" class="mx-auto">
+        Голосувати
+      </button>
     </div>
   </section>
   <section class="m-auto" id="section3">
@@ -53,35 +61,45 @@
         alt=""
         class="icon mt-5 img-fluid"
       />
-      <p
-        v-if="isOpen"
-        :class="this.getDarkTheme ? 'dark_text' : 'light_text'"
-        class="mt-5"
-      >
-        {{ $t("voting.voting_is_continue") }} Титаник
-      </p>
-      <p
-        v-else
-        :class="this.getDarkTheme ? 'dark_text' : 'light_text'"
-        class="mt-5"
-      >
-        {{ $t("voting.voting_is_closed") }} Титаник
-      </p>
-    </div>
-    <hr />
-    <div class="choosen-film m-auto d-flex justify-content-between">
-      <img
-        src="https://upload.wikimedia.org/wikipedia/ru/1/19/Titanic_%28Official_Film_Poster%29.png"
-        alt=""
-      />
-      <div class="choosen-film-info">
-        <p>
-          Фільм-катастрофа режисера Джеймса Камерона «Титанік», розповідає
-          прекрасну і водночас сумну історію кохання дівчини з вищого
-          суспільства та бідного юнака, яких доля звела разом на злощасному
-          кораблі та подарувала найкращі моменти життя.
+
+      <div v-if="isOpen && resultMovie.length > 1">
+        <p style="color: red">Обидва фільма мають однакову кількість голосів</p>
+        <span
+          v-for="movie in resultMovie"
+          :key="movie"
+          :class="getDarkTheme ? 'dark_text' : 'light_text'"
+          class="mt-5"
+        >
+          {{ movie.movie.name }}
+        </span>
+      </div>
+
+      <div v-else-if="isOpen && resultMovie.length === 1">
+        <p :class="getDarkTheme ? 'dark_text' : 'light_text'" class="mt-5">
+          {{ $t("voting.voting_is_continue") }} {{ resultMovie[0].movie.name }}
         </p>
-        <button v-if="!isOpen">Купити квиток</button>
+      </div>
+
+      <div v-else>
+        <p :class="getDarkTheme ? 'dark_text' : 'light_text'" class="mt-5">
+          {{ $t("voting.voting_is_closed") }} Титаник
+        </p>
+      </div>
+    </div>
+
+    <hr />
+
+    <div
+      v-for="movie in resultMovie"
+      :key="movie"
+      class="choosen-film mb-5 m-auto d-flex justify-content-between"
+    >
+      <img :src="getImagePath(movie.movie.image_path)" alt="" />
+
+      <div class="choosen-film-info">
+        <p>{{ movie.movie.description }}</p>
+
+        <button v-if="!isOpen">{{ $t("voting.buy_ticket") }}</button>
       </div>
     </div>
   </section>
@@ -89,20 +107,16 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { getQuizes, updateQuizesQuestion } from "@/api/api_request";
 
 export default {
   name: "VotingPage",
   data() {
     return {
-      options: [
-        "Титанік",
-        "Джуманджи 1",
-        "Пропозиція",
-        "Форсаж 2",
-        "Паранормальне явище 1",
-      ],
+      quiz: [],
       selectedOption: "",
       isOpen: true,
+      resultMovie: [],
     };
   },
   computed: {
@@ -110,6 +124,48 @@ export default {
     ...mapGetters({
       isAuth: "auth/isAuth",
     }),
+  },
+  methods: {
+    getImagePath: function (imagePath) {
+      return `http://localhost/storage/${imagePath}`;
+    },
+    updateVotes() {
+      updateQuizesQuestion(this.selectedOption.id, {
+        movie_id: this.selectedOption.movie.id,
+        votes: this.selectedOption.votes + 1,
+      }).then(() => {
+        this.$swal({
+          icon: "success",
+          color: "#000",
+          showClass: {
+            popup: "animate__animated animate__fadeInDown",
+          },
+          hideClass: {
+            popup: "animate__animated animate__fadeOutUp",
+          },
+          timer: 4000,
+          timerProgressBar: true,
+        }).then(() => {
+          location.reload();
+        });
+      });
+    },
+  },
+  beforeMount() {
+    getQuizes().then((response) => {
+      this.quiz = response.data.quizes[0];
+      let maxVotes = -1;
+      let maxVotesQuestions = [];
+      for (const question of this.quiz.questions) {
+        if (question.votes > maxVotes) {
+          maxVotes = question.votes;
+          maxVotesQuestions = [question];
+        } else if (question.votes === maxVotes) {
+          maxVotesQuestions.push(question);
+        }
+      }
+      this.resultMovie = maxVotesQuestions;
+    });
   },
 };
 </script>

@@ -25,30 +25,30 @@ export default {
     },
   },
   state: {
-    token: localStorage.getItem("token"),
+    userid: localStorage.getItem("userId"),
+    token:
+      localStorage.getItem("token") == "null"
+        ? null
+        : localStorage.getItem("token"),
     roles: JSON.parse(localStorage.getItem("roles")),
     user: JSON.parse(localStorage.getItem("user")),
     age: JSON.parse(localStorage.getItem("age")),
-    userid:  localStorage.getItem("userId")
   },
   mutations: {
-    setToken(state, token) {
-      state.token = token;
+    setToken(state, newToken) {
+      state.token = newToken;
     },
-    setRoles(state, roles) {
-      state.roles = roles;
+    setRoles(state, newRoles) {
+      state.roles = newRoles;
     },
-    addRole(state, role) {
-      state.roles.push(...role);
+    setUser(state, newUser) {
+      state.user = newUser;
     },
-    setUser(state, user) {
-      state.user = user;
+    setAge(state, newAge) {
+      state.age = newAge;
     },
-    setAge(state, age) {
-      state.age = age;
-    },
-    setUserId(state, userid) {
-      state.userid = userid;
+    setUserId(state, newUserid) {
+      state.userid = newUserid;
     },
   },
   actions: {
@@ -68,12 +68,14 @@ export default {
       store.commit("setLoading", true);
       localStorage.removeItem("token");
       localStorage.removeItem("user");
+      localStorage.removeItem("setUserId");
       localStorage.removeItem("roles");
       localStorage.removeItem("age");
       commit("setToken", null);
       commit("setRoles", null);
       commit("setUser", null);
       commit("setAge", null);
+      commit("setUserId", null);
       store.commit("setLoading", false);
     },
   },

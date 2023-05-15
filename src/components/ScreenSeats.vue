@@ -9,12 +9,12 @@
       <p :class="this.getDarkTheme ? 'dark_p' : 'light_p'">{{ row }} ряд</p>
       <div
         :class="this.getDarkTheme ? 'dark_seat' : 'light_seat'"
-        v-for="seat_row in seats?.seat_row"
+        v-for="seat_row in seats?.seats_in_row"
         :key="seat_row"
       >
         <button
           :id="seat_row"
-          @click="chooseSeat(row, seat_row)"
+          @click="chooseSeat(row, seat_row, false)"
           :class="[
             this.getDarkTheme ? 'dark_btn' : 'light_btn',
             isPlaceSelected(row, seat_row) ? 'active' : '',
@@ -26,20 +26,20 @@
     </div>
     <div class="d-flex mt-3">
       <p :class="this.getDarkTheme ? 'dark_p' : 'light_p'">
-        {{ seats.vip_row }} ряд - VIP
+        {{ seats.vip_row }} VIP
       </p>
       <div
         :class="this.getDarkTheme ? 'dark_seat' : 'light_seat'"
-        class="justify-content-between"
+        class="d-flex justify-content-between"
         v-for="seat_row in seats?.vip_seats"
         :key="seat_row"
       >
         <button
           :id="seat_row"
-          @click="chooseSeat(seats?.vip_row, seat_row, true)"
+          @click="chooseSeat(seats?.vip_rows, seat_row, true)"
           :class="[
             this.getDarkTheme ? 'dark_btn' : 'light_btn',
-            isPlaceSelected(seats?.vip_row, seat_row)
+            isPlaceSelected(seats?.vip_rows, seat_row)
               ? 'active_vip'
               : 'vip_seats',
           ]"
@@ -170,7 +170,7 @@ export default {
   background-color: transparent;
   border-radius: 15px;
   width: 100px;
-  margin-left: 53px;
+  margin-left: 90px;
   color: white;
 }
 
@@ -179,7 +179,7 @@ export default {
   background-color: transparent;
   border-radius: 15px;
   width: 100px;
-  margin-left: 53px;
+  margin-left: 90px;
 }
 .screen-element {
   width: 70%;

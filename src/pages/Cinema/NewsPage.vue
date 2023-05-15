@@ -7,54 +7,18 @@
       </p>
     </div>
     <hr />
-    <div>
-      <div class="news">
-        <p class="news-title">
-          Остання поїздка: вийшов новий вибуховий трейлер "Форсажу 10"
-        </p>
-        <span class="news-description"
-          >Студія Universal Pictures випустила новий трейлер бойовика "Форсаж
-          10" (Fast X), в якому "родина" Торетто зустрінеться з новим мстивим
-          ворогом. В новій частині культової франшизи героям кине виклик Данте
-          (Джейсон Момоа з "Аквамена" та "Гри престолів") – син бразильського
-          наркобарона Ернана Рейєса, вбитого Доменіком Торетто та його командою
-          у фільмі "Форсаж 5" 2011 року. Данте був свідком смерті свого батька і
-          знищення його злочинної імперії. Втративши усе, Данте витратив 12
-          років на розробку плану помсти Доменіку, що забрати у нього найцінніше
-          – родину</span
-        >
-      </div>
-      <div class="news">
-        <p class="news-title">
-          Остання поїздка: вийшов новий вибуховий трейлер "Форсажу 10"
-        </p>
-        <span class="news-description"
-          >Студія Universal Pictures випустила новий трейлер бойовика "Форсаж
-          10" (Fast X), в якому "родина" Торетто зустрінеться з новим мстивим
-          ворогом. В новій частині культової франшизи героям кине виклик Данте
-          (Джейсон Момоа з "Аквамена" та "Гри престолів") – син бразильського
-          наркобарона Ернана Рейєса, вбитого Доменіком Торетто та його командою
-          у фільмі "Форсаж 5" 2011 року. Данте був свідком смерті свого батька і
-          знищення його злочинної імперії. Втративши усе, Данте витратив 12
-          років на розробку плану помсти Доменіку, що забрати у нього найцінніше
-          – родину</span
-        >
-      </div>
-      <div class="news">
-        <p class="news-title">
-          Остання поїздка: вийшов новий вибуховий трейлер "Форсажу 10"
-        </p>
-        <span class="news-description"
-          >Студія Universal Pictures випустила новий трейлер бойовика "Форсаж
-          10" (Fast X), в якому "родина" Торетто зустрінеться з новим мстивим
-          ворогом. В новій частині культової франшизи героям кине виклик Данте
-          (Джейсон Момоа з "Аквамена" та "Гри престолів") – син бразильського
-          наркобарона Ернана Рейєса, вбитого Доменіком Торетто та його командою
-          у фільмі "Форсаж 5" 2011 року. Данте був свідком смерті свого батька і
-          знищення його злочинної імперії. Втративши усе, Данте витратив 12
-          років на розробку плану помсти Доменіку, що забрати у нього найцінніше
-          – родину</span
-        >
+    <div v-for="(news, index) in this.news" :key="index">
+      <div class="d-flex news">
+        <div>
+          <img :src="getImagePath(news.picture)" class="" alt="" />
+        </div>
+        <div style="margin-left: 30px">
+          <p class="news-title">{{ news.title }}</p>
+          <p class="news-description">{{ news.description }}</p>
+          <p style="font-size: 1.4vw; font-weight: 700; color: red">
+            {{ momentDate(news.created_at) }}
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -62,11 +26,38 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { getNews } from "@/api/api_request";
+import moment from "moment";
 
 export default {
   name: "NewsPage",
   computed: {
     ...mapGetters(["getDarkTheme"]),
+  },
+  methods: {
+    getImagePath: function (imagePath) {
+      return `http://localhost/storage/${imagePath}`;
+    },
+    momentDate: function (date) {
+      let locale = localStorage.getItem("locale");
+      if (locale === "uk") {
+        return moment(date, "YYYY-MM-DD, h:mm")
+          .locale(locale)
+          .format("MMMM Do YYYY, HH:mm");
+      } else {
+        return moment(date, "YYYY-MM-DD, h:mm").format("LLL");
+      }
+    },
+  },
+  data() {
+    return {
+      news: [],
+    };
+  },
+  beforeMount() {
+    getNews().then((response) => {
+      this.news = response.data.news.data;
+    });
   },
 };
 </script>
@@ -100,17 +91,27 @@ export default {
 .news {
   border: 1px solid #4d7cbc;
   border-radius: 20px;
-  padding: 10px;
+  padding: 20px;
   font-size: 1.2vw;
   width: 100%;
   margin-bottom: 40px;
 }
 
-.news p {
+.news img {
+  width: 400px;
+  height: 100%;
+  border-radius: 20px;
+  object-fit: contain;
+}
+.news-title {
   font-weight: 700;
+  font-size: 1.5vw;
 }
 .news-description {
   display: none;
+  letter-spacing: 2px;
+  font-size: 1.3vw;
+  text-align: justify;
 }
 
 .news-title:hover + .news-description {

@@ -3,14 +3,14 @@
     <div class="card center img-fluid">
       <div class="front">
         <button @click="$router.push(`/movie/${movie.id}`)">
-          <img :src="getImagePath(movie.imagePath)" class="img-fluid" alt="" />
+          <img :src="getImagePath(movie.image_path)" class="img-fluid" alt="" />
         </button>
       </div>
 
       <div class="back">
         <div class="back-content center img-fluid">
           <div class="name">
-            <strong>{{ $t("table.name") }}: </strong>{{ movie.title }}
+            <strong>{{ $t("table.name") }}: </strong>{{ movie.name }}
           </div>
           <div class="actors">
             <strong>{{ $t("movie_info.actors") }}: </strong> {{ movie.actors }}
@@ -37,7 +37,7 @@
     </div>
     <div class="d-flex justify-content-center">
       <p :class="this.getDarkTheme ? 'dark_movie_title' : 'light_movie_title'">
-        {{ movie.title }}
+        {{ movie.name }}
       </p>
     </div>
   </div>
@@ -60,7 +60,7 @@ export default {
   },
   methods: {
     getImagePath: function (imagePath) {
-      return `http://localhost/uploads/movies/${imagePath}`;
+      return `http://localhost/storage/${imagePath}`;
     },
     momentDate: function (date) {
       return moment(date, "YYYY-MM-DD").format("DD.MM.YYYY");

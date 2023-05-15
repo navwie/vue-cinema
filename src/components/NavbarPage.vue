@@ -84,53 +84,6 @@
               >{{ $t("navbar.allMovies") }}</a
             >
           </li>
-          <li v-if="isAuth && getRoles == 'ROLE_USER'" class="nav-item">
-            <a
-              class="nav-link btn"
-              style="
-                color: white;
-                font-size: 25px;
-                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-              "
-              @click="$router.push(`/profile`)"
-              :class="{ 'active-link': $route.path === '/profile' }"
-              href="#"
-            >
-              {{ $t("navbar.profile") }}</a
-            >
-          </li>
-          <li v-if="!isAuth" class="nav-item">
-            <a
-              class="nav-link btn"
-              style="
-                color: white;
-                font-size: 25px;
-                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-              "
-              @click="$router.push(`/shop-souvenir`)"
-              :class="{ 'active-link': $route.path === '/shop-souvenir' }"
-              href="#"
-            >
-              Сувеніри</a
-            >
-          </li>
-
-          <li v-if="!isAuth" class="nav-item">
-            <a
-              class="nav-link btn"
-              style="
-                color: white;
-                font-size: 25px;
-                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-              "
-              @click="$router.push(`/menu`)"
-              :class="{ 'active-link': $route.path === '/menu' }"
-              href="#"
-            >
-              Меню</a
-            >
-          </li>
-
           <li class="nav-item">
             <a
               class="nav-link btn"
@@ -175,6 +128,20 @@
                     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
                   "
                   >Сувеніри</a
+                >
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  style="
+                    color: #080c14;
+                    font-size: 20px;
+                    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+                  "
+                  @click="$router.push(`/profile/` + getUserId)"
+                  href="#"
+                >
+                  {{ $t("navbar.profile") }}</a
                 >
               </li>
               <li>
@@ -314,6 +281,18 @@
                     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
                   "
                   class="dropdown-item"
+                  href="/create-voting"
+                  >Нове голосування</a
+                >
+              </li>
+              <li>
+                <a
+                  style="
+                    color: #080c14;
+                    font-size: 20px;
+                    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+                  "
+                  class="dropdown-item"
                   href="/movie/create"
                 >
                   {{ $t("navbar.addFilm") }}</a
@@ -407,6 +386,7 @@ export default {
     ...mapGetters({
       isAuth: "auth/isAuth",
       getRoles: "auth/getRoles",
+      getUserId: "auth/getUserId",
     }),
     currentLocale() {
       return localStorage.getItem("locale");

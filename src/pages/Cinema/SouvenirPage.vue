@@ -15,7 +15,8 @@
 
 <script>
 import { mapGetters } from "vuex";
-import SouvenirList from "@/components/SouvenirList.vue";
+import SouvenirList from "@/components/ComponentLists/SouvenirList.vue";
+import { getSouvenirs } from "@/api/api_request";
 
 export default {
   name: "SouvenirPage",
@@ -29,16 +30,10 @@ export default {
     ...mapGetters(["getDarkTheme"]),
   },
   beforeMount() {
-    for (let i = 0; i < 10; i++) {
-      const souvenir = {
-        name: `Кружка "Форсаж 10"`,
-        price: `223`,
-        image:
-          "https://images.prom.ua/2936367658_w640_h640_kruzhka-geekland-forsazh.jpg",
-        amount: `41`,
-      };
-      this.souvenirs.push(souvenir);
-    }
+    getSouvenirs().then((response) => {
+      this.souvenirs = response.data.souvenirs.data;
+      console.log(this.souvenirs);
+    });
   },
 };
 </script>

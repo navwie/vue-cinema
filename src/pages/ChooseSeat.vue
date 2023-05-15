@@ -1,29 +1,29 @@
 <template>
-  <div class="container">
+  <div class="cont m-auto">
     <h2 class="m-auto" :class="this.getDarkTheme ? 'dark_h2' : 'light_h2'">
       Оберіть бажані місця
     </h2>
     <div class="d-flex">
       <img :src="image" alt="" />
       <p :class="this.getDarkTheme ? 'dark_btn_text' : 'light_btn_text'">
-        "{{ session?.movie.title }}" -
+        "{{ session.movies[0].name }}" -
       </p>
       <p :class="this.getDarkTheme ? 'dark_btn_date' : 'light_btn_date'">
-        {{ momentDate(session?.date) }}
+        {{ momentDate(session.date_time) }}
       </p>
       <p :class="this.getDarkTheme ? 'dark_btn_text' : 'light_btn_text'">-</p>
       <p :class="this.getDarkTheme ? 'dark_btn_date' : 'light_btn_date'">
-        {{ momentTime(session?.date) }}
+        {{ momentTime(session.date_time) }}
       </p>
     </div>
     <hr />
     <ScreenSeats
-      :seats="session?.hall"
+      :seats="session.hall"
       @choose_seat="setChooseSeat"
       @remove_seat="removeChooseSeat"
     />
     <div class="d-flex justify-content-center">
-      <button class="btn accept" @click="accept">Перейти до оплати</button>
+      <button class="btn accept" @click="accept">Додати до корзини</button>
     </div>
     <div class="d-flex justify-content-center">
       <button
@@ -36,11 +36,11 @@
 </template>
 
 <script>
-import { getOneSession } from "@/api/api_request";
 import ScreenSeats from "@/components/ScreenSeats";
 import moment from "moment/moment";
 import image from "@/assets/images/cinema.png";
 import { mapGetters } from "vuex";
+import { getOneSession } from "@/api/api_request";
 
 export default {
   name: "ChooseSeat",
@@ -56,7 +56,7 @@ export default {
   beforeMount() {
     this.loading = true;
     getOneSession(this.$route.params.id).then((response) => {
-      this.session = response.data;
+      this.session = response.data.session;
     });
   },
   computed: {
@@ -64,9 +64,14 @@ export default {
   },
   methods: {
     setChooseSeat(value) {
+      const seatIndex = this.session.hall.seats.findIndex((item) => {
+        return item.row === value.row && item.seat === value.seat;
+      });
+
       this.places.push({
         row: value.row,
         seat: value.seat,
+        price: this.session.hall.seats[seatIndex].price,
         vip: value.isVip,
       });
     },
@@ -134,7 +139,11 @@ p {
   color: black;
   text-align: center;
 }
-
+.cont {
+  position: relative;
+  top: 40px;
+  width: 90%;
+}
 .dark_btn_text,
 .dark_btn_date {
   color: white;

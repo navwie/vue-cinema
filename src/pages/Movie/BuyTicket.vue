@@ -9,26 +9,26 @@
     <div class="d-flex">
       <div class="d-flex ticket-info">
         <img :src="marker" class="img" alt="" />
-        <p>{{ session.hall.hall }}</p>
+        <p>{{ session.hall.name }}</p>
       </div>
       <div class="d-flex ticket-info">
         <img :src="clock" class="img" alt="" />
-        <p>{{ momentTime(session?.date) }}</p>
+        <p>{{ momentTime(session.date_time) }}</p>
       </div>
       <div class="d-flex ticket-info">
         <img :src="calendar" class="img" alt="" />
-        <p>{{ momentDate(session?.date) }}</p>
+        <p>{{ momentDate(session.date_time) }}</p>
       </div>
     </div>
     <div>
       <div class="d-flex mt-5">
         <div>
           <img
-            :src="getImagePath(session?.movie.imagePath)"
+            :src="getImagePath(session.movies[0].image_path)"
             class="img-fluid ticket-info-image"
             alt=""
           />
-          <p>{{ session?.movie.title }}</p>
+          <p>{{ session.movies[0].name }}</p>
         </div>
         <div>
           <div v-for="place in places" :key="place" class="places">
