@@ -250,7 +250,7 @@ export default {
           moment(e.date_start).format("YYYY-MM-DD") > currentDate &&
           e.quizled === 0
       );
-
+      console.log(this.futureMovies);
       this.loading = false;
     });
     getGenres().then((response) => {

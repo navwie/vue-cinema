@@ -18,7 +18,7 @@
     </div>
     <hr />
     <ScreenSeats
-      :seats="session.hall"
+      :seats="session"
       @choose_seat="setChooseSeat"
       @remove_seat="removeChooseSeat"
     />
@@ -39,7 +39,7 @@
 import ScreenSeats from "@/components/ScreenSeats";
 import moment from "moment/moment";
 import image from "@/assets/images/cinema.png";
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 import { getOneSession } from "@/api/api_request";
 
 export default {
@@ -63,20 +63,25 @@ export default {
     ...mapGetters(["getDarkTheme"]),
   },
   methods: {
+    ...mapMutations(["setMovieToBasket"]),
     setChooseSeat(value) {
-      const seatIndex = this.session.hall.seats.findIndex((item) => {
-        return item.row === value.row && item.seat === value.seat;
+      const seatIndex = this.session.seats.findIndex((item) => {
+        return (
+          item.row === value.row &&
+          item.seat === value.seat &&
+          item.type === value.type
+        );
       });
 
       this.places.push({
+        id: this.session.seats[seatIndex].id,
         row: value.row,
         seat: value.seat,
-        price: this.session.hall.seats[seatIndex].price,
-        vip: value.isVip,
+        price: this.session.seats[seatIndex].price,
+        type: value.type,
       });
     },
     removeChooseSeat(value) {
-      console.log(value);
       this.places = this.places.filter((place) => {
         return place.row !== value.row || place.seat !== value.seat;
       });
@@ -93,10 +98,7 @@ export default {
           places: this.places,
           session: this.session,
         };
-        localStorage.setItem(
-          "selected_seats",
-          JSON.stringify(selectedSeatsData)
-        );
+        this.setMovieToBasket(selectedSeatsData);
         this.$router.push({ name: "BuyTicket" });
       } else {
         this.$swal({

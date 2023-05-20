@@ -300,6 +300,24 @@
               </li>
             </ul>
           </li>
+          <li v-if="getRoles == 'ROLE_USER'" class="nav-item">
+            <a
+              class="nav-link"
+              aria-current="page"
+              href="#"
+              @click="$router.push(`/buyTicket`)"
+              :class="{ 'active-link': $route.path === '/buyTicket' }"
+              style="
+                color: white;
+                margin-left: 0;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+              "
+              ><img
+                style="width: 60%; position: relative; left: 20px"
+                src="../assets/images/icons8-корзина.png"
+                alt=""
+            /></a>
+          </li>
           <li class="nav-item" v-if="isAuth">
             <a
               @click="submit"

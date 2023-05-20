@@ -26,7 +26,6 @@ export const getOneSession = (id) =>
   axios.get(`${BASE_PATH_API}sessions/${id}`);
 export const getOneMovie = (id) => axios.get(`${BASE_PATH_API}movies/${id}`);
 export const getOneHall = (id) => axios.get(`${BASE_PATH_API}halls/${id}`);
-
 export const createMovie = (data) => axios.post(`${BASE_PATH_API}movies`, data);
 export const createSouvenir = (data) =>
   axios.post(`${BASE_PATH_API}souvenirs`, data);
@@ -56,3 +55,7 @@ export const logout = () => axios.post(`${PATH_AUTH}logout`);
 export const getQuizes = () => axios.get(`${BASE_PATH_API}quiz/quizes`);
 export const updateQuizesQuestion = (id, data) =>
   axios.put(`${BASE_PATH_API}quiz/questions/${id}`, data);
+
+export const createOrder = (data) => axios.post(`${BASE_PATH_API}orders`, data);
+export const getMyOrders = (id) =>
+  axios.get(`${BASE_PATH_API}orders/user/${id}`);

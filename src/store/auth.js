@@ -58,9 +58,8 @@ export default {
         .then(() => {
           store.commit("setLoading", false);
         })
-        .catch((e) => {
+        .catch(() => {
           store.commit("setLoading", false);
-          console.log(e);
         });
     },
     async logout({ commit }) {

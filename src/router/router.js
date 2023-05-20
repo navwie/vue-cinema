@@ -23,6 +23,9 @@ import VotingPage from "@/pages/Cinema/VotingPage.vue";
 import MenuProductTypePage from "@/pages/Cinema/MenuProductTypePage.vue";
 import CommentsPage from "@/pages/Movie/CommentsPage.vue";
 import AddVoting from "@/pages/Admin/AddVoting.vue";
+import PaymentPage from "@/pages/PaymentPage.vue";
+import SuccessComponent from "@/pages/SuccessComponent.vue";
+import ErrorComponent from "@/pages/ErrorComponent.vue";
 
 const routes = [
   {
@@ -236,6 +239,21 @@ const routes = [
     path: "/comments/:id",
     component: CommentsPage,
     name: "comments",
+  },
+  {
+    path: "/payment-page",
+    component: PaymentPage,
+    name: "payment-page",
+  },
+  {
+    path: "/success",
+    component: SuccessComponent,
+    name: "success",
+  },
+  {
+    path: "/error",
+    component: ErrorComponent,
+    name: "error",
   },
   {
     path: "/profile/:id",

@@ -14,6 +14,13 @@ import store from "./store/main";
 //import VueGeolocation from "vue3-geolocation/src";
 import VueGoogleMaps from "@fawmi/vue-google-maps";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+
+import { loadStripe } from "@stripe/stripe-js";
+
+const stripe = loadStripe(
+  "pk_test_51MBjXJK9qhyBufuVBj51RpkwctYEYFJf3aUnCzHwR8HoJAOwpvE9C80TWzKQOCvesWYxFc9BUXJfXmStTnYYiVSI00U5kN2V3E"
+);
+
 const app = createApp(App);
 require("./store/subscriber");
 
@@ -26,6 +33,7 @@ components.forEach((component) => {
   app.component(component.name, component);
 });
 app.use(VueSweetalert2);
+app.use(stripe);
 app.component("font-awesome-icon", FontAwesomeIcon);
 app.use(VueGoogleMaps, {
   load: {

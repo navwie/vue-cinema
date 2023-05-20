@@ -11,7 +11,7 @@
     >
       {{ $t("profile.profile") }}
     </h1>
-    <div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-center">
       <div class="row">
         <div class="info-block">
           <div class="d-flex justify-content-around">
@@ -62,16 +62,6 @@
           {{ $t("profile.change") }}
         </button>
       </div>
-      <div style="width: 50%">
-        <div class="d-flex">
-          <img :src="tickets" alt="" />
-          <p :class="this.getDarkTheme ? 'dark_text' : 'light_text'">
-            {{ $t("profile.actual_ticket") }}
-          </p>
-        </div>
-        <hr />
-        <div class="container-fluid"></div>
-      </div>
     </div>
     <div class="d-flex" style="margin-top: 90px">
       <img :src="archive" alt="" />
@@ -80,6 +70,30 @@
       </p>
     </div>
     <hr />
+    <div v-for="order in orders" :key="order">
+      <div>
+        <div v-if="order.seats.length > 0">
+          <h2 style="color: white">Movie</h2>
+          <p>{{ order.session.movies[0].name }}</p>
+          <img
+            :src="getImagePath(order.session.movies[0].image_path)"
+            class="img-fluid"
+            alt=""
+          />
+          <p>Date: {{ momentDate(order.session.date_time) }}</p>
+          <p v-for="seat in order.seats" :key="seat">
+            {{ seat.row }} {{ seat.seat }} {{ seat.type }} {{ seat.price }}
+          </p>
+        </div>
+        <div v-if="order.products.length > 0">
+          <h2 style="color: white">Products</h2>
+        </div>
+        <div v-if="order.souvenirs.length > 0">
+          <h2 style="color: white">Souvenirs</h2>
+        </div>
+        <h2>Total price : {{ order.price }}</h2>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -88,12 +102,14 @@ import { mapGetters } from "vuex";
 import moment from "moment/moment";
 import tickets from "../../assets/images/tickets.png";
 import archive from "../../assets/images/archive.png";
+import { getMyOrders } from "@/api/api_request";
 
 export default {
   name: "ProfilePage",
   computed: {
     ...mapGetters({
       getUser: "auth/getUser",
+      getUserId: "auth/getUserId",
     }),
     ...mapGetters(["getDarkTheme"]),
   },
@@ -101,13 +117,21 @@ export default {
     return {
       tickets,
       archive,
+      orders: [],
     };
   },
-
   methods: {
+    getImagePath: function (imagePath) {
+      return `http://localhost/storage/${imagePath}`;
+    },
     momentDate: function (date) {
       return moment(date, "YYYY-MM-DD").format("DD.MM.YYYY");
     },
+  },
+  beforeMount() {
+    getMyOrders(this.getUserId).then((response) => {
+      this.orders = response.data.order;
+    });
   },
 };
 </script>
@@ -204,5 +228,7 @@ hr {
 }
 .cont {
   width: 90%;
+  position: relative;
+  top: 30px;
 }
 </style>

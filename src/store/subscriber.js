@@ -1,5 +1,4 @@
 import store from "./main";
-//import axios from "axios";
 
 store.subscribe((mutation, state) => {
   localStorage.setItem("token", state.auth.token);
@@ -7,4 +6,7 @@ store.subscribe((mutation, state) => {
   localStorage.setItem("user", JSON.stringify(state.auth.user));
   localStorage.setItem("roles", JSON.stringify(state.auth.roles));
   localStorage.setItem("age", JSON.stringify(state.auth.age));
+  localStorage.setItem("souvenirItems", JSON.stringify(state.souvenirItems));
+  localStorage.setItem("movieTickets", JSON.stringify(state.movieTickets));
+  localStorage.setItem("productItems", JSON.stringify(state.productItems));
 });
