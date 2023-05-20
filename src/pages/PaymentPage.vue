@@ -1,46 +1,42 @@
 <template>
   <div>
-    <label>Card Number</label>
-    <div id="card-number"></div>
-    <label>Card Expiry</label>
-    <div id="card-expiry"></div>
-    <label>Card CVC</label>
-    <div id="card-cvc"></div>
-    <div id="card-error"></div>
-    <button id="custom-button" @click="createToken">Generate Token</button>
+    <form id="stripe-payment-element-form">
+      <div id="stripe-payment-element-mount-point" />
+      <slot name="stripe-payment-element-errors">
+        <div id="stripe-payment-element-errors" role="alert" />
+      </slot>
+      <button ref="submitButtonRef" type="submit" class="" />
+    </form>
   </div>
 </template>
 
 <script>
+import { loadStripe } from "@stripe/stripe-js";
+import { getIntent } from "@/api/api_request";
+const ELEMENT_TYPE = "payment";
+
 export default {
   data() {
     return {
-      token: null,
-      cardNumber: null,
-      cardExpiry: null,
-      cardCvc: null,
+      stripe: null,
+      options: {
+        clientSecret:
+          "seti_1N9we2K9qhyBufuVLXjQMddE_secret_NvoGX6dZjBe1mjkXLyrYLhXJDjPhJht",
+      },
     };
   },
-  computed: {
-    stripeElements() {
-      return this.$stripe.elements();
-    },
-  },
-  beforeMount() {
-    console.log(this);
-  },
-  methods: {
-    async createToken() {
-      const { token, error } = await this.$stripe.createToken(this.cardNumber);
-      if (error) {
-        // handle error here
-        document.getElementById("card-error").innerHTML = error.message;
-        return;
-      }
-      console.log(token);
-      // handle the token
-      // send it to your server
-    },
+  async beforeMount() {
+    const stripe = await loadStripe(
+      "pk_test_51MBjXJK9qhyBufuVBj51RpkwctYEYFJf3aUnCzHwR8HoJAOwpvE9C80TWzKQOCvesWYxFc9BUXJfXmStTnYYiVSI00U5kN2V3E"
+    );
+    const userId = localStorage.getItem("userId");
+    getIntent(userId).then((response) => {
+      this.options.clientSecret = response.data.client_secret;
+
+      let elements = stripe.elements(this.options);
+      let element = elements.create(ELEMENT_TYPE);
+      element.mount("#stripe-payment-element-mount-point");
+    });
   },
 };
 </script>

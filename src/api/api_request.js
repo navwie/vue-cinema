@@ -59,3 +59,6 @@ export const updateQuizesQuestion = (id, data) =>
 export const createOrder = (data) => axios.post(`${BASE_PATH_API}orders`, data);
 export const getMyOrders = (id) =>
   axios.get(`${BASE_PATH_API}orders/user/${id}`);
+
+export const getIntent = (id) =>
+  axios.get(`${BASE_PATH_API}stripe/intent/${id}`);
