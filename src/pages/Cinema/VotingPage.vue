@@ -32,9 +32,14 @@
       </p>
     </div>
     <hr />
-    <div class="radio-group">
+    <div v-if="isVoided === true">
+      <p style="font-size: 1.5vw; font-weight: bold">
+        Ви вже проголосували за фільм - {{ movieChoisen[0].movie.name }}
+      </p>
+    </div>
+    <div v-if="isVoided === false" class="radio-group">
       <div
-        v-for="(option, index) in quiz.questions"
+        v-for="(option, index) in quiz[0].questions"
         :key="index"
         class="radio-item"
       >
@@ -117,12 +122,17 @@ export default {
       selectedOption: "",
       isOpen: true,
       resultMovie: [],
+      isVoided: false,
+      movieChoisen: "",
     };
   },
   computed: {
     ...mapGetters(["getDarkTheme"]),
     ...mapGetters({
       isAuth: "auth/isAuth",
+    }),
+    ...mapGetters({
+      userId: "auth/getUserId",
     }),
   },
   methods: {
@@ -132,6 +142,7 @@ export default {
     updateVotes() {
       updateQuizesQuestion(this.selectedOption.id, {
         movie_id: this.selectedOption.movie.id,
+        user_id: this.userId,
         votes: this.selectedOption.votes + 1,
       }).then(() => {
         this.$swal({
@@ -152,20 +163,37 @@ export default {
     },
   },
   beforeMount() {
-    getQuizes().then((response) => {
-      this.quiz = response.data.quizes[0];
-      let maxVotes = -1;
-      let maxVotesQuestions = [];
-      for (const question of this.quiz.questions) {
-        if (question.votes > maxVotes) {
-          maxVotes = question.votes;
-          maxVotesQuestions = [question];
-        } else if (question.votes === maxVotes) {
-          maxVotesQuestions.push(question);
+    getQuizes()
+      .then((response) => {
+        this.quiz = response.data.quizes.filter((el) => el.completed === 0);
+        let maxVotes = -1;
+        let maxVotesQuestions = [];
+        for (const question of this.quiz[0].questions) {
+          if (question.votes > maxVotes) {
+            maxVotes = question.votes;
+            maxVotesQuestions = [question];
+          } else if (question.votes === maxVotes) {
+            maxVotesQuestions.push(question);
+          }
         }
-      }
-      this.resultMovie = maxVotesQuestions;
-    });
+        this.resultMovie = maxVotesQuestions;
+      })
+      .then(() => {
+        let id = localStorage.getItem("userId");
+        let flag = false;
+        let user = this.quiz[0].users.filter((e) => e.id === Number(id));
+        if (user.length > 0) {
+          flag = true;
+        }
+        this.isVoided = flag;
+
+        let choice = user[0].pivot.question_id;
+        console.log(choice);
+        console.log(choice);
+        this.movieChoisen = this.quiz[0].questions.filter(
+          (e) => e.id === choice
+        );
+      });
   },
 };
 </script>

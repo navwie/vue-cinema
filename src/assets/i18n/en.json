@@ -142,7 +142,7 @@
     "voting" : "Voting on",
     "weekly" : "Weekly",
     "review" :"Review",
-    "old_movie": "Old_movie",
+    "old_movie": "Old movie",
     "voting_is_continue": "Voting is still going on, but so far the film has more votes - ",
     "voting_is_closed" : "Voting is closed, the movie is selected -"
   },
@@ -151,6 +151,8 @@
     "address": "Address",
     "phone": "Phone",
     "email" : "Email",
+    "name": "Name",
+    "telegram" : "Telegram",
     "instagram": "Instagram"
   }
 }

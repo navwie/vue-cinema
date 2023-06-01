@@ -67,7 +67,7 @@ export default {
       store.commit("setLoading", true);
       localStorage.removeItem("token");
       localStorage.removeItem("user");
-      localStorage.removeItem("setUserId");
+      localStorage.removeItem("userId");
       localStorage.removeItem("roles");
       localStorage.removeItem("age");
       commit("setToken", null);

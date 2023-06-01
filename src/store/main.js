@@ -39,8 +39,18 @@ const store = createStore({
     setProductToBasket(state, newProductItems) {
       state.productItems = newProductItems;
     },
-    setMovieToBasket(state, newMoviesItems) {
-      state.movieTickets.push(newMoviesItems);
+    setMovieToBasket(state, payload) {
+      const operation = payload.action;
+      const newMoviesItems = payload.data;
+
+      switch (operation) {
+        case "rewrite":
+          state.movieTickets = newMoviesItems;
+          break;
+        case "push":
+          state.movieTickets.push(newMoviesItems);
+          break;
+      }
     },
   },
   actions: {},

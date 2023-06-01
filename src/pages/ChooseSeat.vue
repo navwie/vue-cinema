@@ -22,14 +22,25 @@
       @choose_seat="setChooseSeat"
       @remove_seat="removeChooseSeat"
     />
-    <div class="d-flex justify-content-center">
+    <div v-if="getRoles === 'ROLE_USER'" class="d-flex justify-content-center">
       <button class="btn accept" @click="accept">Додати до корзини</button>
     </div>
-    <div class="d-flex justify-content-center">
+    <div v-if="getRoles === 'ROLE_USER'" class="d-flex justify-content-center">
       <button
         :class="this.getDarkTheme ? 'dark_btn_cancel' : 'light_btn_cancel'"
       >
         Скасувати
+      </button>
+    </div>
+    <div
+      v-if="getRoles === 'ROLE_ADMIN'"
+      class="d-flex justify-content-center mt-5"
+    >
+      <button
+        @click="$router.push(`/movie/${session.movies[0].id}`)"
+        :class="this.getDarkTheme ? 'dark_btn_cancel' : 'light_btn_cancel'"
+      >
+        Назад
       </button>
     </div>
   </div>
@@ -60,7 +71,11 @@ export default {
     });
   },
   computed: {
+    ...mapGetters({
+      getRoles: "auth/getRoles",
+    }),
     ...mapGetters(["getDarkTheme"]),
+    ...mapGetters(["getMovieTickets"]),
   },
   methods: {
     ...mapMutations(["setMovieToBasket"]),
@@ -98,8 +113,11 @@ export default {
           places: this.places,
           session: this.session,
         };
-        this.setMovieToBasket(selectedSeatsData);
-        this.$router.push({ name: "BuyTicket" });
+        console.log(selectedSeatsData);
+        this.setMovieToBasket({
+          data: selectedSeatsData,
+          action: "push",
+        });
       } else {
         this.$swal({
           icon: "error",

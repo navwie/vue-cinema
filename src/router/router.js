@@ -26,6 +26,7 @@ import AddVoting from "@/pages/Admin/AddVoting.vue";
 import PaymentPage from "@/pages/PaymentPage.vue";
 import SuccessComponent from "@/pages/SuccessComponent.vue";
 import ErrorComponent from "@/pages/ErrorComponent.vue";
+import AddSession from "@/pages/Admin/AddSession.vue";
 
 const routes = [
   {
@@ -120,6 +121,22 @@ const routes = [
       if (
         !store.getters["auth/isAuth"] &&
         store.getters["auth/getRoles"] !== "ROLE_ADMIN"
+      ) {
+        return next({
+          name: "login",
+        });
+      }
+      next();
+    },
+  },
+  {
+    path: "/movie/add-session/:id",
+    component: AddSession,
+    name: "add-session",
+    beforeEnter: (to, from, next) => {
+      if (
+        !store.getters["auth/isAuth"] &&
+        store.getters["auth/getRoles"] !== "ROLE_USER"
       ) {
         return next({
           name: "login",

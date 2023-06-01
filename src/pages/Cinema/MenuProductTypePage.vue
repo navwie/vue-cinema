@@ -127,7 +127,6 @@ export default {
           price: product.price,
         });
       } else if (action === "add") {
-        console.log(index);
         this.addToBasket[index].quantity += 1;
         this.addToBasket[index].price =
           this.addToBasket[index].quantity * product.price;

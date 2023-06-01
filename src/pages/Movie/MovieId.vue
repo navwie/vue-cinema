@@ -200,14 +200,14 @@
           allowfullscreen
         ></iframe>
       </div>
-      <div v-if="isAuth && getRoles == 'ROLE_USER'" class="d-flex">
+      <div v-if="isAuth" class="d-flex">
         <img :src="image" alt="" class="icon mt-5 img-fluid" />
         <p :class="this.getDarkTheme ? 'dark_text' : 'light_text'" class="mt-5">
           Сеанси
         </p>
       </div>
-      <hr v-if="isAuth && getRoles == 'ROLE_USER'" />
-      <div v-if="isAuth && getRoles == 'ROLE_USER'">
+      <hr v-if="isAuth" />
+      <div v-if="isAuth">
         <div class="mt-5">
           <label
             :class="this.getDarkTheme ? 'dark_btn_label' : 'light_btn_label'"
@@ -236,6 +236,12 @@
           :class="this.getDarkTheme ? 'dark_btn_update' : 'light_btn_update'"
         >
           {{ $t("movie_info.change") }}
+        </button>
+        <button
+          @click="$router.push(`/movie/add-session/${movie.id}`)"
+          :class="this.getDarkTheme ? 'dark_btn_update' : 'light_btn_update'"
+        >
+          Додати сеанс
         </button>
         <button
           @click="archive(movie.title, movie.id)"

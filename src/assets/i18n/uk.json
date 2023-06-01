@@ -69,7 +69,9 @@
     "address": "Адреса",
     "phone": "Телефон",
     "email" : "Email",
-    "instagram": "Інстаграм"
+    "instagram": "Інстаграм",
+    "name": "Назва",
+    "telegram" : "Телеграм"
   },
 
   "types_product" : {

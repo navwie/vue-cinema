@@ -58,7 +58,11 @@
               <option :value="null" class="disabled" disabled selected>
                 {{ $t("main.confines") }}
               </option>
-              <option v-for="(confines, index) in confines" :key="index">
+              <option
+                style="background-color: black; color: white"
+                v-for="(confines, index) in confines"
+                :key="index"
+              >
                 {{ confines }}
               </option>
             </select>
@@ -73,8 +77,12 @@
               <option :value="null" class="disabled" disabled selected>
                 {{ $t("main.genre") }}
               </option>
-              <option v-for="(genre, index) in genres" :key="index">
-                {{ genre.genre }}
+              <option
+                style="background-color: black; color: white"
+                v-for="(genre, index) in genres"
+                :key="index"
+              >
+                {{ genre.name }}
               </option>
             </select>
           </div>
@@ -88,8 +96,12 @@
               <option :value="null" class="disabled" disabled selected>
                 {{ $t("main.language") }}
               </option>
-              <option v-for="(language, index) in languages" :key="index">
-                {{ language.language }}
+              <option
+                style="background-color: black; color: white"
+                v-for="(language, index) in languages"
+                :key="index"
+              >
+                {{ language.name }}
               </option>
             </select>
           </div>
@@ -103,8 +115,12 @@
               <option :value="null" class="disabled" disabled selected>
                 {{ $t("main.format") }}
               </option>
-              <option v-for="(format, index) in formats" :key="index">
-                {{ format.format }}
+              <option
+                style="background-color: black; color: white"
+                v-for="(format, index) in formats"
+                :key="index"
+              >
+                {{ format.name }}
               </option>
             </select>
           </div>
@@ -213,7 +229,7 @@ export default {
             );
           } else {
             this.actualMovies = this.actualMovies.filter((movie) => {
-              let singleKey = key.slice(0, -1);
+              let singleKey = "name";
               let flag = false;
               movie[key].forEach((value) => {
                 if (value[singleKey] === this.filters[key]) {
@@ -250,17 +266,16 @@ export default {
           moment(e.date_start).format("YYYY-MM-DD") > currentDate &&
           e.quizled === 0
       );
-      console.log(this.futureMovies);
       this.loading = false;
     });
     getGenres().then((response) => {
-      this.genres = response.data;
+      this.genres = response.data.genres.data;
     });
     getLanguages().then((response) => {
-      this.languages = response.data;
+      this.languages = response.data.languages.data;
     });
     getFormats().then((response) => {
-      this.formats = response.data;
+      this.formats = response.data.formats.data;
     });
   },
 };

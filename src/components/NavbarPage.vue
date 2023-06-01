@@ -425,6 +425,7 @@ export default {
       this.logout();
       localStorage.removeItem("token");
       localStorage.removeItem("user");
+      localStorage.removeItem("userId");
       localStorage.removeItem("roles");
       localStorage.removeItem("age");
       localStorage.removeItem("selected_seats");

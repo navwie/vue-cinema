@@ -17,7 +17,7 @@
           v-model="form.password"
           type="password"
           style="width: 60%"
-          :placeholder="$t(`auth.email`)"
+          :placeholder="$t(`auth.password`)"
         />
       </div>
       <div>

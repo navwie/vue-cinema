@@ -70,28 +70,58 @@
       </p>
     </div>
     <hr />
-    <div v-for="order in orders" :key="order">
-      <div>
-        <div v-if="order.seats.length > 0">
-          <h2 style="color: white">Movie</h2>
-          <p>{{ order.session.movies[0].name }}</p>
-          <img
-            :src="getImagePath(order.session.movies[0].image_path)"
-            class="img-fluid"
-            alt=""
-          />
-          <p>Date: {{ momentDate(order.session.date_time) }}</p>
-          <p v-for="seat in order.seats" :key="seat">
-            {{ seat.row }} {{ seat.seat }} {{ seat.type }} {{ seat.price }}
-          </p>
+    <div class="d-flex flex-wrap justify-content-between">
+      <div v-for="order in orders" :key="order" class="order">
+        <h2>
+          {{ momentDate(order.created_at) }}
+        </h2>
+        <div>
+          <div v-if="order.seats.length > 0" class="section">
+            <hr />
+            <h2 class="section-title">Movie</h2>
+            <div class="d-flex">
+              <img
+                :src="getImagePath(order.session.movies[0].image_path)"
+                class="movie-image"
+                alt=""
+              />
+              <div>
+                <p class="movie-name">{{ order.session.movies[0].name }}</p>
+                <p>Date: {{ momentDate(order.session.date_time) }}</p>
+                <p v-for="seat in order.seats" :key="seat" class="seat-info">
+                  {{ seat.row }} {{ seat.seat }} {{ seat.type }}
+                  {{ seat.price }}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div v-if="order.products.length > 0" class="section">
+            <hr />
+            <h2 class="section-title">Products</h2>
+            <div
+              v-for="product in order.products"
+              :key="product"
+              class="product"
+            >
+              {{ product.name }}
+              {{ product.price }}
+            </div>
+          </div>
+          <div v-if="order.souvenirs.length > 0" class="section">
+            <hr />
+            <h2 class="section-title">Souvenirs</h2>
+            <div
+              v-for="souvenir in order.souvenirs"
+              :key="souvenir"
+              class="souvenir"
+            >
+              {{ souvenir.name }}
+              {{ souvenir.price }}
+            </div>
+          </div>
+          <hr />
+          <h2 class="total-price">Total price: {{ order.price }}</h2>
         </div>
-        <div v-if="order.products.length > 0">
-          <h2 style="color: white">Products</h2>
-        </div>
-        <div v-if="order.souvenirs.length > 0">
-          <h2 style="color: white">Souvenirs</h2>
-        </div>
-        <h2>Total price : {{ order.price }}</h2>
       </div>
     </div>
   </div>
@@ -230,5 +260,43 @@ hr {
   width: 90%;
   position: relative;
   top: 30px;
+}
+.order {
+  width: 40%;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.section-title {
+  color: white;
+  padding: 5px;
+  text-align: center;
+}
+
+.movie-name {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.movie-image {
+  height: auto;
+  width: 20%;
+  margin-bottom: 10px;
+}
+
+.seat-info {
+  margin: 5px 0;
+}
+
+.product,
+.souvenir {
+  margin: 5px 0;
+}
+
+.total-price {
+  font-weight: bold;
+  font-size: 1.5vw;
+  margin-top: 10px;
 }
 </style>

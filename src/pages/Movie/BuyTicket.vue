@@ -7,6 +7,7 @@
     </div>
     <hr />
     <div
+      v-if="getMovieTickets.length > 0"
       style="
         width: 100%;
         display: flex;
@@ -299,7 +300,7 @@ import clock from "@/assets/images/clock.png";
 import quen from "@/assets/images/quen.png";
 import moment from "moment";
 import { createOrder } from "@/api/api_request";
-import { mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "BuyTicket",
@@ -326,6 +327,9 @@ export default {
     ...mapGetters(["getSouvenirItems"]),
   },
   methods: {
+    ...mapMutations(["setProductToBasket"]),
+    ...mapMutations(["setSouvenirToBasket"]),
+    ...mapMutations(["setMovieToBasket"]),
     getFullPriceMovie(seats) {
       let totalPrice = 0;
       for (const seat of seats) {
@@ -391,13 +395,14 @@ export default {
         if (cartItemIndex !== -1) {
           const cartItem = this.getProductItems[cartItemIndex];
           let productOnePrice = cartItem.price / cartItem.quantity;
-          cartItem.quantity--; // Уменьшаем количество товара на 1
+          cartItem.quantity--;
           cartItem.price = cartItem.price - productOnePrice;
           if (cartItem.quantity === 0) {
-            this.getProductItems.splice(cartItemIndex, 1); // Если количество стало 0, удаляем товар из корзины
+            this.getProductItems.splice(cartItemIndex, 1);
           }
         }
       }
+      this.setProductToBasket(this.getProductItems);
     },
     getCartQuantitySouvenir(id) {
       const cartItem = this.getSouvenirItems.find((item) => item.id === id);
@@ -419,13 +424,14 @@ export default {
         if (cartItemIndex !== -1) {
           const cartItem = this.getSouvenirItems[cartItemIndex];
           let productOnePrice = cartItem.price / cartItem.quantity;
-          cartItem.quantity--; // Уменьшаем количество товара на 1
+          cartItem.quantity--;
           cartItem.price = cartItem.price - productOnePrice;
           if (cartItem.quantity === 0) {
             this.getSouvenirItems.splice(cartItemIndex, 1);
           }
         }
       }
+      this.setSouvenirToBasket(this.getSouvenirItems);
     },
     momentDate: function (date) {
       return moment(date, "YYYY-MM-DD").format("DD/MM/YYYY");
@@ -443,18 +449,25 @@ export default {
         });
         movie_place.places.splice(index, 1);
       });
+      console.log(this.getMovieTickets);
+      this.setMovieToBasket({
+        data: this.getMovieTickets,
+        action: "rewrite",
+      });
     },
     deleteSouvenir(souvenir) {
       const indexObj = this.getSouvenirItems.forEach((item) => {
         return item.id === souvenir.id;
       });
       this.getSouvenirItems.splice(indexObj, 1);
+      this.setSouvenirToBasket(this.getSouvenirItems);
     },
     deleteProduct(product) {
       const indexObj = this.getProductItems.forEach((item) => {
         return item.id === product.id;
       });
       this.getProductItems.splice(indexObj, 1);
+      this.setProductToBasket(this.getProductItems);
     },
     createOrder() {
       let price = 0;

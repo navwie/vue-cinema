@@ -1,9 +1,3 @@
-<!--<template>-->
-<!--  <div class="toggle-switch">-->
-<!--    <input type="range" :value="isDarkTheme ? '0' : '1'" @input="toggleTheme" />-->
-<!--  </div>-->
-<!--</template>-->
-
 <template>
   <label class="switch">
     <input type="checkbox" :checked="isDarkThemeFlag" @change="toggleTheme" />

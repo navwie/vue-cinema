@@ -105,10 +105,16 @@
           class="carousel-info"
         >
           <div class="carousel-image">
-            <img :src="getImagePath(movie.imagePath)" class="" alt="" />
+            <a style="cursor: auto" @click="$router.push(`/movie/${movie.id}`)">
+              <img :src="getImagePath(movie.image_path)" class="" alt="" />
+            </a>
           </div>
           <div class="carousel-title">
-            <a :href="'/movie/' + movie.id">{{ movie.title }}</a>
+            <a
+              style="cursor: auto"
+              @click="$router.push(`/movie/${movie.id}`)"
+              >{{ movie.name }}</a
+            >
           </div>
         </div>
       </Slide>
@@ -207,7 +213,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getMovies, getNews } from "@/api/api_request";
+import { getNews, getPopularMovies } from "@/api/api_request";
 import { Carousel, Navigation, Slide } from "vue3-carousel";
 import "vue3-carousel/dist/carousel.css";
 import moment from "moment/moment";
@@ -253,7 +259,7 @@ export default {
       }
     },
     getImagePath: function (imagePath) {
-      return `http://localhost/uploads/movies/${imagePath}`;
+      return `http://localhost/storage/${imagePath}`;
     },
     redirection: function () {
       console.log(this.isAuth);
@@ -278,9 +284,11 @@ export default {
     },
   },
   beforeMount() {
-    console.log(this.getDarkTheme);
     this.loading = true;
-    getMovies().then((response) => {
+    getPopularMovies({
+      amount: 10,
+      period: "twoWeeks",
+    }).then((response) => {
       this.recommendedMovie = response.data;
     });
     getNews().then((response) => {

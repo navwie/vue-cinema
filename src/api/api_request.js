@@ -10,7 +10,7 @@ const PATH_AUTH = "http://localhost/api/auth/";
 // };
 
 export const getMovies = () => axios.get(`${BASE_PATH_API}movies`);
-export const getInfoContacts = () => axios.get(`${BASE_PATH_API}contacts`);
+export const getShops = () => axios.get(`${BASE_PATH_API}cinemas`);
 export const getLanguages = () => axios.get(`${BASE_PATH_API}languages`);
 export const getFormats = () => axios.get(`${BASE_PATH_API}formats`);
 export const getHalls = () => axios.get(`${BASE_PATH_API}halls`);
@@ -53,6 +53,14 @@ export const login = (data) => axios.post(`${PATH_AUTH}login`, data);
 export const logout = () => axios.post(`${PATH_AUTH}logout`);
 
 export const getQuizes = () => axios.get(`${BASE_PATH_API}quiz/quizes`);
+export const createQuiz = (data) =>
+  axios.post(`${BASE_PATH_API}quiz/quizes`, data);
+export const createQuestion = (data) =>
+  axios.post(`${BASE_PATH_API}quiz/questions`, data);
+export const createSession = (data) =>
+  axios.post(`${BASE_PATH_API}sessions`, data);
+export const movieSession = (data) =>
+  axios.post(`${BASE_PATH_API}movie-sessions`, data);
 export const updateQuizesQuestion = (id, data) =>
   axios.put(`${BASE_PATH_API}quiz/questions/${id}`, data);
 
@@ -62,3 +70,6 @@ export const getMyOrders = (id) =>
 
 export const getIntent = (id) =>
   axios.get(`${BASE_PATH_API}stripe/intent/${id}`);
+
+export const getPopularMovies = (params) =>
+  axios.get(`${BASE_PATH_API}analytics/most-popular-movies`, { params });
