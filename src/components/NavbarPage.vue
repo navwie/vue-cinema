@@ -127,7 +127,7 @@
                     font-size: 20px;
                     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
                   "
-                  >Сувеніри</a
+                  >{{ $t("navbar.souvenir") }}</a
                 >
               </li>
               <li>
@@ -153,7 +153,7 @@
                   "
                   class="dropdown-item"
                   href="/menu"
-                  >Меню</a
+                  >{{ $t("navbar.menu") }}</a
                 >
               </li>
             </ul>
@@ -189,7 +189,7 @@
                 text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
               "
             >
-              Переглянути
+              {{ $t("navbar.view") }}
             </a>
             <ul class="dropdown-menu">
               <li>
@@ -201,7 +201,7 @@
                     font-size: 20px;
                     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
                   "
-                  >Сувеніри</a
+                  >{{ $t("navbar.souvenir") }}</a
                 >
               </li>
               <li>
@@ -213,7 +213,7 @@
                   "
                   class="dropdown-item"
                   href="/menu"
-                  >Меню</a
+                  >{{ $t("navbar.menu") }}</a
                 >
               </li>
             </ul>
@@ -234,7 +234,7 @@
                 text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
               "
             >
-              Додати
+              {{ $t("navbar.add") }}
             </a>
             <ul class="dropdown-menu">
               <li>
@@ -246,7 +246,7 @@
                     font-size: 20px;
                     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
                   "
-                  >Новий сувенір</a
+                  >{{ $t("navbar.newsouvenir") }}</a
                 >
               </li>
               <li>
@@ -258,7 +258,7 @@
                     font-size: 20px;
                     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
                   "
-                  >Нову новину</a
+                  >{{ $t("navbar.newnews") }}</a
                 >
               </li>
               <li>
@@ -270,7 +270,7 @@
                   "
                   class="dropdown-item"
                   href="/create-product-cafe"
-                  >Новий продукт в кафе</a
+                  >{{ $t("navbar.newproduct") }}</a
                 >
               </li>
               <li>
@@ -282,7 +282,7 @@
                   "
                   class="dropdown-item"
                   href="/create-voting"
-                  >Нове голосування</a
+                  >{{ $t("navbar.newquiz") }}</a
                 >
               </li>
               <li>

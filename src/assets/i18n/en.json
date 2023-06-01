@@ -7,10 +7,17 @@
     "language": "Language",
     "addFilm": "Add Movie",
     "main": "Main",
-    "item" : "",
-    "menu" : "Kafe",
+    "allMovies": "All movies",
+    "item" : "Planet of cinema",
+    "menu" : "Cafe menu",
     "souvenir" : "Souvenirs",
-    "allMovies": "All movies"
+    "view": "Review",
+    "add": "Add",
+    "newsouvenir": "Add souvenir",
+    "newnews": "Add news",
+    "newproduct": "Add product in the cafe",
+    "newquiz": "Add quize"
+
   },
   
   
