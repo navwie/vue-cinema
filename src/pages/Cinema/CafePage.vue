@@ -14,7 +14,9 @@
         alt=""
       />
       <p>
-        <a href="/menu/type/popcorn">{{ $t("types_product.popcorns") }}</a>
+        <a @click="$router.push(`/menu/${getCafeId}/type/popcorn`)">{{
+          $t("types_product.popcorn")
+        }}</a>
       </p>
     </section>
     <section>
@@ -24,7 +26,9 @@
         alt=""
       />
       <p>
-        <a href="/menu/type/dessert">{{ $t("types_product.desserts") }}</a>
+        <a @click="$router.push(`/menu/${getCafeId}/type/dessert`)">{{
+          $t("types_product.desserts")
+        }}</a>
       </p>
     </section>
     <section>
@@ -34,7 +38,9 @@
         alt=""
       />
       <p>
-        <a href="/menu/type/chips">{{ $t("types_product.chips") }}</a>
+        <a @click="$router.push(`/menu/${getCafeId}/type/chips`)">{{
+          $t("types_product.chips")
+        }}</a>
       </p>
     </section>
     <section>
@@ -44,7 +50,9 @@
         alt=""
       />
       <p>
-        <a href="/menu/type/drink">{{ $t("types_product.drinks") }}</a>
+        <a @click="$router.push(`/menu/${getCafeId}/type/drink`)">{{
+          $t("types_product.drinks")
+        }}</a>
       </p>
     </section>
   </div>
@@ -57,6 +65,9 @@ export default {
   name: "CafePage",
   computed: {
     ...mapGetters(["getDarkTheme"]),
+    ...mapGetters({
+      getCafeId: "auth/getCafeId",
+    }),
   },
 };
 </script>
@@ -95,8 +106,5 @@ section p a {
   letter-spacing: 15px;
   font-size: 2.6vw;
   color: white;
-}
-a:hover {
-  text-decoration: underline;
 }
 </style>

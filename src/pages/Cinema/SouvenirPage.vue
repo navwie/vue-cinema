@@ -23,30 +23,42 @@
             <div class="card-price">
               {{ $t("table.price") }}: <span>{{ souvenir.price }}</span>
             </div>
-            <div v-if="!getCartQuantity(souvenir.id)">
-              <button @click="addToBasketHandler(souvenir.id, 'add')">
-                <img src="../../assets/images/корзина.png" alt="" />
-              </button>
+            <div v-if="getUserRole === 'ROLE_USER'">
+              <div v-if="!getCartQuantity(souvenir.id)">
+                <button @click="addToBasketHandler(souvenir.id, 'add')">
+                  <img src="../../assets/images/корзина.png" alt="" />
+                </button>
+              </div>
+              <div v-else>
+                <div class="d-flex align-items-center">
+                  <button @click="addToBasketHandler(souvenir.id, 'remove')">
+                    <img src="../../assets/images/icons8-минус.png" alt="" />
+                  </button>
+                  <div
+                    class="card-quantity"
+                    v-if="getCartQuantity(souvenir.id)"
+                  >
+                    {{ getCartQuantity(souvenir.id) }}
+                  </div>
+                  <button @click="addToBasketHandler(souvenir.id, 'add')">
+                    <img src="../../assets/images/icons8-плюс.png" alt="" />
+                  </button>
+                </div>
+                <div
+                  class="card-quantity mt-4"
+                  v-if="getCartQuantity(souvenir.id)"
+                >
+                  {{ $t("table.price") }}:
+                  <span>{{
+                    getCartQuantity(souvenir.id) * souvenir.price
+                  }}</span>
+                </div>
+              </div>
             </div>
             <div v-else>
-              <div class="d-flex align-items-center">
-                <button @click="addToBasketHandler(souvenir.id, 'remove')">
-                  <img src="../../assets/images/icons8-минус.png" alt="" />
-                </button>
-                <div class="card-quantity" v-if="getCartQuantity(souvenir.id)">
-                  {{ getCartQuantity(souvenir.id) }}
-                </div>
-                <button @click="addToBasketHandler(souvenir.id, 'add')">
-                  <img src="../../assets/images/icons8-плюс.png" alt="" />
-                </button>
-              </div>
-              <div
-                class="card-quantity mt-4"
-                v-if="getCartQuantity(souvenir.id)"
-              >
-                {{ $t("table.price") }}:
-                <span>{{ getCartQuantity(souvenir.id) * souvenir.price }}</span>
-              </div>
+              <h2 style="font-size: 1.2vw; margin-top: 20px">
+                Кіл-сть : {{ souvenir.pivot.amount }}
+              </h2>
             </div>
           </div>
         </div>
@@ -57,7 +69,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getSouvenirs } from "@/api/api_request";
+import { getShopId } from "@/api/api_request";
 import { mapMutations } from "vuex";
 
 export default {
@@ -70,6 +82,9 @@ export default {
   },
   computed: {
     ...mapGetters(["getDarkTheme", "getSouvenirItems"]),
+    ...mapGetters({
+      getUserRole: "auth/getRoles",
+    }),
   },
   methods: {
     ...mapMutations(["setSouvenirToBasket"]),
@@ -110,9 +125,8 @@ export default {
     },
   },
   beforeMount() {
-    getSouvenirs().then((response) => {
-      this.souvenirs = response.data.souvenirs.data;
-      console.log(this.souvenirs);
+    getShopId(this.$route.params.id).then((response) => {
+      this.souvenirs = response.data.shop.souvenirs;
     });
   },
   created() {

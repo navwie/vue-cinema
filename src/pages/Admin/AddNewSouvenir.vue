@@ -35,6 +35,13 @@
             @change="choosePhoto"
             style="width: 60%"
           />
+          <MyInput
+            v-focus
+            v-model="form.amount"
+            type="text"
+            style="width: 60%"
+            :placeholder="$t(`addnewproduct.amount`)"
+          />
         </div>
         <div>
           <MyButton class="butn" type="submit" @click="submit">
@@ -54,7 +61,11 @@
 <script>
 import MyButton from "@/components/UI/MyButton.vue";
 import { mapGetters } from "vuex";
-import { createSouvenir, imageSouvenirUpload } from "@/api/api_request";
+import {
+  createSouvenir,
+  createSouvenirShop,
+  imageSouvenirUpload,
+} from "@/api/api_request";
 
 export default {
   name: "AddNewSouvenir",
@@ -65,11 +76,15 @@ export default {
         name: "",
         price: "",
         file: "",
+        amount: "",
       },
     };
   },
   computed: {
     ...mapGetters(["getDarkTheme"]),
+    ...mapGetters({
+      getShopId: "auth/getShopId",
+    }),
   },
   methods: {
     choosePhoto(event) {
@@ -84,19 +99,25 @@ export default {
           let formData = new FormData();
           formData.append("image", this.form.file);
           imageSouvenirUpload(response.data.souvenir.id, formData);
-          this.$swal({
-            icon: "success",
-            color: "#000",
-            timer: 4000,
-            timerProgressBar: true,
-            showClass: {
-              popup: "animate__animated animate__fadeInDown",
-            },
-            hideClass: {
-              popup: "animate__animated animate__fadeOutUp",
-            },
+          createSouvenirShop({
+            shop_id: this.getShopId,
+            souvenir_id: response.data.souvenir.id,
+            amount: this.form.amount,
+          }).then(() => {
+            this.$swal({
+              icon: "success",
+              color: "#000",
+              timer: 4000,
+              timerProgressBar: true,
+              showClass: {
+                popup: "animate__animated animate__fadeInDown",
+              },
+              hideClass: {
+                popup: "animate__animated animate__fadeOutUp",
+              },
+            });
+            this.$router.push("/adminMain");
           });
-          this.$router.push("/adminMain");
         })
         .catch(() => {
           this.$swal({

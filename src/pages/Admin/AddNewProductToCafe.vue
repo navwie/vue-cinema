@@ -33,6 +33,13 @@
             style="width: 60%"
             :options="sortOption"
           />
+          <MyInput
+            v-focus
+            v-model="form.amount"
+            type="text"
+            style="width: 60%"
+            :placeholder="$t(`addnewproduct.amount`)"
+          />
         </div>
         <div>
           <MyButton class="butn" type="submit" @click="submit">
@@ -52,7 +59,7 @@
 <script>
 import MyButton from "@/components/UI/MyButton.vue";
 import { mapGetters } from "vuex";
-import { createProduct } from "@/api/api_request";
+import { createProduct, createProductCafes } from "@/api/api_request";
 
 export default {
   name: "AddNewProductToCafe",
@@ -63,6 +70,7 @@ export default {
         name: "",
         price: "",
         type: "",
+        amount: "",
       },
       sortOption: [
         { value: "drink", name: "Напій" },
@@ -78,42 +86,51 @@ export default {
         name: this.form.name,
         price: this.form.price,
         type: this.form.type,
-      })
-        .then(() => {
-          this.$swal({
-            icon: "success",
-            color: "#000",
-            timer: 4000,
-            timerProgressBar: true,
-            showClass: {
-              popup: "animate__animated animate__fadeInDown",
-            },
-            hideClass: {
-              popup: "animate__animated animate__fadeOutUp",
-            },
-          });
-          this.$router.push("/adminMain");
+      }).then((response) => {
+        createProductCafes({
+          cafe_id: this.getCafeId,
+          product_id: response.data.product.id,
+          amount: this.form.amount,
         })
-        .catch(() => {
-          this.$swal({
-            icon: "error",
-            color: "#000",
-            title: this.$t("something_went_wrong.title"),
-            text: this.$t("something_went_wrong.text"),
-            timer: 4000,
-            showClass: {
-              popup: "animate__animated animate__fadeInDown",
-            },
-            hideClass: {
-              popup: "animate__animated animate__fadeOutUp",
-            },
-            timerProgressBar: true,
+          .then(() => {
+            this.$swal({
+              icon: "success",
+              color: "#000",
+              timer: 4000,
+              timerProgressBar: true,
+              showClass: {
+                popup: "animate__animated animate__fadeInDown",
+              },
+              hideClass: {
+                popup: "animate__animated animate__fadeOutUp",
+              },
+            });
+            this.$router.push("/adminMain");
+          })
+          .catch(() => {
+            this.$swal({
+              icon: "error",
+              color: "#000",
+              title: this.$t("something_went_wrong.title"),
+              text: this.$t("something_went_wrong.text"),
+              timer: 4000,
+              showClass: {
+                popup: "animate__animated animate__fadeInDown",
+              },
+              hideClass: {
+                popup: "animate__animated animate__fadeOutUp",
+              },
+              timerProgressBar: true,
+            });
           });
-        });
+      });
     },
   },
   computed: {
     ...mapGetters(["getDarkTheme"]),
+    ...mapGetters({
+      getCafeId: "auth/getCafeId",
+    }),
   },
 };
 </script>

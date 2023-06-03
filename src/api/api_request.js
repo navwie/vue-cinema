@@ -68,8 +68,17 @@ export const createOrder = (data) => axios.post(`${BASE_PATH_API}orders`, data);
 export const getMyOrders = (id) =>
   axios.get(`${BASE_PATH_API}orders/user/${id}`);
 
+export const getShopId = (id) => axios.get(`${BASE_PATH_API}shops/${id}`);
+export const getCafeId = (id) => axios.get(`${BASE_PATH_API}cafes/${id}`);
+
 export const getIntent = (id) =>
   axios.get(`${BASE_PATH_API}stripe/intent/${id}`);
 
 export const getPopularMovies = (params) =>
   axios.get(`${BASE_PATH_API}analytics/most-popular-movies`, { params });
+
+export const createProductCafes = (params) =>
+  axios.post(`${BASE_PATH_API}cafe-products`, params);
+
+export const createSouvenirShop = (params) =>
+  axios.post(`${BASE_PATH_API}shop-souvenirs`, params);

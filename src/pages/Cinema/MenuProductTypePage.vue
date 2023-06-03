@@ -61,30 +61,37 @@
             <div class="card-price">
               {{ $t("table.price") }}: <span>{{ product.price }}</span>
             </div>
-            <div v-if="!getCartQuantity(product.id)">
-              <button @click="addToBasketHandler(product.id, 'add')">
-                <img src="../../assets/images/корзина.png" alt="" />
-              </button>
+            <div v-if="getUserRole === 'ROLE_USER'">
+              <div v-if="!getCartQuantity(product.id)">
+                <button @click="addToBasketHandler(product.id, 'add')">
+                  <img src="../../assets/images/корзина.png" alt="" />
+                </button>
+              </div>
+              <div v-else>
+                <div class="d-flex align-items-center">
+                  <button @click="addToBasketHandler(product.id, 'remove')">
+                    <img src="../../assets/images/icons8-минус.png" alt="" />
+                  </button>
+                  <div class="card-quantity" v-if="getCartQuantity(product.id)">
+                    {{ getCartQuantity(product.id) }}
+                  </div>
+                  <button @click="addToBasketHandler(product.id, 'add')">
+                    <img src="../../assets/images/icons8-плюс.png" alt="" />
+                  </button>
+                </div>
+                <div
+                  class="card-quantity mt-4"
+                  v-if="getCartQuantity(product.id)"
+                >
+                  {{ $t("table.price") }}:
+                  <span>{{ getCartQuantity(product.id) * product.price }}</span>
+                </div>
+              </div>
             </div>
             <div v-else>
-              <div class="d-flex align-items-center">
-                <button @click="addToBasketHandler(product.id, 'remove')">
-                  <img src="../../assets/images/icons8-минус.png" alt="" />
-                </button>
-                <div class="card-quantity" v-if="getCartQuantity(product.id)">
-                  {{ getCartQuantity(product.id) }}
-                </div>
-                <button @click="addToBasketHandler(product.id, 'add')">
-                  <img src="../../assets/images/icons8-плюс.png" alt="" />
-                </button>
-              </div>
-              <div
-                class="card-quantity mt-4"
-                v-if="getCartQuantity(product.id)"
-              >
-                {{ $t("table.price") }}:
-                <span>{{ getCartQuantity(product.id) * product.price }}</span>
-              </div>
+              <h2 style="font-size: 1.2vw; margin-top: 20px">
+                Кіл-сть : {{ product.pivot.amount }}
+              </h2>
             </div>
           </div>
         </div>
@@ -94,7 +101,7 @@
 </template>
 
 <script>
-import { getProducts } from "@/api/api_request";
+import { getCafeId } from "@/api/api_request";
 import { mapGetters, mapMutations } from "vuex";
 
 export default {
@@ -107,6 +114,9 @@ export default {
   },
   computed: {
     ...mapGetters(["getDarkTheme", "getProductItems"]),
+    ...mapGetters({
+      getUserRole: "auth/getRoles",
+    }),
   },
   methods: {
     ...mapMutations(["setProductToBasket"]),
@@ -143,8 +153,8 @@ export default {
     },
   },
   beforeMount() {
-    getProducts().then((response) => {
-      for (const product of response.data.products) {
+    getCafeId(this.$route.params.id).then((response) => {
+      for (const product of response.data.cafe.products) {
         if (product.type === this.$route.params.param) {
           this.products.push(product);
         }

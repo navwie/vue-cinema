@@ -42,7 +42,7 @@ const routes = [
     component: NewsPage,
   },
   {
-    path: "/shop-souvenir",
+    path: "/shop-souvenir/:id",
     component: SouvenirPage,
   },
   {
@@ -217,7 +217,7 @@ const routes = [
     name: "register",
   },
   {
-    path: "/menu/type/:param",
+    path: "/menu/:id/type/:param",
     component: MenuProductTypePage,
     name: "menutype",
   },

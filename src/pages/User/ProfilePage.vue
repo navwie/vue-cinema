@@ -276,6 +276,7 @@ hr {
 .section-title {
   color: white;
   padding: 5px;
+  font-size: 1.1vw;
   text-align: center;
 }
 
