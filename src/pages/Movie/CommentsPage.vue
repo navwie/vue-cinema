@@ -7,7 +7,7 @@
         class="icon mt-5 img-fluid"
       />
       <p :class="this.getDarkTheme ? 'dark_text' : 'light_text'" class="mt-5">
-        Коментарії до фільму - "{{ movie.name }}"
+        {{ $t("comment.film_comments") }} "{{ movie.name }}"
       </p>
     </div>
     <hr />
@@ -18,7 +18,7 @@
         alt=""
       />
       <div class="comments-info">
-        <h2>Comments : {{ commentsCount }}</h2>
+        <h2>{{ $t("comment.comments") }} {{ commentsCount }}</h2>
         <hr />
         <div
           class="person-comment d-flex"
@@ -29,7 +29,7 @@
           <hr class="vertical-line" />
           <p style="font-weight: 700">{{ comment.text }}</p>
         </div>
-        <h2 style="margin-top: 100px">Додати свій коментар</h2>
+        <h2 style="margin-top: 100px">{{ $t("comment.add_your_comment") }}</h2>
         <MyTextArea
           type="text"
           v-model="newComment"
@@ -40,10 +40,12 @@
             font-size: 1.1vw;
             border: 1px solid gray;
           "
-          placeholder="Ваш коментар"
+          :placeholder="$t(`comment.your_comment`)"
         />
         <div class="d-flex justify-content-center">
-          <button @click="addComment" class="btn">Додати</button>
+          <button @click="addComment" class="btn">
+            {{ $t("comment.add") }}
+          </button>
         </div>
       </div>
     </div>

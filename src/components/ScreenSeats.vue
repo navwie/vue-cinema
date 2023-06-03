@@ -6,7 +6,9 @@
       v-for="row in seats?.hall.amount_rows"
       :key="row"
     >
-      <p :class="this.getDarkTheme ? 'dark_p' : 'light_p'">{{ row }} ряд</p>
+      <p :class="this.getDarkTheme ? 'dark_p' : 'light_p'">
+        {{ row }} {{ $t("screen_seats.row") }}
+      </p>
       <div
         :class="this.getDarkTheme ? 'dark_seat' : 'light_seat'"
         v-for="seat_row in seats?.hall.seats_in_row"
@@ -35,7 +37,9 @@
       </div>
     </div>
     <div class="d-flex mt-3">
-      <p :class="this.getDarkTheme ? 'dark_p' : 'light_p'">VIP</p>
+      <p :class="this.getDarkTheme ? 'dark_p' : 'light_p'">
+        {{ $t("screen_seats.vip") }}
+      </p>
       <div
         :class="this.getDarkTheme ? 'dark_seat' : 'light_seat'"
         class="d-flex justify-content-between"
@@ -60,7 +64,7 @@
               : 'vip_seats',
           ]"
         >
-          {{ seat_row }} vip
+          {{ seat_row }} {{ $t("screen_seats.vip") }}
         </button>
       </div>
     </div>

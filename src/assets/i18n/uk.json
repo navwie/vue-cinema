@@ -1,6 +1,5 @@
 {
   "navbar": {
-
     "exit": "Вийти",
     "login": "Вхід",
     "profile": "Профіль",
@@ -69,7 +68,33 @@
     "age": "Вік",
     "actual_ticket": "Актуальны квитки",
     "archive": "Архів покупок",
-    "change": "Змінити"
+    "change": "Змінити",
+    "movie": "Фільм",
+    "date": "Дата:",
+    "products": "Продукти",
+    "souvenirs": "Сувеніри",
+    "totalprice": "Сума :"
+  },
+  "movie_info": {
+    "info_buy": "Для покупки квитка, треба увійти",
+    "actors": "Актори",
+    "director": "Режисер",
+    "screenwriter": "Сценарист",
+    "hire": "Прокат",
+    "from": "З",
+    "to": "По",
+    "languages": "Мов(и)",
+    "genres": "Жанр(и)",
+    "formats": "Формат(и)",
+    "halls": "В залах",
+    "choose_date": "Оберіть дату сеанса",
+    "description": "Опис",
+    "choose_session": "Обрати сеанс",
+    "change": "Редагувати",
+    "archive": "Архівувати",
+    "infomovie": "Інформація про фільм - ",
+    "session": "Сеанси",
+    "add_session": "Додати сеанс"
   },
   "contacts": {
     "contacts": "Контакти",
@@ -78,7 +103,8 @@
     "email" : "Email",
     "instagram": "Інстаграм",
     "name": "Назва",
-    "telegram" : "Телеграм"
+    "telegram" : "Телеграм",
+    "viewonmap": "Переглянути кінотеатри на мапі"
   },
 
   "types_product" : {
@@ -113,27 +139,12 @@
     "phone": "Введіть номер телефона",
     "login": "Увійти"
   },
-  "movie_info": {
-    "info_buy": "Для покупки квитка, треба увійти",
-    "actors": "Актори",
-    "director": "Режисер",
-    "screenwriter": "Сценарист",
-    "hire": "Прокат",
-    "from": "З",
-    "to": "По",
-    "languages": "Мов(и)",
-    "genres": "Жанр(и)",
-    "formats": "Формат(и)",
-    "halls": "В залах",
-    "choose_date": "Оберіть дату сеанса",
-    "description": "Опис",
-    "choose_session": "Обрати сеанс",
-    "change": "Редагувати",
-    "archive": "Архівувати"
-  },
+
   "create_movie": {
     "create": "Новий фільм",
-    "submit": "Додати"
+    "submit": "Додати",
+    "cancel": "Скасувати"
+
   },
   "change_movie": {
     "title": "Змінити дані про фільм",
@@ -143,24 +154,93 @@
     "choose_genres": "Оберіть жанри",
     "choose_formats": "Оберіть формати",
     "choose_languages": "Оберіть мову",
-    "submit": "Внести зміни"
+    "submit": "Внести зміни",
+    "name": "Назва",
+    "year": "Рік виходу",
+    "time_start": "Час початку виходу",
+    "time_finish": "Час завершення виходу",
+    "director": "Режисер",
+    "actors": "Актори",
+    "country": "Країна",
+    "screenwriter": "Сценаристи",
+    "duration": "Тривалість",
+    "halls": "В залах",
+    "genres": "Жанри",
+    "language": "Мова",
+    "format": "Формат",
+    "description": "Опис",
+    "cancel": "Скасувати"
   },
   "login_exception": {
     "error": "Помилка",
     "message": "Неправильний логін або пароль"
-  },
-  "voting": {
-    "voting" : "Голосування на",
-    "weekly" : "Щомісячний",
-    "review" :"перегляд",
-    "old_movie": "старого кіна",
-    "voting_is_continue": "Голосування ще триває, але поки що більше голосів у фільму - ",
-    "voting_is_closed" : "Голосування закрите, обрано фільм - "
   },
   "something_went_wrong": {
     "title": "Упс...",
     "text": "Что-то пошло не так!",
     "not_authorized": "Не авторизований",
     "text_not_authorized": "Вибачте, але якщо ви хочете проголосувати, вам потрібно авторизуватися"
+  },
+  "voting": {
+    "voting" : "Голосування на",
+    "weekly" : "Щомісячний",
+    "review" :"Перегляд",
+    "old_movie": "Старого кіна",
+    "voting_is_continue": "Голосування ще триває, але поки що більше голосів у фільму - ",
+    "voting_is_closed" : "Голосування закрите, обрано фільм - ",
+    "voting_was_done": "Ви вже проголосували за фільм - ",
+    "vote": "Голосувати",
+    "two_film": "Обидва фільма мають однакову кількість голосів",
+
+    "cannot": "Ви не можете додати нове опитування доки триває опитування на : ",
+    "received_votes": "Отримано голосів: ",
+    "date_finish": "Дата завершення"
+  },
+
+  "basket": {
+    "basket": "Корзина",
+    "tickets" : "Квитки",
+    "seat": "Місце",
+    "row": "Ряд",
+    "price": "Ціна",
+    "uah": " грн.",
+    "totalpricetickets": "Ціна за квитки: ",
+    "cafe": "Кафе товари",
+    "warningproduct": "Ви не обрали жодного товару",
+    "souvenir": "Сувеніри",
+    "titleprice": "Сума до сплати: ",
+    "totalprice": "Повна сума до сплати становить: ",
+    "payment": "Перейти до сплати"
+  },
+
+  "payment":{
+    "submit": "Оплатити"
+  },
+
+  "choose_seat": {
+    "seat": "Оберіть бажані місця",
+    "add_to_basket": "Додати до корзини",
+    "cancel": "Скасувати",
+    "back": "Назад"
+  },
+
+  "comment":{
+    "film_comments": "Коментарі до фільму - ",
+    "comments": "Коментарі",
+    "add_your_comment": "Додати свій коментар",
+    "add": "Додати",
+    "your_comment": "Ваш коментар"
+  },
+
+  "screen_seats":{
+    "row": "ряд",
+    "vip": "Vip"
+
+  },
+  "session": {
+    "add_session": "Додати новий сеанс",
+    "date_start": "Дата початку прокату фільма:",
+    "date_finish": "Дата кінця прокату фільма:",
+    "add": "Додати"
   }
 }

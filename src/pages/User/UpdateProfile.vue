@@ -12,35 +12,35 @@
         v-model="getUser.firstname"
         style="width: 60%"
         type="text"
-        placeholder="firstname"
+        :placeholder="$t(`profile.name`)"
       />
       <MyInput
         v-focus
         v-model="getUser.lastname"
         style="width: 60%"
         type="text"
-        placeholder="lastname"
+        :placeholder="$t(`profile.surname`)"
       />
       <MyInput
         v-focus
         v-model="getUser.email"
         style="width: 60%"
         type="text"
-        placeholder="Email"
+        :placeholder="$t(`profile.email`)"
       />
       <MyInput
         v-focus
         v-model="getUser.phone"
         style="width: 60%"
         type="text"
-        placeholder="phone"
+        :placeholder="$t(`profile.phone`)"
       />
       <MyInput
         v-focus
         v-model="getAge"
         type="date"
         style="width: 60%"
-        placeholder="Age"
+        :placeholder="$t(`profile.age`)"
       />
     </div>
     <div class="submit d-flex justify-content-center mt-5">

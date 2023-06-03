@@ -7,7 +7,7 @@
       <div class="d-flex" style="position: relative; top: 20px">
         <img :src="image" alt="" class="icon mt-5 img-fluid" />
         <p :class="this.getDarkTheme ? 'dark_text' : 'light_text'" class="mt-5">
-          Інформація про фільм - "{{ movie.name }}"
+          {{ $t("movie_info.infomovie") }} "{{ movie.name }}"
         </p>
       </div>
       <hr />
@@ -203,7 +203,7 @@
       <div v-if="isAuth" class="d-flex">
         <img :src="image" alt="" class="icon mt-5 img-fluid" />
         <p :class="this.getDarkTheme ? 'dark_text' : 'light_text'" class="mt-5">
-          Сеанси
+          {{ $t("movie_info.session") }}
         </p>
       </div>
       <hr v-if="isAuth" />
@@ -241,7 +241,7 @@
           @click="$router.push(`/movie/add-session/${movie.id}`)"
           :class="this.getDarkTheme ? 'dark_btn_update' : 'light_btn_update'"
         >
-          Додати сеанс
+          {{ $t("movie_info.add_session") }}
         </button>
         <button
           @click="archive(movie.title, movie.id)"

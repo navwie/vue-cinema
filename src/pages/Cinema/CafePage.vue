@@ -13,7 +13,9 @@
         src="../../assets/images/Cafe_popconr_type.png"
         alt=""
       />
-      <p><a href="/menu/type/popcorn">Попкорн</a></p>
+      <p>
+        <a href="/menu/type/popcorn">{{ $t("types_product.popcorns") }}</a>
+      </p>
     </section>
     <section>
       <img
@@ -21,7 +23,9 @@
         src="../../assets/images/Cafe_desert_type.png"
         alt=""
       />
-      <p><a href="/menu/type/dessert">Десерти</a></p>
+      <p>
+        <a href="/menu/type/dessert">{{ $t("types_product.desserts") }}</a>
+      </p>
     </section>
     <section>
       <img
@@ -29,7 +33,9 @@
         src="../../assets/images/Cafe_crips_type.png"
         alt=""
       />
-      <p><a href="/menu/type/chips">Чіпси</a></p>
+      <p>
+        <a href="/menu/type/chips">{{ $t("types_product.chips") }}</a>
+      </p>
     </section>
     <section>
       <img
@@ -37,7 +43,9 @@
         src="../../assets/images/Cafe_drink_type.png"
         alt=""
       />
-      <p><a href="/menu/type/drink">Напої</a></p>
+      <p>
+        <a href="/menu/type/drink">{{ $t("types_product.drinks") }}</a>
+      </p>
     </section>
   </div>
 </template>

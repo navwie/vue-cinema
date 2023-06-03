@@ -111,7 +111,7 @@
       </div>
     </div>
     <div>
-      <h2 class="text-center mt-5 mb-5">Переглянути на карті адреса</h2>
+      <h2 class="text-center mt-5 mb-5">{{ $t("contacts.viewonmap") }}</h2>
       <MySelect
         v-if="adminAddress === false"
         class="mb-3"

@@ -1,9 +1,9 @@
 <template>
   <div class="cont m-auto">
-    <h2>Корзина</h2>
+    <h2>{{ $t("basket.basket") }}</h2>
     <div class="d-flex">
       <img style="width: 4%" :src="image" alt="" />
-      <p class="text">Квитки</p>
+      <p class="text">{{ $t("basket.tickets") }}</p>
     </div>
     <hr />
     <div
@@ -67,10 +67,12 @@
                       </div>
                       <div class="d-flex mb-3">
                         <p>
-                          {{ place.seat }} <strong>місце </strong
-                          >{{ place.row }} <strong>ряд</strong>
+                          {{ place.seat }}
+                          <strong>{{ $t("basket.seat") }} </strong
+                          >{{ place.row }}
+                          <strong>{{ $t("basket.row") }}</strong>
                           {{ place.price }}
-                          <strong>грн.</strong>
+                          <strong>{{ $t("basket.uah") }}</strong>
                         </p>
                         <button
                           @click="deletePlace(place)"
@@ -93,15 +95,16 @@
             </div>
           </div>
           <h2 class="mt-3 d-flex justify-content-end" style="font-size: 1.3vw">
-            Загальна сума: {{ getFullPriceMovie(movie.places) }}
-            <span style="color: #4d7cbc">грн</span>
+            {{ $t("basket.totalpricetickets") }}
+            {{ getFullPriceMovie(movie.places) }}
+            <span style="color: #4d7cbc">{{ $t("basket.uah") }}</span>
           </h2>
         </div>
       </div>
     </div>
     <div class="d-flex">
       <img style="width: 4%" :src="imageProduct" alt="" />
-      <p class="text">Кафе товари</p>
+      <p class="text">{{ $t("basket.cafe") }}</p>
     </div>
     <hr />
     <div class="mt-5 mb-5" v-if="getProductItems.length > 0">
@@ -144,7 +147,7 @@
             </div>
             <h2 style="font-size: 1.2vw">
               {{ getPriceProducts(product.id) }}
-              <span style="color: #4d7cbc">грн</span>
+              <span style="color: #4d7cbc">{{ $t("basket.uah") }}</span>
             </h2>
           </div>
         </div>
@@ -164,11 +167,11 @@
       </div>
     </div>
     <div v-else>
-      <h2>Ви не обрали жодного товару</h2>
+      <h2>{{ $t("basket.warningproduct") }}</h2>
     </div>
     <div class="d-flex">
       <img style="width: 4%" :src="imageSouvenir" alt="" />
-      <p class="text">Сувеніри</p>
+      <p class="text">{{ $t("basket.souvenir") }}</p>
     </div>
     <hr />
     <div v-if="getSouvenirItems.length > 0">
@@ -230,7 +233,7 @@
               <div style="position: relative; right: 20px; top: 180px">
                 <h2 style="font-size: 1.1vw">
                   {{ getPriceSouvenirs(souvenir.id) }}
-                  <span style="color: #4d7cbc">грн</span>
+                  <span style="color: #4d7cbc">{{ $t("basket.uah") }}</span>
                 </h2>
               </div>
             </div>
@@ -252,11 +255,11 @@
       </div>
     </div>
     <div v-else>
-      <h2>Ви не обрали жодного товару</h2>
+      <h2>{{ $t("basket.warningproduct") }}</h2>
     </div>
     <div class="d-flex mt-5">
       <img style="width: 4%" src="../../assets/images/order.png" alt="" />
-      <p class="text">Сума до сплати</p>
+      <p class="text">{{ $t("basket.titleprice") }}</p>
     </div>
     <hr />
     <div class="mb-5 d-flex justify-content-between">
@@ -269,8 +272,8 @@
           padding: 20px;
         "
       >
-        <p>Повна сума до сплати становить:</p>
-        <p>{{ getFullPriceForPay() }}грн</p>
+        <p>{{ $t("basket.totalprice") }}</p>
+        <p>{{ getFullPriceForPay() }}{{ $t("basket.uah") }}</p>
       </div>
       <button
         @click="$router.push(`/payment-page`)"
@@ -284,7 +287,7 @@
           width: 15%;
         "
       >
-        Перейти до сплати
+        {{ $t("basket.payment") }}
       </button>
     </div>
   </div>

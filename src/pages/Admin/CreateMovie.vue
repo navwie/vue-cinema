@@ -196,7 +196,7 @@
     </div>
     <div>
       <MyButton style="align-self: flex-end" class="btn-cancel" @click="cancel"
-        >Скасувати
+        >{{ $t("create_movie.cancel") }}
       </MyButton>
     </div>
   </form>

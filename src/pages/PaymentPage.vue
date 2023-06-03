@@ -15,7 +15,9 @@
       <div id="stripe-payment-element-errors" role="alert">
         <slot name="stripe-payment-element-errors"></slot>
       </div>
-      <button type="submit" class="custom-button">Submit</button>
+      <button type="submit" class="custom-button">
+        {{ $t("payment.submit") }}
+      </button>
     </form>
   </div>
 </template>

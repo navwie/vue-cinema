@@ -78,7 +78,7 @@
         <div>
           <div v-if="order.seats.length > 0" class="section">
             <hr />
-            <h2 class="section-title">Movie</h2>
+            <h2 class="section-title">{{ $t("profile.movie") }}</h2>
             <div class="d-flex">
               <img
                 :src="getImagePath(order.session.movies[0].image_path)"
@@ -87,7 +87,10 @@
               />
               <div>
                 <p class="movie-name">{{ order.session.movies[0].name }}</p>
-                <p>Date: {{ momentDate(order.session.date_time) }}</p>
+                <p>
+                  {{ $t("profile.date") }}:
+                  {{ momentDate(order.session.date_time) }}
+                </p>
                 <p v-for="seat in order.seats" :key="seat" class="seat-info">
                   {{ seat.row }} {{ seat.seat }} {{ seat.type }}
                   {{ seat.price }}
@@ -97,7 +100,7 @@
           </div>
           <div v-if="order.products.length > 0" class="section">
             <hr />
-            <h2 class="section-title">Products</h2>
+            <h2 class="section-title">{{ $t("profile.products") }}</h2>
             <div
               v-for="product in order.products"
               :key="product"
@@ -109,7 +112,7 @@
           </div>
           <div v-if="order.souvenirs.length > 0" class="section">
             <hr />
-            <h2 class="section-title">Souvenirs</h2>
+            <h2 class="section-title">{{ $t("profile.souvenirs") }}</h2>
             <div
               v-for="souvenir in order.souvenirs"
               :key="souvenir"
@@ -120,7 +123,9 @@
             </div>
           </div>
           <hr />
-          <h2 class="total-price">Total price: {{ order.price }}</h2>
+          <h2 class="total-price">
+            {{ $t("profile.totalprice") }} {{ order.price }}
+          </h2>
         </div>
       </div>
     </div>

@@ -12,9 +12,7 @@
     </div>
     <hr />
     <h2 v-if="isComplete === true" style="color: red">
-      Ви не можете додати нове опитування доки триває опитування на : "{{
-        this.actualQuiz[0].name
-      }}"
+      {{ $t("voting.cannot") }}"{{ this.actualQuiz[0].name }}"
     </h2>
     <div class="mt-5" v-if="isComplete === true">
       <div
@@ -32,7 +30,7 @@
             {{ question.movie.name }}
           </h2>
           <h2 style="margin-left: 20px; font-size: 1.1vw; color: red">
-            Отримано голосів: {{ question.votes }}
+            {{ $t("voting.received_votes") }} {{ question.votes }}
           </h2>
         </div>
       </div>
@@ -72,7 +70,7 @@
               margin-top: 10px;
             "
             type="date"
-            placeholder="Дата окончания"
+            :placeholder="$t(`voting.date_finish`)"
           />
         </div>
         <div>

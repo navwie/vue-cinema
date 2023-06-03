@@ -2,7 +2,7 @@
   <div class="cont m-auto">
     <div class="d-flex">
       <img style="width: 4%" src="../../assets/images/calendar.png" alt="" />
-      <p class="text">Додати новий сеанс</p>
+      <p class="text">{{ $t("session.add_session") }}</p>
     </div>
     <hr />
     <div class="d-flex justify-content-between">
@@ -16,13 +16,13 @@
       </div>
       <div class="w-50">
         <div class="d-flex justify-content-between">
-          <p>Дата початку прокату фільма:</p>
+          <p>{{ $t("session.date_start") }}</p>
           <p>
             <strong>{{ momentDate(movie.date_start) }}</strong>
           </p>
         </div>
         <div class="d-flex justify-content-between">
-          <p>Дата кінця прокату фільма:</p>
+          <p>{{ $t("session.date_finish") }}</p>
           <p>
             <strong>{{ momentDate(movie.date_finish) }}</strong>
           </p>
@@ -60,7 +60,9 @@
       </div>
     </div>
     <div class="d-flex justify-content-center">
-      <button class="btn accept" @click="createSession">Додати</button>
+      <button class="btn accept" @click="createSession">
+        {{ $t("session.add") }}
+      </button>
     </div>
   </div>
 </template>

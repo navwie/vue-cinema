@@ -19,8 +19,6 @@
     "newquiz": "Add quize"
 
   },
-  
-  
   "main": {
     "now": "Now at the box office",
     "confines": "Confines",
@@ -37,6 +35,18 @@
     "shopsouvenirs": "Souvenir shop 'MovieWorld'",
     "cafe": "Cafe “MovieWorld”"
   },
+  "welcome": {
+    "cinema" : "Cinema",
+    "welcome_text" : "We kindly ask you to our cinema! We know that your hour is already\n           important, we have done everything possible to make the process of buying\n           vouchers of a yakomoga are simple and easy.",
+    "weekly_news" : "News of the week",
+    "read_more" : "Read more",
+    "read_more_about_news": "Read other news",
+    "recommendation": "Recommendations",
+    "advantages": "Our advantages",
+    "social" : " Social poll",
+    "poll" : "Poll",
+    "poll_text": "Good day! We'd love to hear your thoughts on viewing the old ones\n           films in our cinema. Would you be interested in viewing\n           movie classics on the big screen? If so, what kind of movies would you like?\n           interested? We would like to do our best to satisfy your\n           needs and provide quality and exciting movie viewing in\n           our cinema. Please complete the survey at the link below\n           about choosing to watch old movies. Thank you for your time and attention!"
+  },
   "addnewproduct" : {
     "name" : "Name",
     "type" : "Type",
@@ -50,18 +60,6 @@
     "title_new" : "add new news",
     "title_voting" : " Add new voting"
   },
-  "welcome": {
-    "cinema" : "Cinema",
-    "welcome_text" : "We kindly ask you to our cinema! We know that your hour is already\n           important, we have done everything possible to make the process of buying\n           vouchers of a yakomoga are simple and easy.",
-    "weekly_news" : "News of the week",
-    "read_more" : "Read more",
-    "read_more_about_news": "Read other news",
-    "recommendation": "Recommendations",
-    "advantages": "Our advantages",
-    "social" : " Social poll",
-    "poll" : "Poll",
-    "poll_text": "Good day! We'd love to hear your thoughts on viewing the old ones\n           films in our cinema. Would you be interested in viewing\n           movie classics on the big screen? If so, what kind of movies would you like?\n           interested? We would like to do our best to satisfy your\n           needs and provide quality and exciting movie viewing in\n           our cinema. Please complete the survey at the link below\n           about choosing to watch old movies. Thank you for your time and attention!"
-  },
   "profile": {
     "profile": "Profile",
     "name": "Name",
@@ -71,7 +69,12 @@
     "age": "Age",
     "actual_ticket": "Actual tickets",
     "archive": "Archive of tickets",
-    "change": "Change"
+    "change": "Change",
+    "movie": "Movie",
+    "date": "Date:",
+    "products": "Products",
+    "souvenirs": "Souvenirs",
+    "totalprice": "Total price: "
   },
   "movie_info": {
     "info_buy": "If you want to buy a ticket you need to log in",
@@ -87,29 +90,28 @@
     "halls": "Halls",
     "description": "Description",
     "choose_session": "Choose_session",
-    "choose_date": "Choose_date",
+    "choose_date": "Choose date",
     "change": "Change",
-    "archive": "Archive"
+    "archive": "Archive",
+    "infomovie": "Movie information - ",
+    "session": "Sessions",
+    "add_session": "Add a session"
+  },
+  "contacts": {
+    "contacts": "Contacts",
+    "address": "Address",
+    "phone": "Phone",
+    "email" : "Email",
+    "name": "Name",
+    "telegram" : "Telegram",
+    "instagram": "Instagram",
+    "viewonmap": "View cinemas on the map"
   },
   "types_product" : {
     "popcorns" : "Popcorns",
     "desserts" : "Desserts",
     "drinks" : "Drinks",
     "chips" : "Chips"
-  },
-  "change_movie": {
-    "title": "Change data about movie",
-    "choose_photo": "Choose_photo",
-    "change": "Change",
-    "choose_halls":"Choose halls",
-    "choose_genres": "Choose genres",
-    "choose_formats": "Choose formats",
-    "choose_languages": "Choose languages",
-    "submit": "Submit"
-  },
-  "create_movie": {
-    "create": "New film",
-    "submit": "Add movie"
   },
   "table": {
     "name": "Name",
@@ -135,6 +137,38 @@
     "password": "Enter password",
     "login": "Login"
   },
+  "create_movie": {
+    "create": "New film",
+    "submit": "Add movie"
+  },
+
+  "change_movie": {
+    "title": "Change data about movie",
+    "choose_photo": "Choose_photo",
+    "change": "Change",
+    "choose_halls":"Choose halls",
+    "choose_genres": "Choose genres",
+    "choose_formats": "Choose formats",
+    "choose_languages": "Choose languages",
+    "submit": "Submit",
+    "name": "Name",
+    "year": "Release year",
+    "time_start": "Time start",
+    "time_finish": "Time finish",
+    "director": "Director",
+    "actors": "Actors",
+    "country": "Country",
+    "screenwriter": "Screenwriters",
+    "duration": "Duration",
+    "halls": "Halls",
+    "genres": "Genres",
+    "language": "Language",
+    "format": "Format",
+    "description": "Description",
+    "cancel": "Cancel"
+  },
+
+
   "login_exception": {
     "error": "Error",
     "message": "Invalid login or password"
@@ -151,15 +185,60 @@
     "review" :"Review",
     "old_movie": "Old movie",
     "voting_is_continue": "Voting is still going on, but so far the film has more votes - ",
-    "voting_is_closed" : "Voting is closed, the movie is selected -"
+    "voting_is_closed" : "Voting is closed, the movie is selected -",
+    "voting_was_done": "You have already voted for the movie - ",
+    "vote": "Vote",
+    "two_film": "Both films have the same number of votes",
+
+    "cannot": "You cannot add a new voting while the voting is running on : ",
+    "received_votes": "Received votes: ",
+    "date_finish": "Date finish"
   },
-  "contacts": {
-    "contacts": "Contacts",
-    "address": "Address",
-    "phone": "Phone",
-    "email" : "Email",
-    "name": "Name",
-    "telegram" : "Telegram",
-    "instagram": "Instagram"
+
+  "basket": {
+    "basket": "Basket",
+    "tickets" : "Tickets",
+    "seat": "Seat",
+    "row": "Row",
+    "price": "Price",
+    "uah": " uah",
+    "totalpricetickets": "Ticket price: ",
+    "cafe": "Cafe goods",
+    "warningproduct": "You have not selected any products",
+    "souvenir": "Souvenirs",
+    "titleprice": "Amount to be paid: ",
+    "totalprice": "The total amount due is:",
+    "payment": "Go to payment"
+  },
+
+  "payment":{
+    "submit": "Submit"
+  },
+
+  "choose_seat": {
+    "seat": "Choose the desired places",
+    "add_to_basket": "Add to basket",
+    "cancel": "Cancel",
+    "back": "Back"
+  },
+  "comment":{
+    "film_comments": "Comments on the film - ",
+    "comments": "Comments",
+    "add_your_comment": "Add your comment",
+    "add": "Add",
+    "your_comment": "Your comment"
+  },
+
+  "screen_seats":{
+    "row": "row",
+    "vip": "Vip"
+
+  },
+
+  "session": {
+    "add_session": "Add a new session",
+    "date_start": "Film rental start date:",
+    "date_finish": "Date of end of movie rental:",
+    "add": "Add"
   }
 }

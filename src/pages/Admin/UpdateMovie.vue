@@ -18,7 +18,7 @@
             v-focus
             v-model="movie.name"
             type="text"
-            placeholder="Назва"
+            :placeholder="$t(`change_movie.name`)"
           />
         </div>
         <div>
@@ -26,14 +26,14 @@
             v-focus
             v-model="movie.release_year"
             type="number"
-            placeholder="Рік виходу"
+            :placeholder="$t(`change_movie.year`)"
           />
         </div>
         <div>
           <MyInput
             v-model="movie.date_start"
             type="date"
-            placeholder="Час початку виходу "
+            :placeholder="$t(`change_movie.time_start`)"
           />
         </div>
         <div>
@@ -41,7 +41,7 @@
             v-focus
             v-model="movie.date_finish"
             type="date"
-            placeholder="Час початку виходу "
+            :placeholder="$t(`change_movie.time_finish`)"
           />
         </div>
         <div>
@@ -49,7 +49,7 @@
             v-focus
             v-model="movie.director"
             type="text"
-            placeholder="Режисер"
+            :placeholder="$t(`change_movie.director`)"
           />
         </div>
         <div>
@@ -57,7 +57,7 @@
             v-focus
             v-model="movie.actors"
             type="text"
-            placeholder="Актори"
+            :placeholder="$t(`change_movie.actors`)"
           />
         </div>
         <div>
@@ -65,7 +65,7 @@
             v-focus
             v-model="movie.country"
             type="text"
-            placeholder="Країна"
+            :placeholder="$t(`change_movie.country`)"
           />
         </div>
         <div>
@@ -73,7 +73,7 @@
             v-focus
             v-model="movie.screenwriter"
             type="text"
-            placeholder="Сценарист"
+            :placeholder="$t(`change_movie.screenwriter`)"
           />
         </div>
         <div>
@@ -97,7 +97,7 @@
             v-focus
             v-model="movie.duration"
             type="text"
-            placeholder="Тривалість"
+            :placeholder="$t(`change_movie.duration`)"
           />
         </div>
         <div>
@@ -138,7 +138,7 @@
             <div>
               <div class="mt-5 mb-4">
                 <div v-if="movie.halls.length > 0">
-                  <p>В залах</p>
+                  <p>{{ $t("change_movie.halls") }}</p>
                   <ul>
                     <li
                       :class="this.getDarkTheme ? 'dark_hall' : 'light_hall'"
@@ -187,7 +187,7 @@
             <div>
               <div class="mt-5 mb-4">
                 <div v-if="movie.genres.length > 0">
-                  <p>Жанри</p>
+                  <p>{{ $t("change_movie.genres") }}</p>
                   <ul>
                     <li
                       :class="this.getDarkTheme ? 'dark_genre' : 'light_genre'"
@@ -238,7 +238,7 @@
             <div>
               <div class="mt-5 mb-4">
                 <div v-if="movie.languages.length > 0">
-                  <p>Мова</p>
+                  <p>{{ $t("change_movie.language") }}</p>
                   <ul>
                     <li
                       :class="
@@ -290,7 +290,7 @@
             <div>
               <div class="mt-5 mb-4">
                 <div v-if="movie.formats.length > 0">
-                  <p>Формат</p>
+                  <p>{{ $t("change_movie.format") }}</p>
                   <ul>
                     <li
                       :class="
@@ -346,7 +346,7 @@
       v-model="movie.description"
       style="border-radius: 20px; margin-top: 40px"
       type="text"
-      placeholder="Опис"
+      :placeholder="$t(`change_movie.description`)"
     />
 
     <div class="submit d-flex justify-content-center mt-5">
@@ -355,7 +355,9 @@
       </button>
     </div>
     <div class="submit d-flex justify-content-center mt-5">
-      <button class="btn-cancel" @click="cancel">Скасувати</button>
+      <button class="btn-cancel" @click="cancel">
+        {{ $t("change_movie.cancel") }}
+      </button>
     </div>
   </div>
 </template>
@@ -381,7 +383,7 @@ export default {
     return {
       movie: [],
       sortOption: [
-        { value: "-", name: "нет ограничений" },
+        { value: "-", name: "нема обмежень" },
         { value: "6+", name: "6+" },
         { value: "12+", name: "12+" },
         { value: "18+", name: "18+" },

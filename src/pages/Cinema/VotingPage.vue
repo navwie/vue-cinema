@@ -34,7 +34,7 @@
     <hr />
     <div v-if="isVoided === true">
       <p style="font-size: 1.5vw; font-weight: bold">
-        Ви вже проголосували за фільм - {{ movieChoisen[0].movie.name }}
+        {{ $t("voting.voting_was_done") }} {{ movieChoisen[0].movie.name }}
       </p>
     </div>
     <div v-if="isVoided === false" class="radio-group">
@@ -55,7 +55,7 @@
         }}</label>
       </div>
       <button v-if="isOpen" @click="updateVotes" class="mx-auto">
-        Голосувати
+        {{ $t("voting.vote") }}
       </button>
     </div>
   </section>
@@ -68,7 +68,7 @@
       />
 
       <div v-if="isOpen && resultMovie.length > 1">
-        <p style="color: red">Обидва фільма мають однакову кількість голосів</p>
+        <p style="color: red">{{ $t("voting.two_film") }}</p>
         <span
           v-for="movie in resultMovie"
           :key="movie"

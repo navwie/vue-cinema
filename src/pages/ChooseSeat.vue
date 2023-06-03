@@ -1,7 +1,7 @@
 <template>
   <div class="cont m-auto">
     <h2 class="m-auto" :class="this.getDarkTheme ? 'dark_h2' : 'light_h2'">
-      Оберіть бажані місця
+      {{ $t("choose_seat.seat") }}
     </h2>
     <div class="d-flex">
       <img :src="image" alt="" />
@@ -23,13 +23,15 @@
       @remove_seat="removeChooseSeat"
     />
     <div v-if="getRoles === 'ROLE_USER'" class="d-flex justify-content-center">
-      <button class="btn accept" @click="accept">Додати до корзини</button>
+      <button class="btn accept" @click="accept">
+        {{ $t("choose_seat.add_to_basket") }}
+      </button>
     </div>
     <div v-if="getRoles === 'ROLE_USER'" class="d-flex justify-content-center">
       <button
         :class="this.getDarkTheme ? 'dark_btn_cancel' : 'light_btn_cancel'"
       >
-        Скасувати
+        {{ $t("choose_seat.cancel") }}
       </button>
     </div>
     <div
@@ -40,7 +42,7 @@
         @click="$router.push(`/movie/${session.movies[0].id}`)"
         :class="this.getDarkTheme ? 'dark_btn_cancel' : 'light_btn_cancel'"
       >
-        Назад
+        {{ $t("choose_seat.back") }}
       </button>
     </div>
   </div>
