@@ -74,6 +74,9 @@ export const getCafeId = (id) => axios.get(`${BASE_PATH_API}cafes/${id}`);
 export const getIntent = (id) =>
   axios.get(`${BASE_PATH_API}stripe/intent/${id}`);
 
+export const purchase = (data) =>
+  axios.post(`${BASE_PATH_API}stripe/purchase/`, data);
+
 export const getPopularMovies = (params) =>
   axios.get(`${BASE_PATH_API}analytics/most-popular-movies`, { params });
 

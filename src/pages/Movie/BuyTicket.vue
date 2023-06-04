@@ -46,7 +46,7 @@
             <div class="d-flex mt-5">
               <div>
                 <img
-                  :src="getImagePath(movie.session.movies[0].image_path)"
+                  :src="getMovieImagePath(movie.session.movies[0].image_path)"
                   class="img-fluid ticket-info-image"
                   alt=""
                 />
@@ -189,7 +189,7 @@
           <div class="d-flex">
             <img
               style="width: 200px"
-              :src="getImagePath(souvenir.picture)"
+              :src="getSouvenirImagePath(souvenir.picture)"
               alt=""
             />
             <h2
@@ -305,6 +305,10 @@ import quen from "@/assets/images/quen.png";
 import moment from "moment";
 import { createOrder } from "@/api/api_request";
 import { mapGetters, mapMutations } from "vuex";
+import {
+  getMovieImagePath,
+  getSouvenirImagePath,
+} from "@/helpers/image_helper";
 
 export default {
   name: "BuyTicket",
@@ -334,6 +338,8 @@ export default {
     ...mapMutations(["setProductToBasket"]),
     ...mapMutations(["setSouvenirToBasket"]),
     ...mapMutations(["setMovieToBasket"]),
+    getMovieImagePath,
+    getSouvenirImagePath,
     getFullPriceMovie(seats) {
       let totalPrice = 0;
       for (const seat of seats) {
@@ -439,9 +445,6 @@ export default {
     },
     momentDate: function (date) {
       return moment(date, "YYYY-MM-DD").format("DD/MM/YYYY");
-    },
-    getImagePath: function (imagePath) {
-      return `http://localhost/storage/${imagePath}`;
     },
     momentTime: function (date) {
       return moment(date, "YYYY-MM-DD, h:mm").locale("uk").format("HH:mm");

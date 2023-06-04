@@ -3,7 +3,11 @@
     <div class="card center img-fluid">
       <div class="front">
         <button @click="$router.push(`/movie/${movie.id}`)">
-          <img :src="getImagePath(movie.image_path)" class="img-fluid" alt="" />
+          <img
+            :src="getMovieImagePath(movie.image_path)"
+            class="img-fluid"
+            alt=""
+          />
         </button>
       </div>
 
@@ -46,6 +50,7 @@
 <script>
 import moment from "moment/moment";
 import { mapGetters } from "vuex";
+import { getMovieImagePath } from "@/helpers/image_helper";
 
 export default {
   name: "MovieItem",
@@ -59,9 +64,7 @@ export default {
     ...mapGetters(["getDarkTheme"]),
   },
   methods: {
-    getImagePath: function (imagePath) {
-      return `http://localhost/storage/${imagePath}`;
-    },
+    getMovieImagePath,
     momentDate: function (date) {
       return moment(date, "YYYY-MM-DD").format("DD.MM.YYYY");
     },

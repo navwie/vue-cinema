@@ -81,7 +81,7 @@
             <h2 class="section-title">{{ $t("profile.movie") }}</h2>
             <div class="d-flex">
               <img
-                :src="getImagePath(order.session.movies[0].image_path)"
+                :src="getMovieImagePath(order.session.movies[0].image_path)"
                 class="movie-image"
                 alt=""
               />
@@ -138,6 +138,7 @@ import moment from "moment/moment";
 import tickets from "../../assets/images/tickets.png";
 import archive from "../../assets/images/archive.png";
 import { getMyOrders } from "@/api/api_request";
+import { getMovieImagePath } from "@/helpers/image_helper";
 
 export default {
   name: "ProfilePage",
@@ -156,9 +157,7 @@ export default {
     };
   },
   methods: {
-    getImagePath: function (imagePath) {
-      return `http://localhost/storage/${imagePath}`;
-    },
+    getMovieImagePath,
     momentDate: function (date) {
       return moment(date, "YYYY-MM-DD").format("DD.MM.YYYY");
     },

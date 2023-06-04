@@ -99,7 +99,7 @@
       :key="movie"
       class="choosen-film mb-5 m-auto d-flex justify-content-between"
     >
-      <img :src="getImagePath(movie.movie.image_path)" alt="" />
+      <img :src="getMovieImagePath(movie.movie.image_path)" alt="" />
 
       <div class="choosen-film-info">
         <p>{{ movie.movie.description }}</p>
@@ -113,6 +113,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { getQuizes, updateQuizesQuestion } from "@/api/api_request";
+import { getMovieImagePath } from "@/helpers/image_helper";
 
 export default {
   name: "VotingPage",
@@ -136,9 +137,7 @@ export default {
     }),
   },
   methods: {
-    getImagePath: function (imagePath) {
-      return `http://localhost/storage/${imagePath}`;
-    },
+    getMovieImagePath,
     updateVotes() {
       updateQuizesQuestion(this.selectedOption.id, {
         movie_id: this.selectedOption.movie.id,

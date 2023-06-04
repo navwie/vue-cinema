@@ -73,7 +73,7 @@
           </td>
           <td class="movie-img">
             <img
-              :src="getImagePath(movie.image_path)"
+              :src="getMovieImagePath(movie.image_path)"
               class="img-fluid"
               alt=""
             />
@@ -95,6 +95,7 @@
 <script>
 import moment from "moment";
 import { mapGetters } from "vuex";
+import { getMovieImagePath } from "@/helpers/image_helper";
 
 export default {
   name: "MovieTable",
@@ -108,9 +109,7 @@ export default {
     ...mapGetters(["getDarkTheme"]),
   },
   methods: {
-    getImagePath: function (imagePath) {
-      return `http://localhost/storage/${imagePath}`;
-    },
+    getMovieImagePath,
     momentDate: function (date) {
       return moment(date, "YYYY-MM-DD").format("DD.MM.YYYY");
     },

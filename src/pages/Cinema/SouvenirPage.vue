@@ -12,7 +12,7 @@
         <div class="card">
           <div class="card-image">
             <img
-              :src="getImagePath(souvenir.picture)"
+              :src="getSouvenirImagePath(souvenir.picture)"
               class="img-fluid"
               alt=""
             />
@@ -71,6 +71,7 @@
 import { mapGetters } from "vuex";
 import { getShopId } from "@/api/api_request";
 import { mapMutations } from "vuex";
+import { getSouvenirImagePath } from "@/helpers/image_helper";
 
 export default {
   name: "SouvenirPage",
@@ -87,10 +88,8 @@ export default {
     }),
   },
   methods: {
+    getSouvenirImagePath,
     ...mapMutations(["setSouvenirToBasket"]),
-    getImagePath: function (imagePath) {
-      return `http://localhost/storage/${imagePath}`;
-    },
     getCartQuantity(souvenirId) {
       const item = this.addToBasket.find((item) => item.id === souvenirId);
       return item ? item.quantity : 0;
