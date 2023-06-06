@@ -96,6 +96,8 @@ export default {
         seat: value.seat,
         price: this.session.seats[seatIndex].price,
         type: value.type,
+        session: this.session.id,
+        session_seats: this.session.seats[seatIndex].pivot.id,
       });
     },
     removeChooseSeat(value) {
