@@ -75,7 +75,12 @@
     "date": "Date:",
     "products": "Products",
     "souvenirs": "Souvenirs",
-    "totalprice": "Total price: "
+    "totalprice": "Total price: ",
+
+    "seat": "Seat: ",
+    "row": "Row: ",
+    "price": "Price: ",
+    "type": "Type: "
   },
   "movie_info": {
     "info_buy": "If you want to buy a ticket you need to log in",

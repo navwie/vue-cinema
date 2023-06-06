@@ -11,7 +11,7 @@
         <div class="d-flex justify-content-between">
           <p
             :class="this.getDarkTheme ? 'dark_p' : 'light_p'"
-            style="width: 120px"
+            style="width: 170px"
           >
             {{ $t("contacts.name") }}:
           </p>
@@ -26,7 +26,7 @@
           <div>
             <p
               :class="this.getDarkTheme ? 'dark_p' : 'light_p'"
-              style="width: 120px"
+              style="width: 170px"
             >
               {{ $t("contacts.phone") }}:
             </p>
@@ -43,7 +43,7 @@
         <div class="d-flex justify-content-between">
           <p
             :class="this.getDarkTheme ? 'dark_p' : 'light_p'"
-            style="width: 120px"
+            style="width: 170px"
           >
             {{ $t("contacts.email") }}:
           </p>
@@ -57,7 +57,7 @@
         <div class="d-flex justify-content-between">
           <p
             :class="this.getDarkTheme ? 'dark_p' : 'light_p'"
-            style="width: 120px"
+            style="width: 170px"
           >
             {{ $t("contacts.instagram") }}:
           </p>
@@ -71,7 +71,7 @@
         <div class="d-flex justify-content-between">
           <p
             :class="this.getDarkTheme ? 'dark_p' : 'light_p'"
-            style="width: 120px"
+            style="width: 170px"
           >
             {{ $t("contacts.telegram") }}:
           </p>
@@ -85,7 +85,7 @@
         <div class="d-flex justify-content-between">
           <p
             :class="this.getDarkTheme ? 'dark_p' : 'light_p'"
-            style="width: 120px"
+            style="width: 170px"
           >
             {{ $t("contacts.address") }}:
           </p>
@@ -223,7 +223,7 @@ export default {
   color: white;
   font-size: 1.5vw;
   height: 41px;
-  padding: 8px;
+  padding: 2px 5px 7px 9px;
   background-color: #20242c;
   font-weight: 500;
 }
@@ -231,8 +231,7 @@ export default {
 .light_p {
   color: white;
   font-size: 1.5vw;
-  height: 41px;
-  padding: 8px;
+  padding: 2px 5px 7px 9px;
   background-color: grey;
   font-weight: 500;
 }

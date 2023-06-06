@@ -72,28 +72,34 @@
     <hr />
     <div class="d-flex flex-wrap justify-content-between">
       <div v-for="order in orders" :key="order" class="order">
-        <h2>
+        <h2 style="text-align: center">
           {{ momentDate(order.created_at) }}
         </h2>
         <div>
           <div v-if="order.seats.length > 0" class="section">
             <hr />
             <h2 class="section-title">{{ $t("profile.movie") }}</h2>
-            <div class="d-flex">
+            <div class="d-flex" style="margin: 25px 0 25px 15px">
               <img
                 :src="getMovieImagePath(order.session.movies[0].image_path)"
                 class="movie-image"
                 alt=""
               />
-              <div>
+              <div class="movie-info">
                 <p class="movie-name">{{ order.session.movies[0].name }}</p>
-                <p>
-                  {{ $t("profile.date") }}:
+                <p style="">
+                  {{ $t("profile.date") }}
                   {{ momentDate(order.session.date_time) }}
                 </p>
-                <p v-for="seat in order.seats" :key="seat" class="seat-info">
-                  {{ seat.row }} {{ seat.seat }} {{ seat.type }}
-                  {{ seat.price }}
+                <p
+                  v-for="seat in order.seats"
+                  :key="seat"
+                  class="seat-info"
+                  style="margin-bottom: 10px"
+                >
+                  <strong>{{ $t("profile.row") }} </strong> {{ seat.row }}
+                  <strong>{{ $t("profile.seat") }} </strong> {{ seat.seat }}
+                  <strong>{{ $t("profile.price") }} </strong> {{ seat.price }}
                 </p>
               </div>
             </div>
@@ -106,7 +112,8 @@
               :key="product"
               class="product"
             >
-              {{ product.name }}
+              <strong>{{ $t("profile.type") }} </strong> {{ product.name }}
+              <strong>{{ $t("profile.price") }} </strong>
               {{ product.price }}
             </div>
           </div>
@@ -118,14 +125,17 @@
               :key="souvenir"
               class="souvenir"
             >
-              {{ souvenir.name }}
-              {{ souvenir.price }}
+              <strong>{{ $t("profile.type") }} </strong> {{ souvenir.name }}
+              <strong>{{ $t("profile.price") }} </strong> {{ souvenir.price }}
             </div>
           </div>
           <hr />
-          <h2 class="total-price">
-            {{ $t("profile.totalprice") }} {{ order.price }}
-          </h2>
+          <div class="price" style="margin-top: 30px">
+            <h2 class="total-price">
+              {{ $t("profile.totalprice") }} {{ order.price }}
+              {{ $t("basket.uah") }}
+            </h2>
+          </div>
         </div>
       </div>
     </div>
@@ -267,9 +277,10 @@ hr {
 }
 .order {
   width: 40%;
-  margin-bottom: 20px;
+  margin: 30px 20px 40px;
   border: 1px solid #ccc;
-  padding: 10px;
+  border-radius: 20px;
+  padding: 50px;
 }
 
 .section-title {
@@ -292,16 +303,24 @@ hr {
 
 .seat-info {
   margin: 5px 0;
+  font-size: 1vw;
 }
 
 .product,
 .souvenir {
-  margin: 5px 0;
+  margin: 25px 0 25px 15px;
+  font-size: 1vw;
 }
 
 .total-price {
   font-weight: bold;
-  font-size: 1.5vw;
-  margin-top: 10px;
+  font-size: 1.2vw;
+  background-color: #080c14;
+  padding: 20px;
+  border-radius: 15px;
+  border: 1px solid #4d7cbc;
+}
+.movie-info {
+  margin-left: 20px;
 }
 </style>
