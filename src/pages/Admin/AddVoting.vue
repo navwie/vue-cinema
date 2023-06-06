@@ -22,7 +22,7 @@
       >
         <img
           style="width: 150px; object-fit: cover; height: 200px"
-          :src="getImagePath(question.movie.image_path)"
+          :src="getMovieImagePath(question.movie.image_path)"
           alt=""
         />
         <div>
@@ -105,6 +105,7 @@ import {
 } from "@/api/api_request";
 import MyButton from "@/components/UI/MyButton.vue";
 import Multiselect from "@vueform/multiselect";
+import { getMovieImagePath } from "@/helpers/image_helper";
 
 export default {
   name: "AddVoting",
@@ -126,6 +127,7 @@ export default {
     };
   },
   methods: {
+    getMovieImagePath,
     submit() {
       createQuiz({
         name: this.form.title,
@@ -142,9 +144,6 @@ export default {
             });
           });
         });
-    },
-    getImagePath: function (imagePath) {
-      return `http://localhost/storage/${imagePath}`;
     },
   },
   beforeMount() {

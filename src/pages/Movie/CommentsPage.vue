@@ -13,7 +13,7 @@
     <hr />
     <div class="d-flex justify-content-between">
       <img
-        :src="getImagePath(movie.image_path)"
+        :src="getMovieImagePath(movie.image_path)"
         class="img-fluid image"
         alt=""
       />
@@ -60,6 +60,7 @@ import {
   getOneMovie,
 } from "@/api/api_request";
 import MyTextArea from "@/components/UI/MyTextArea.vue";
+import { getMovieImagePath } from "@/helpers/image_helper";
 
 export default {
   name: "CommentsPag",
@@ -84,9 +85,7 @@ export default {
     });
   },
   methods: {
-    getImagePath: function (imagePath) {
-      return `http://localhost/storage/${imagePath}`;
-    },
+    getMovieImagePath,
     addComment() {
       createComment({
         text: this.newComment,

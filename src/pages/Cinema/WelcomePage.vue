@@ -106,7 +106,7 @@
         >
           <div class="carousel-image">
             <a style="cursor: auto" @click="$router.push(`/movie/${movie.id}`)">
-              <img :src="getImagePath(movie.image_path)" class="" alt="" />
+              <img :src="getMovieImagePath(movie.image_path)" class="" alt="" />
             </a>
           </div>
           <div class="carousel-title">
@@ -217,6 +217,7 @@ import { getNews, getPopularMovies } from "@/api/api_request";
 import { Carousel, Navigation, Slide } from "vue3-carousel";
 import "vue3-carousel/dist/carousel.css";
 import moment from "moment/moment";
+import { getMovieImagePath } from "@/helpers/image_helper";
 
 export default {
   name: "WelcomePage",
@@ -248,6 +249,7 @@ export default {
     }),
   },
   methods: {
+    getMovieImagePath,
     momentDate: function (date) {
       let locale = localStorage.getItem("locale");
       if (locale === "uk") {
@@ -257,9 +259,6 @@ export default {
       } else {
         return moment(date, "YYYY-MM-DD, h:mm").format("LLL");
       }
-    },
-    getImagePath: function (imagePath) {
-      return `http://localhost/storage/${imagePath}`;
     },
     redirection: function () {
       console.log(this.isAuth);

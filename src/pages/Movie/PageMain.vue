@@ -21,7 +21,7 @@
             "
             class=" "
           >
-            <img :src="getImagePath(movie.image_path)" class="" alt="" />
+            <img :src="getMovieImagePath(movie.image_path)" class="" alt="" />
             <h5 :class="this.getDarkTheme ? 'dark_h5' : 'light_h5'">
               <a
                 :class="this.getDarkTheme ? 'dark_a' : 'light_a'"
@@ -156,6 +156,7 @@ import moment from "moment";
 import { Carousel, Navigation, Slide } from "vue3-carousel";
 import "vue3-carousel/dist/carousel.css";
 import { mapGetters } from "vuex";
+import { getMovieImagePath } from "@/helpers/image_helper";
 
 export default {
   name: "PageMain",
@@ -201,9 +202,7 @@ export default {
     };
   },
   methods: {
-    getImagePath: function (imagePath) {
-      return `http://localhost/storage/${imagePath}`;
-    },
+    getMovieImagePath,
     momentDate: function (date) {
       return moment(date, "YYYY-MM-DD").format("DD.MM.YYYY");
     },

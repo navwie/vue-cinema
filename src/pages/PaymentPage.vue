@@ -1,22 +1,18 @@
 <template>
-  <div class="w-50 m-auto cont">
-    <form id="stripe-payment-element-form" @submit.prevent="handleSubmit">
-      <div class="form-group">
-        <input
-          id="price"
-          type="number"
-          v-model="getFullPriceForPay"
-          placeholder="Price"
-          required
-          class="form-control"
-        />
-      </div>
-      <div id="stripe-payment-element-mount-point" ref="mountPoint"></div>
-      <div id="stripe-payment-element-errors" role="alert">
-        <slot name="stripe-payment-element-errors"></slot>
-      </div>
-      <button type="submit" class="custom-button">
-        {{ $t("payment.submit") }}
+  <div>
+    <form id="stripe-payment-element-form">
+      <input id="card-holder-name" type="text" />
+      <div id="stripe-payment-element-mount-point" />
+      <slot name="stripe-payment-element-errors">
+        <div id="stripe-payment-element-errors" role="alert" />
+      </slot>
+      <button
+        ref="submitButtonRef"
+        @click="purchase($event)"
+        type="submit"
+        class="button"
+      >
+        Заплатити
       </button>
     </form>
   </div>
@@ -24,43 +20,30 @@
 
 <script>
 import { loadStripe } from "@stripe/stripe-js";
-import { getIntent } from "@/api/api_request";
+import { getIntent, purchase } from "@/api/api_request";
 import { mapGetters } from "vuex";
+const ELEMENT_TYPE = "payment";
 
 export default {
   data() {
     return {
       stripe: null,
+      card: null,
       options: {
-        clientSecret:
-          "seti_1N9we2K9qhyBufuVLXjQMddE_secret_NvoGX6dZjBe1mjkXLyrYLhXJDjPhJht",
+        clientSecret: "",
       },
-      price: null,
     };
   },
-  async mounted() {
-    const stripe = await loadStripe(
-      "pk_test_51MBjXJK9qhyBufuVBj51RpkwctYEYFJf3aUnCzHwR8HoJAOwpvE9C80TWzKQOCvesWYxFc9BUXJfXmStTnYYiVSI00U5kN2V3E"
-    );
+  async beforeMount() {
+    const stripe = await loadStripe(process.env.VUE_APP_STRIPE_PUBLIC_KEY);
     this.stripe = stripe;
-
     const userId = localStorage.getItem("userId");
-    getIntent(userId).then((response) => {
+    await getIntent(userId).then((response) => {
       this.options.clientSecret = response.data.client_secret;
 
-      const elements = stripe.elements(this.options);
-      const priceInput = elements.create("payment", {
-        style: {
-          base: {
-            border: "1px solid gray",
-            padding: "5px",
-          },
-        },
-      });
-      priceInput.mount(this.$refs.mountPoint);
-
-      // Store elements instance for later use
-      this.elements = elements;
+      let elements = stripe.elements(this.options);
+      this.card = elements.create(ELEMENT_TYPE);
+      this.card.mount("#stripe-payment-element-mount-point");
     });
   },
   computed: {
@@ -93,30 +76,37 @@ export default {
     },
   },
   methods: {
-    handleSubmit() {
-      this.stripe
-        .confirmPaymentIntent(this.options.clientSecret, {
-          payment_method: {
-            card: this.elements.getElement("payment"),
-          },
-          amount: this.price * 100,
-          currency: "usd",
-        })
-        .then((result) => {
-          if (result.error) {
-            // Handle error
-            console.log(result.error.message);
-          } else {
-            // Payment succeeded, you can handle success here
-            console.log(result.paymentIntent);
-          }
-        });
+    async purchase(e) {
+      e.preventDefault();
+      const cardHolderName = document.getElementById("card-holder-name");
+
+      const { paymentMethod, error } = await this.stripe.createPaymentMethod(
+        "card",
+        this.card,
+        {
+          billing_details: { name: cardHolderName.value },
+        }
+      );
+
+      if (error) {
+        console.log(error);
+      } else {
+        purchase({
+          user_id: this.getUserId,
+          payment_method: paymentMethod.id,
+          tickets: this.getMovieTickets,
+          products: this.getProductItems,
+          souvenirs: this.getSouvenirItems,
+          total_money: this.getFullPriceForPay,
+        }).then((r) => console.log(r.data));
+      }
     },
   },
 };
 </script>
+
 <style scoped>
-.custom-button {
+#custom-button {
   height: 30px;
   outline: 1px solid grey;
   background-color: green;
@@ -124,36 +114,12 @@ export default {
   color: white;
 }
 
+.button {
+  width: 100px;
+  height: 100px;
+}
+
 #card-error {
   color: red;
-}
-
-.cont {
-  position: relative;
-  top: 50px;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-.form-label {
-  font-weight: bold;
-}
-
-.form-control {
-  width: 100%;
-  font-size: 1.2vw;
-  letter-spacing: 2px;
-  height: 30px;
-  padding: 10px;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
-  outline: none;
-}
-
-.form-control:focus {
-  border-color: #80bdff;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 </style>

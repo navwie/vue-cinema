@@ -115,11 +115,11 @@ export default {
           places: this.places,
           session: this.session,
         };
-        console.log(selectedSeatsData);
         this.setMovieToBasket({
           data: selectedSeatsData,
           action: "push",
         });
+        this.$router.push("/buyTicket");
       } else {
         this.$swal({
           icon: "error",

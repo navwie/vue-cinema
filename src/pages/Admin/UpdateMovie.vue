@@ -109,7 +109,7 @@
         <div class="d-flex mt-5 mb-5">
           <div v-if="isNewPhoto == false">
             <img
-              :src="getImagePath(movie.image_path)"
+              :src="getMovieImagePath(movie.image_path)"
               class="img-fluid"
               alt=""
             />
@@ -375,6 +375,7 @@ import {
 } from "@/api/api_request";
 import MyInput from "@/components/UI/MyInput";
 import { mapGetters } from "vuex";
+import { getMovieImagePath } from "@/helpers/image_helper";
 
 export default {
   name: "UpdateMovie",
@@ -417,6 +418,7 @@ export default {
     ...mapGetters(["getDarkTheme"]),
   },
   methods: {
+    getMovieImagePath,
     showHall() {
       this.movie.halls = [];
       this.isHiddenHall = !this.isHiddenHall;
@@ -439,9 +441,6 @@ export default {
     },
     showPhoto() {
       this.isHiddenPhoto = !this.isHiddenPhoto;
-    },
-    getImagePath: function (imagePath) {
-      return `http://localhost/storage/${imagePath}`;
     },
     choosePhoto(event) {
       this.movie.image_path = event.target.files[0];

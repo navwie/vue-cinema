@@ -21,6 +21,7 @@
           border: 1px solid #4d7cbc;
           background-color: #080c14;
           padding: 20px;
+          margin-bottom: 20px;
           border-radius: 20px;
         "
         v-for="movie in getMovieTickets"
@@ -45,7 +46,7 @@
             <div class="d-flex mt-5">
               <div>
                 <img
-                  :src="getImagePath(movie.session.movies[0].image_path)"
+                  :src="getMovieImagePath(movie.session.movies[0].image_path)"
                   class="img-fluid ticket-info-image"
                   alt=""
                 />
@@ -188,7 +189,7 @@
           <div class="d-flex">
             <img
               style="width: 200px"
-              :src="getImagePath(souvenir.picture)"
+              :src="getSouvenirImagePath(souvenir.picture)"
               alt=""
             />
             <h2
@@ -304,6 +305,10 @@ import quen from "@/assets/images/quen.png";
 import moment from "moment";
 import { createOrder } from "@/api/api_request";
 import { mapGetters, mapMutations } from "vuex";
+import {
+  getMovieImagePath,
+  getSouvenirImagePath,
+} from "@/helpers/image_helper";
 
 export default {
   name: "BuyTicket",
@@ -333,6 +338,8 @@ export default {
     ...mapMutations(["setProductToBasket"]),
     ...mapMutations(["setSouvenirToBasket"]),
     ...mapMutations(["setMovieToBasket"]),
+    getMovieImagePath,
+    getSouvenirImagePath,
     getFullPriceMovie(seats) {
       let totalPrice = 0;
       for (const seat of seats) {
@@ -439,24 +446,41 @@ export default {
     momentDate: function (date) {
       return moment(date, "YYYY-MM-DD").format("DD/MM/YYYY");
     },
-    getImagePath: function (imagePath) {
-      return `http://localhost/storage/${imagePath}`;
-    },
     momentTime: function (date) {
       return moment(date, "YYYY-MM-DD, h:mm").locale("uk").format("HH:mm");
     },
+    // deletePlace(place) {
+    //   console.log(place)
+    //   this.getMovieTickets.forEach((movie_place) => {
+    //     const index = movie_place.places.findIndex((item) => {
+    //       return item.id === place.id;
+    //     });
+    //     movie_place.places.splice(index, 1);
+    //   });
+    //   console.log(this.getMovieTickets);
+    //   this.setMovieToBasket({
+    //     data: this.getMovieTickets,
+    //     action: "rewrite",
+    //   });
+    // },
     deletePlace(place) {
-      this.getMovieTickets.forEach((movie_place) => {
-        const index = movie_place.places.findIndex((item) => {
-          return item.id === place.id;
+      const movieIndex = this.getMovieTickets.findIndex((movie) =>
+        movie.places.includes(place)
+      );
+      if (movieIndex !== -1) {
+        const movie = this.getMovieTickets[movieIndex];
+        const placeIndex = movie.places.indexOf(place);
+        if (placeIndex !== -1) {
+          movie.places.splice(placeIndex, 1);
+          if (movie.places.length === 0) {
+            this.getMovieTickets.splice(movieIndex, 1);
+          }
+        }
+        this.setMovieToBasket({
+          data: this.getMovieTickets,
+          action: "rewrite",
         });
-        movie_place.places.splice(index, 1);
-      });
-      console.log(this.getMovieTickets);
-      this.setMovieToBasket({
-        data: this.getMovieTickets,
-        action: "rewrite",
-      });
+      }
     },
     deleteSouvenir(souvenir) {
       const indexObj = this.getSouvenirItems.forEach((item) => {

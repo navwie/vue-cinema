@@ -10,7 +10,7 @@
     <div v-for="(news, index) in this.news" :key="index">
       <div class="d-flex news">
         <div>
-          <img :src="getImagePath(news.picture)" class="" alt="" />
+          <img :src="getNewsImagePath(news.picture)" class="" alt="" />
         </div>
         <div style="margin-left: 30px">
           <p class="news-title">{{ news.title }}</p>
@@ -28,6 +28,7 @@
 import { mapGetters } from "vuex";
 import { getNews } from "@/api/api_request";
 import moment from "moment";
+import { getNewsImagePath } from "@/helpers/image_helper";
 
 export default {
   name: "NewsPage",
@@ -35,9 +36,7 @@ export default {
     ...mapGetters(["getDarkTheme"]),
   },
   methods: {
-    getImagePath: function (imagePath) {
-      return `http://localhost/storage/${imagePath}`;
-    },
+    getNewsImagePath,
     momentDate: function (date) {
       let locale = localStorage.getItem("locale");
       if (locale === "uk") {

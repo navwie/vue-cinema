@@ -68,6 +68,9 @@ export default {
       setUser: "auth/setUser",
       setAge: "auth/setAge",
       setUserId: "auth/setUserId",
+      setAddressId: "auth/setAddressId",
+      setShopId: "auth/setShopId",
+      setCafeId: "auth/setCafeId",
     }),
     async submit() {
       await login({
@@ -75,9 +78,21 @@ export default {
         password: this.form.password,
       })
         .then((response) => {
+          // debugger;
           this.setToken(response.data?.token);
           this.setUserId(response.data?.userId);
           this.setRoles(response.data.role);
+          if (response.data.role === "ROLE_ADMIN") {
+            this.setAddressId(
+              response.data.address.cinemas[0].pivot.address_id
+            );
+            this.setShopId(response.data.address.cinemas[0].pivot.shop_id);
+            this.setCafeId(response.data.address.cinemas[0].pivot.cafe_id);
+          } else {
+            this.setAddressId(JSON.stringify([]));
+            this.setShopId(JSON.stringify([]));
+            this.setCafeId(JSON.stringify([]));
+          }
           getUsers(response.data?.userId).then((response) => {
             let user = response.data.user;
             if (user !== undefined) {

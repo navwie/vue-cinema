@@ -24,7 +24,7 @@
       >
         <div>
           <img
-            :src="getImagePath(movie.image_path)"
+            :src="getMovieImagePath(movie.image_path)"
             class="img-fluid image"
             alt=""
           />
@@ -261,6 +261,7 @@ import { mapGetters } from "vuex";
 import ScheduleList from "@/components/ComponentLists/ScheduleList.vue";
 import MySelect from "@/components/UI/MySelect";
 import image from "@/assets/images/cinema.png";
+import { getMovieImagePath } from "@/helpers/image_helper";
 
 export default {
   name: "MovieId",
@@ -293,9 +294,7 @@ export default {
     ...mapGetters(["getDarkTheme"]),
   },
   methods: {
-    getImagePath: function (imagePath) {
-      return `http://localhost/storage/${imagePath}`;
-    },
+    getMovieImagePath,
     momentDate: function (date) {
       return moment(date, "YYYY-MM-DD").format("DD.MM.YYYY");
     },

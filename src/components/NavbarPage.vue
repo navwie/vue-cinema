@@ -195,7 +195,7 @@
               <li>
                 <a
                   class="dropdown-item"
-                  href="/shop-souvenir"
+                  @click="$router.push(`/shop-souvenir/` + getShopId)"
                   style="
                     color: #080c14;
                     font-size: 20px;
@@ -405,6 +405,7 @@ export default {
       isAuth: "auth/isAuth",
       getRoles: "auth/getRoles",
       getUserId: "auth/getUserId",
+      getShopId: "auth/getShopId",
     }),
     currentLocale() {
       return localStorage.getItem("locale");

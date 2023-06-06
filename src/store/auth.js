@@ -23,6 +23,15 @@ export default {
     getUserId(state) {
       return state.userid;
     },
+    getAddressId(state) {
+      return state.addressid;
+    },
+    getShopId(state) {
+      return state.shopid;
+    },
+    getCafeId(state) {
+      return state.cafeid;
+    },
   },
   state: {
     userid: localStorage.getItem("userId"),
@@ -33,6 +42,9 @@ export default {
     roles: JSON.parse(localStorage.getItem("roles")),
     user: JSON.parse(localStorage.getItem("user")),
     age: JSON.parse(localStorage.getItem("age")),
+    addressid: JSON.parse(localStorage.getItem("addressId")),
+    shopid: JSON.parse(localStorage.getItem("shopId")),
+    cafeid: JSON.parse(localStorage.getItem("cafeId")),
   },
   mutations: {
     setToken(state, newToken) {
@@ -49,6 +61,15 @@ export default {
     },
     setUserId(state, newUserid) {
       state.userid = newUserid;
+    },
+    setAddressId(state, newAddressId) {
+      state.addressid = newAddressId;
+    },
+    setShopId(state, newShopId) {
+      state.shopid = newShopId;
+    },
+    setCafeId(state, newCafeId) {
+      state.cafeid = newCafeId;
     },
   },
   actions: {
@@ -70,11 +91,17 @@ export default {
       localStorage.removeItem("userId");
       localStorage.removeItem("roles");
       localStorage.removeItem("age");
+      localStorage.removeItem("addressId");
+      localStorage.removeItem("shopId");
+      localStorage.removeItem("cafeId");
       commit("setToken", null);
       commit("setRoles", null);
       commit("setUser", null);
       commit("setAge", null);
       commit("setUserId", null);
+      commit("setAddressId", null);
+      commit("setShopId", null);
+      commit("setCafeId", null);
       store.commit("setLoading", false);
     },
   },

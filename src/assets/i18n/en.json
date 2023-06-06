@@ -58,6 +58,7 @@
     "title_souvenir" : "Add new souvenir",
     "title_cafe" : "Add new product to menu",
     "title_new" : "add new news",
+    "amount" : "Amount",
     "title_voting" : " Add new voting"
   },
   "profile": {
@@ -113,7 +114,7 @@
     "viewonmap": "View cinemas on the map"
   },
   "types_product" : {
-    "popcorns" : "Popcorns",
+    "popcorn" : "Popcorns",
     "desserts" : "Desserts",
     "drinks" : "Drinks",
     "chips" : "Chips"
