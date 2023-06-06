@@ -101,7 +101,7 @@
 </template>
 
 <script>
-import { getCafeId } from "@/api/api_request";
+import { getAddress } from "@/api/api_request";
 import { mapGetters, mapMutations } from "vuex";
 
 export default {
@@ -153,8 +153,10 @@ export default {
     },
   },
   beforeMount() {
-    getCafeId(this.$route.params.id).then((response) => {
-      for (const product of response.data.cafe.products) {
+    let addressId = localStorage.getItem("addressId");
+    getAddress(addressId).then((response) => {
+      console.log(response.data);
+      for (const product of response.data.address.cafes[0].products) {
         if (product.type === this.$route.params.param) {
           this.products.push(product);
         }

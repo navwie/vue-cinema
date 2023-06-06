@@ -69,7 +69,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getShopId } from "@/api/api_request";
+import { getAddress } from "@/api/api_request";
 import { mapMutations } from "vuex";
 import { getSouvenirImagePath } from "@/helpers/image_helper";
 
@@ -124,8 +124,9 @@ export default {
     },
   },
   beforeMount() {
-    getShopId(this.$route.params.id).then((response) => {
-      this.souvenirs = response.data.shop.souvenirs;
+    let addressId = localStorage.getItem("addressId");
+    getAddress(addressId).then((response) => {
+      this.souvenirs = response.data.address.shops[0].souvenirs;
     });
   },
   created() {

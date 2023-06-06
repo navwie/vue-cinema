@@ -76,30 +76,35 @@
           {{ momentDate(order.created_at) }}
         </h2>
         <div>
-          <div v-if="order.seats.length > 0" class="section">
+          <div v-if="orders.length > 0" class="section">
             <hr />
             <h2 class="section-title">{{ $t("profile.movie") }}</h2>
             <div class="d-flex" style="margin: 25px 0 25px 15px">
               <img
-                :src="getMovieImagePath(order.session.movies[0].image_path)"
+                :src="getMovieImagePath(order.sessions[0].movies[0].image_path)"
                 class="movie-image"
                 alt=""
               />
               <div class="movie-info">
-                <p class="movie-name">{{ order.session.movies[0].name }}</p>
+                <p class="movie-name">
+                  {{ order.sessions[0].movies[0].name }}
+                </p>
                 <p style="">
                   {{ $t("profile.date") }}
-                  {{ momentDate(order.session.date_time) }}
+                  {{ momentDate(order.sessions[0].date_time) }}
                 </p>
                 <p
-                  v-for="seat in order.seats"
+                  v-for="seat in order.sessions"
                   :key="seat"
                   class="seat-info"
                   style="margin-bottom: 10px"
                 >
-                  <strong>{{ $t("profile.row") }} </strong> {{ seat.row }}
-                  <strong>{{ $t("profile.seat") }} </strong> {{ seat.seat }}
-                  <strong>{{ $t("profile.price") }} </strong> {{ seat.price }}
+                  <strong>{{ $t("profile.row") }} </strong>
+                  {{ seat.seat.row }}
+                  <strong>{{ $t("profile.seat") }} </strong>
+                  {{ seat.seat.seat }}
+                  <strong>{{ $t("profile.price") }} </strong>
+                  {{ seat.seat.price }}
                 </p>
               </div>
             </div>

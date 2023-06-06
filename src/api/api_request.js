@@ -10,7 +10,7 @@ const PATH_AUTH = "http://localhost/api/auth/";
 // };
 
 export const getMovies = () => axios.get(`${BASE_PATH_API}movies`);
-export const getShops = () => axios.get(`${BASE_PATH_API}cinemas`);
+export const getCinemaAddresses = () => axios.get(`${BASE_PATH_API}cinemas`);
 export const getLanguages = () => axios.get(`${BASE_PATH_API}languages`);
 export const getFormats = () => axios.get(`${BASE_PATH_API}formats`);
 export const getHalls = () => axios.get(`${BASE_PATH_API}halls`);
@@ -85,3 +85,5 @@ export const createProductCafes = (params) =>
 
 export const createSouvenirShop = (params) =>
   axios.post(`${BASE_PATH_API}shop-souvenirs`, params);
+
+export const getAddress = (id) => axios.get(`${BASE_PATH_API}addresses/${id}`);

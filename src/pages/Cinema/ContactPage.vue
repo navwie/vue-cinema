@@ -134,7 +134,7 @@
 </template>
 
 <script>
-import { getShops } from "@/api/api_request";
+import { getCinemaAddresses } from "@/api/api_request";
 import { mapGetters } from "vuex";
 import { LMap, LTileLayer, LMarker } from "vue3-leaflet";
 
@@ -178,7 +178,7 @@ export default {
     },
   },
   beforeMount() {
-    getShops().then((response) => {
+    getCinemaAddresses().then((response) => {
       this.contacts = response.data.cinemas.data[0];
       const adminAddress = this.contacts.addresses.find((item) => {
         return item.pivot.admin_id === Number(this.userId);

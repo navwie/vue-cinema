@@ -195,7 +195,7 @@
               <li>
                 <a
                   class="dropdown-item"
-                  @click="$router.push(`/shop-souvenir/` + getShopId)"
+                  @click="$router.push(`/shop-souvenir`)"
                   style="
                     color: #080c14;
                     font-size: 20px;
@@ -370,8 +370,44 @@
                   "
                   class="dropdown-item"
                   href="#"
-                  @click="setLocale('en-gb')"
+                  @click="setLocale('en')"
                   >en</a
+                >
+              </li>
+            </ul>
+          </li>
+          <li v-if="getRoles !== 'ROLE_ADMIN'" class="nav-item dropdown d-flex">
+            <img
+              style="width: 16%; height: 50%; position: relative; top: 10px"
+              src="../assets/images/icons8-маркер-100.png"
+              alt=""
+            />
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              style="
+                color: white;
+                font-size: 25px;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+              "
+            >
+              {{ choosenAddress }}
+            </a>
+            <ul class="dropdown-menu">
+              <li v-for="address in contacts" :key="address">
+                <a
+                  class="dropdown-item"
+                  href="#"
+                  style="
+                    color: #080c14;
+                    font-size: 12px;
+                    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+                  "
+                  @click="setAddress(address.id, address.name)"
+                  >{{ address.name }}</a
                 >
               </li>
             </ul>
@@ -388,8 +424,9 @@
 <script>
 import image from "../assets/images/popkorn.png";
 import gearimage from "../assets/images/icons8-настройки-50.png";
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 import ThemeSwitcher from "@/components/ThemeSwitcher.vue";
+import { getCinemaAddresses } from "@/api/api_request";
 
 export default {
   components: { ThemeSwitcher },
@@ -398,8 +435,21 @@ export default {
     return {
       image,
       gearimage,
+      contacts: [],
+      choosenAddress: [],
     };
   },
+  beforeMount() {
+    getCinemaAddresses().then((response) => {
+      this.contacts = response.data.cinemas.data[0].addresses;
+      this.choosenAddress = response.data.cinemas.data[0].addresses[0].name;
+      localStorage.setItem(
+        "addressId",
+        JSON.stringify(response.data.cinemas.data[0].addresses[0].id)
+      );
+    });
+  },
+
   computed: {
     ...mapGetters({
       isAuth: "auth/isAuth",
@@ -412,6 +462,9 @@ export default {
     },
   },
   methods: {
+    ...mapMutations({
+      setAddressId: "auth/setAddressId",
+    }),
     changeTheme(isDarkThemeFlag) {
       this.$emit("themeChanged", isDarkThemeFlag);
     },
@@ -422,6 +475,10 @@ export default {
       localStorage.setItem("locale", locale);
       window.location.reload();
     },
+    setAddress(id, name) {
+      this.choosenAddress = name;
+      this.setAddressId(id);
+    },
     submit() {
       this.logout();
       localStorage.removeItem("token");
@@ -430,6 +487,9 @@ export default {
       localStorage.removeItem("roles");
       localStorage.removeItem("age");
       localStorage.removeItem("selected_seats");
+      localStorage.removeItem("addressid");
+      localStorage.removeItem("shopid");
+      localStorage.removeItem("cafeid");
       this.$router.push("/login");
       location.reload();
     },

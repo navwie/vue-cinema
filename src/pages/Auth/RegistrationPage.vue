@@ -16,6 +16,7 @@
           type="text"
           :placeholder="$t(`auth.name`)"
         />
+        <p v-if="errors.firstname" class="error">{{ errors.firstname }}</p>
         <MyInput
           v-focus
           v-model="lastname"
@@ -24,6 +25,7 @@
           class="input"
           :placeholder="$t(`auth.surname`)"
         />
+        <p v-if="errors.lastname" class="error">{{ errors.lastname }}</p>
         <MyInput
           v-focus
           v-model="birthday"
@@ -47,6 +49,7 @@
           type="text"
           :placeholder="$t(`auth.email`)"
         />
+        <p v-if="errors.email" class="error">{{ errors.email }}</p>
         <MyInput
           v-focus
           v-model="password"
@@ -54,6 +57,7 @@
           style="width: 60%"
           :placeholder="$t(`auth.password`)"
         />
+        <p v-if="errors.password" class="error">{{ errors.password }}</p>
       </div>
       <MyButton class="btn" @click="submit">{{ $t("auth.register") }}</MyButton>
     </div>
@@ -74,6 +78,7 @@ export default {
       lastname: "",
       birthday: null,
       phone: "",
+      errors: {},
     };
   },
   computed: {
@@ -83,48 +88,99 @@ export default {
     ...mapActions({
       register: "auth/register",
     }),
+    validateForm() {
+      this.errors = {};
+
+      if (!this.firstname) {
+        this.errors.firstname = "Please enter your first name.";
+      } else if (!this.isValidFirstname(this.firstname)) {
+        this.errors.firstname = "Використовуйте тільки букви.";
+      }
+
+      if (!this.lastname) {
+        this.errors.lastname = "Please enter your last name.";
+      } else if (!this.isValidLastname(this.lastname)) {
+        this.errors.lastname = "Use only letters.";
+      }
+
+      if (!this.email) {
+        this.errors.email = "Please enter your email address.";
+      } else if (!this.isValidEmail(this.email)) {
+        this.errors.email = "Please enter a valid email address.";
+      }
+
+      if (!this.birthday) {
+        this.errors.birthday = "Please enter your birthday.";
+      }
+
+      if (!this.password) {
+        this.errors.password = "Please enter your password.";
+      } else if (!this.isValidPassword(this.password)) {
+        this.errors.password = "Please enter at least 8 symbols.";
+      }
+      return Object.keys(this.errors).length === 0;
+    },
+    isValidEmail(email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    },
+    isValidFirstname(firstname) {
+      const nameRegex = /^[A-Za-z]+$/;
+      return nameRegex.test(firstname);
+    },
+
+    isValidLastname(lastname) {
+      const nameRegex = /^[A-Za-z]+$/;
+      return nameRegex.test(lastname);
+    },
+
+    isValidPassword(password) {
+      return password.length >= 8;
+    },
     submit() {
-      this.register({
-        firstname: this.firstname,
-        lastname: this.lastname,
-        birthday: this.birthday,
-        phone: this.phone,
-        email: this.email,
-        password: this.password,
-      })
-        .then((response) => {
-          console.log(response);
-          this.$swal({
-            icon: "success",
-            color: "#000",
-            timer: 4000,
-            timerProgressBar: true,
-            showClass: {
-              popup: "animate__animated animate__fadeInDown",
-            },
-            hideClass: {
-              popup: "animate__animated animate__fadeOutUp",
-            },
-          });
-          this.$router.push("/login");
+      if (this.validateForm()) {
+        this.register({
+          firstname: this.firstname,
+          lastname: this.lastname,
+          birthday: this.birthday,
+          phone: this.phone,
+          email: this.email,
+          password: this.password,
         })
-        .catch((er) => {
-          console.log(er);
-          this.$swal({
-            icon: "error",
-            color: "#000",
-            title: this.$t("something_went_wrong.title"),
-            text: this.$t("something_went_wrong.text"),
-            timer: 4000,
-            showClass: {
-              popup: "animate__animated animate__fadeInDown",
-            },
-            hideClass: {
-              popup: "animate__animated animate__fadeOutUp",
-            },
-            timerProgressBar: true,
+          .then((response) => {
+            console.log(response);
+            this.$swal({
+              icon: "success",
+              color: "#000",
+              timer: 4000,
+              timerProgressBar: true,
+              showClass: {
+                popup: "animate__animated animate__fadeInDown",
+              },
+              hideClass: {
+                popup: "animate__animated animate__fadeOutUp",
+              },
+            });
+            this.$router.push("/login");
+          })
+          .catch((er) => {
+            console.log(er);
+            this.$swal({
+              icon: "error",
+              color: "#000",
+              title: this.$t("something_went_wrong.title"),
+              text: this.$t("something_went_wrong.text"),
+              timer: 4000,
+              showClass: {
+                popup: "animate__animated animate__fadeInDown",
+              },
+              hideClass: {
+                popup: "animate__animated animate__fadeOutUp",
+              },
+              timerProgressBar: true,
+            });
           });
-        });
+      }
     },
   },
 };
@@ -157,6 +213,9 @@ export default {
   padding-top: 84px;
   padding-bottom: 80px;
   border-radius: 20px;
+}
+.error {
+  color: red;
 }
 .btn:hover {
   background-color: #fff;

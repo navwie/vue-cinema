@@ -14,7 +14,7 @@
         alt=""
       />
       <p>
-        <a @click="$router.push(`/menu/${getCafeId}/type/popcorn`)">{{
+        <a @click="$router.push(`/menu/type/popcorn`)">{{
           $t("types_product.popcorn")
         }}</a>
       </p>
@@ -26,7 +26,7 @@
         alt=""
       />
       <p>
-        <a @click="$router.push(`/menu/${getCafeId}/type/dessert`)">{{
+        <a @click="$router.push(`/menu/type/dessert`)">{{
           $t("types_product.desserts")
         }}</a>
       </p>
@@ -38,7 +38,7 @@
         alt=""
       />
       <p>
-        <a @click="$router.push(`/menu/${getCafeId}/type/chips`)">{{
+        <a @click="$router.push(`/menu/type/chips`)">{{
           $t("types_product.chips")
         }}</a>
       </p>
@@ -50,7 +50,7 @@
         alt=""
       />
       <p>
-        <a @click="$router.push(`/menu/${getCafeId}/type/drink`)">{{
+        <a @click="$router.push(`/menu/type/drink`)">{{
           $t("types_product.drinks")
         }}</a>
       </p>

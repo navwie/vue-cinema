@@ -1,9 +1,10 @@
 <template>
   <form class="form container" @submit.prevent>
     <div class="form-element">
-      <h3 :class="this.getDarkTheme ? 'dark_h3' : 'light_h3'">
-        {{ $t("auth.login") }}
-      </h3>
+      <!--      <h3 :class="this.getDarkTheme ? 'dark_h3' : 'light_h3'">-->
+      <!--        {{ $t("auth.login") }}-->
+      <!--      </h3>-->
+      Login
       <div>
         <MyInput
           v-focus

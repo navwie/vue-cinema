@@ -9,7 +9,7 @@
       <div>
         <img
           style="width: 300px; height: 400px; object-fit: cover"
-          :src="getImgPath(movie.image_path)"
+          :src="getMovieImagePath(movie.image_path)"
           alt=""
         />
         <p>{{ movie.name }}</p>
@@ -71,6 +71,7 @@ import { createSession, getOneMovie, movieSession } from "@/api/api_request";
 import MyInput from "@/components/UI/MyInput.vue";
 import { mapGetters } from "vuex";
 import moment from "moment";
+import { getMovieImagePath } from "@/helpers/image_helper";
 
 export default {
   name: "AddSession",
@@ -86,9 +87,7 @@ export default {
     ...mapGetters(["getDarkTheme"]),
   },
   methods: {
-    getImgPath: function (imagePath) {
-      return `http://localhost/storage/${imagePath}`;
-    },
+    getMovieImagePath,
     momentDate: function (date) {
       return moment(date, "YYYY-MM-DD").format("DD.MM.YYYY");
     },
