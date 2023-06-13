@@ -9,7 +9,6 @@
       </h1>
       <div>
         <MyInput
-          v-focus
           class="input"
           v-model="firstname"
           style="width: 60%"
@@ -18,7 +17,6 @@
         />
         <p v-if="errors.firstname" class="error">{{ errors.firstname }}</p>
         <MyInput
-          v-focus
           v-model="lastname"
           style="width: 60%"
           type="text"
@@ -27,7 +25,6 @@
         />
         <p v-if="errors.lastname" class="error">{{ errors.lastname }}</p>
         <MyInput
-          v-focus
           v-model="birthday"
           style="width: 60%"
           type="date"
@@ -35,7 +32,6 @@
           :placeholder="$t(`auth.age`)"
         />
         <MyInput
-          v-focus
           v-model="phone"
           style="width: 60%"
           type="phone"
@@ -43,7 +39,6 @@
           :placeholder="$t(`auth.phone`)"
         />
         <MyInput
-          v-focus
           v-model="email"
           style="width: 60%"
           type="text"
@@ -51,7 +46,6 @@
         />
         <p v-if="errors.email" class="error">{{ errors.email }}</p>
         <MyInput
-          v-focus
           v-model="password"
           type="password"
           style="width: 60%"
@@ -66,10 +60,11 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
-
+import MyButton from "@/components/UI/MyButton.vue";
+import MyInput from "@/components/UI/MyInput.vue";
 export default {
   name: "RegistrationPage",
-
+  components: { MyInput, MyButton },
   data() {
     return {
       email: "",
@@ -94,7 +89,7 @@ export default {
       if (!this.firstname) {
         this.errors.firstname = "Please enter your first name.";
       } else if (!this.isValidFirstname(this.firstname)) {
-        this.errors.firstname = "Використовуйте тільки букви.";
+        this.errors.firstname = "Use only letters.";
       }
 
       if (!this.lastname) {
@@ -147,8 +142,7 @@ export default {
           email: this.email,
           password: this.password,
         })
-          .then((response) => {
-            console.log(response);
+          .then(() => {
             this.$swal({
               icon: "success",
               color: "#000",
@@ -163,8 +157,7 @@ export default {
             });
             this.$router.push("/login");
           })
-          .catch((er) => {
-            console.log(er);
+          .catch(() => {
             this.$swal({
               icon: "error",
               color: "#000",

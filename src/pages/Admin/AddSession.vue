@@ -85,6 +85,9 @@ export default {
   },
   computed: {
     ...mapGetters(["getDarkTheme"]),
+    ...mapGetters({
+      getAddressId: "auth/getAddressId",
+    }),
   },
   methods: {
     getMovieImagePath,
@@ -94,6 +97,7 @@ export default {
     createSession() {
       createSession({
         hall_id: this.selectHall,
+        address_id: this.getAddressId,
         date_time: moment(this.date, "YYYY-MM-DDTHH:mm").format(
           "YYYY-MM-DD HH:mm:ss"
         ),

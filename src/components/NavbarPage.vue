@@ -403,7 +403,7 @@
                   href="#"
                   style="
                     color: #080c14;
-                    font-size: 12px;
+                    font-size: 18px;
                     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
                   "
                   @click="setAddress(address.id, address.name)"

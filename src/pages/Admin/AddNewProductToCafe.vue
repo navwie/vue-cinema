@@ -15,14 +15,12 @@
       <div class="form-element">
         <div>
           <MyInput
-            v-focus
             v-model="form.name"
             style="width: 60%"
             type="text"
             :placeholder="$t(`addnewproduct.name`)"
           />
           <MyInput
-            v-focus
             v-model="form.price"
             type="text"
             style="width: 60%"
@@ -34,7 +32,6 @@
             :options="sortOption"
           />
           <MyInput
-            v-focus
             v-model="form.amount"
             type="text"
             style="width: 60%"
@@ -58,12 +55,14 @@
 
 <script>
 import MyButton from "@/components/UI/MyButton.vue";
+
 import { mapGetters } from "vuex";
 import { createProduct, createProductCafes } from "@/api/api_request";
-
+import MyInput from "@/components/UI/MyInput.vue";
+import MySelect from "@/components/UI/MySelect.vue";
 export default {
   name: "AddNewProductToCafe",
-  components: { MyButton },
+  components: { MyButton, MyInput, MySelect },
   data() {
     return {
       form: {

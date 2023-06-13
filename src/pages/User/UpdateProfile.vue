@@ -8,35 +8,30 @@
     </h3>
     <div>
       <MyInput
-        v-focus
         v-model="getUser.firstname"
         style="width: 60%"
         type="text"
         :placeholder="$t(`profile.name`)"
       />
       <MyInput
-        v-focus
         v-model="getUser.lastname"
         style="width: 60%"
         type="text"
         :placeholder="$t(`profile.surname`)"
       />
       <MyInput
-        v-focus
         v-model="getUser.email"
         style="width: 60%"
         type="text"
         :placeholder="$t(`profile.email`)"
       />
       <MyInput
-        v-focus
         v-model="getUser.phone"
         style="width: 60%"
         type="text"
         :placeholder="$t(`profile.phone`)"
       />
       <MyInput
-        v-focus
         v-model="getAge"
         type="date"
         style="width: 60%"
@@ -56,10 +51,15 @@
 
 <script>
 import { mapGetters, mapMutations } from "vuex";
+
 import { updateProfile } from "@/api/api_request";
 import moment from "moment";
+import MyInput from "@/components/UI/MyInput.vue";
 export default {
   name: "UpdateProfile",
+  components: {
+    MyInput,
+  },
   computed: {
     ...mapGetters({
       getUser: "auth/getUser",

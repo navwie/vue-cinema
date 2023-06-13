@@ -75,6 +75,9 @@
         <h2 style="text-align: center">
           {{ momentDate(order.created_at) }}
         </h2>
+        <p>
+          <strong>Адреса:</strong> {{ order.sessions[0].addresses[0]?.name }}
+        </p>
         <div>
           <div v-if="orders.length > 0" class="section">
             <hr />

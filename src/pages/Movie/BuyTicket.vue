@@ -449,20 +449,6 @@ export default {
     momentTime: function (date) {
       return moment(date, "YYYY-MM-DD, h:mm").locale("uk").format("HH:mm");
     },
-    // deletePlace(place) {
-    //   console.log(place)
-    //   this.getMovieTickets.forEach((movie_place) => {
-    //     const index = movie_place.places.findIndex((item) => {
-    //       return item.id === place.id;
-    //     });
-    //     movie_place.places.splice(index, 1);
-    //   });
-    //   console.log(this.getMovieTickets);
-    //   this.setMovieToBasket({
-    //     data: this.getMovieTickets,
-    //     action: "rewrite",
-    //   });
-    // },
     deletePlace(place) {
       const movieIndex = this.getMovieTickets.findIndex((movie) =>
         movie.places.includes(place)

@@ -1,20 +1,17 @@
 <template>
   <form class="form container" @submit.prevent>
     <div class="form-element">
-      <!--      <h3 :class="this.getDarkTheme ? 'dark_h3' : 'light_h3'">-->
-      <!--        {{ $t("auth.login") }}-->
-      <!--      </h3>-->
-      Login
+      <h3 :class="this.getDarkTheme ? 'dark_h3' : 'light_h3'">
+        {{ $t("auth.login") }}
+      </h3>
       <div>
         <MyInput
-          v-focus
           v-model="form.email"
           style="width: 60%"
           type="text"
           :placeholder="$t(`auth.email`)"
         />
         <MyInput
-          v-focus
           v-model="form.password"
           type="password"
           style="width: 60%"
@@ -38,13 +35,13 @@
 <script>
 import { mapGetters, mapMutations } from "vuex";
 import { getUsers, login } from "@/api/api_request";
-import MyButton from "@/components/UI/MyButton";
 import moment from "moment/moment";
 import store from "@/store/main";
-
+import MyButton from "@/components/UI/MyButton.vue";
+import MyInput from "@/components/UI/MyInput.vue";
 export default {
   name: "LoginPage",
-  components: { MyButton },
+  components: { MyButton, MyInput },
 
   data() {
     return {
@@ -79,7 +76,6 @@ export default {
         password: this.form.password,
       })
         .then((response) => {
-          // debugger;
           this.setToken(response.data?.token);
           this.setUserId(response.data?.userId);
           this.setRoles(response.data.role);
@@ -157,25 +153,30 @@ export default {
 .dark_h3 {
   color: white;
 }
+
 .light_h3 {
   color: black;
 }
+
 .form {
   text-align: center;
   color: white;
   position: relative;
   top: 60px;
 }
+
 .form-element {
   border: 1px solid #4d7cbc;
   padding-top: 84px;
   padding-bottom: 80px;
   border-radius: 20px;
 }
+
 .input {
   margin-top: 15px;
   margin-bottom: 15px;
 }
+
 .butn {
   margin-top: 20px;
   background-color: #4d7cbc;
@@ -185,10 +186,12 @@ export default {
   font-size: 19px;
   font-weight: 500;
 }
+
 .butn:hover {
   background-color: #fff;
   color: #4d7cbc;
 }
+
 .dark_link a {
   margin-top: 20px;
   color: white;
@@ -197,6 +200,7 @@ export default {
   top: 20px;
   font-size: 20px;
 }
+
 .light_link a {
   margin-top: 20px;
   color: black;
