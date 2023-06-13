@@ -246,5 +246,10 @@
     "date_start": "Film rental start date:",
     "date_finish": "Date of end of movie rental:",
     "add": "Add"
+  },
+  "statistics": {
+    "statistics" : "Statistics",
+    "month": "Month",
+    "year": "Year"
   }
 }

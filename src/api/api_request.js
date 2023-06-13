@@ -87,3 +87,6 @@ export const createSouvenirShop = (params) =>
   axios.post(`${BASE_PATH_API}shop-souvenirs`, params);
 
 export const getAddress = (id) => axios.get(`${BASE_PATH_API}addresses/${id}`);
+
+export const getSaleStatistic = (id, params) =>
+  axios.get(`${BASE_PATH_API}statistic/sale/${id}`, { params });
