@@ -27,6 +27,7 @@ import PaymentPage from "@/pages/PaymentPage.vue";
 import SuccessComponent from "@/pages/SuccessComponent.vue";
 import ErrorComponent from "@/pages/ErrorComponent.vue";
 import AddSession from "@/pages/Admin/AddSession.vue";
+import StatisticsPage from "@/pages/Admin/StatisticsPage.vue";
 
 const routes = [
   {
@@ -53,6 +54,21 @@ const routes = [
       if (
         !store.getters["auth/isAuth"] &&
         store.getters["auth/getRoles"] !== "ROLE_ADMIN"
+      ) {
+        return next({
+          name: "login",
+        });
+      }
+      next();
+    },
+  },
+  {
+    path: "/statistics",
+    component: StatisticsPage,
+    beforeEnter: (to, from, next) => {
+      if (
+        !store.getters["auth/isAuth"] &&
+        store.getters["auth/getRoles"] !== "ROLE_USER"
       ) {
         return next({
           name: "login",

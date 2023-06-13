@@ -206,6 +206,18 @@
               </li>
               <li>
                 <a
+                  class="dropdown-item"
+                  @click="$router.push(`/statistics`)"
+                  style="
+                    color: #080c14;
+                    font-size: 20px;
+                    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+                  "
+                  >Statistics</a
+                >
+              </li>
+              <li>
+                <a
                   style="
                     color: #080c14;
                     font-size: 20px;
