@@ -8,6 +8,7 @@ const store = createStore({
     souvenirItems: JSON.parse(localStorage.getItem("souvenirItems")) ?? [],
     movieTickets: JSON.parse(localStorage.getItem("movieTickets")) ?? [],
     productItems: JSON.parse(localStorage.getItem("productItems")) ?? [],
+    session: JSON.parse(localStorage.getItem("session")) ?? [],
   },
   getters: {
     getLoading(state) {
@@ -25,6 +26,9 @@ const store = createStore({
     getProductItems(state) {
       return state.productItems;
     },
+    getSession(state) {
+      return state.session;
+    },
   },
   mutations: {
     setLoading(state, newLoadingState) {
@@ -39,6 +43,10 @@ const store = createStore({
     setProductToBasket(state, newProductItems) {
       state.productItems = newProductItems;
     },
+    setSession(state, newSession) {
+      state.session = newSession;
+    },
+
     setMovieToBasket(state, payload) {
       const operation = payload.action;
       const newMoviesItems = payload.data;

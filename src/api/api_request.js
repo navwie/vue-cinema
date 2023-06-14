@@ -90,3 +90,9 @@ export const getAddress = (id) => axios.get(`${BASE_PATH_API}addresses/${id}`);
 
 export const getSaleStatistic = (id, params) =>
   axios.get(`${BASE_PATH_API}statistic/sale/${id}`, { params });
+
+export const getFreeHalls = (params) =>
+  axios.get(`${BASE_PATH_API}sessions/sessions-by-day`, { params });
+
+export const purchaseHall = (data) =>
+  axios.post(`${BASE_PATH_API}stripe/purchase-full-session`, data);

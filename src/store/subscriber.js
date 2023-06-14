@@ -12,4 +12,5 @@ store.subscribe((mutation, state) => {
   localStorage.setItem("souvenirItems", JSON.stringify(state.souvenirItems));
   localStorage.setItem("movieTickets", JSON.stringify(state.movieTickets));
   localStorage.setItem("productItems", JSON.stringify(state.productItems));
+  localStorage.setItem("session", JSON.stringify(state.session));
 });

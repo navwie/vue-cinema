@@ -133,6 +133,30 @@
               <li>
                 <a
                   class="dropdown-item"
+                  @click="$router.push(`/statistics`)"
+                  style="
+                    color: #080c14;
+                    font-size: 20px;
+                    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+                  "
+                  >Statistics</a
+                >
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  @click="$router.push(`/rent-hall`)"
+                  style="
+                    color: #080c14;
+                    font-size: 20px;
+                    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+                  "
+                  >Оренда залу</a
+                >
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
                   style="
                     color: #080c14;
                     font-size: 20px;
@@ -330,20 +354,6 @@
                 alt=""
             /></a>
           </li>
-          <li class="nav-item" v-if="isAuth">
-            <a
-              @click="submit"
-              class="nav-link btn"
-              style="
-                color: white;
-                font-size: 25px;
-                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-              "
-              href="#"
-            >
-              {{ $t("navbar.exit") }}
-            </a>
-          </li>
           <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"
@@ -423,6 +433,20 @@
                 >
               </li>
             </ul>
+          </li>
+          <li class="nav-item" v-if="isAuth">
+            <a
+              @click="submit"
+              class="nav-link btn"
+              style="
+                color: white;
+                font-size: 25px;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+              "
+              href="#"
+            >
+              {{ $t("navbar.exit") }}
+            </a>
           </li>
         </ul>
         <div class="d-flex" style="margin-left: 10px">

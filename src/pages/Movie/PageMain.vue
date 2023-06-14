@@ -248,7 +248,7 @@ export default {
   beforeMount() {
     this.loading = true;
     getMovies().then((response) => {
-      let allMovies = response.data.movies.data;
+      let allMovies = response.data.movies;
       let currentDate = moment().format("YYYY-MM-DD");
 
       this.totalMovies = allMovies.filter((e) => e.quizled === 0);

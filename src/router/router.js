@@ -28,6 +28,8 @@ import SuccessComponent from "@/pages/SuccessComponent.vue";
 import ErrorComponent from "@/pages/ErrorComponent.vue";
 import AddSession from "@/pages/Admin/AddSession.vue";
 import StatisticsPage from "@/pages/Admin/StatisticsPage.vue";
+import RentHall from "@/pages/User/RentHall.vue";
+import PaymentFullHallPage from "@/pages/PaymentFullHallPage.vue";
 
 const routes = [
   {
@@ -65,17 +67,6 @@ const routes = [
   {
     path: "/statistics",
     component: StatisticsPage,
-    beforeEnter: (to, from, next) => {
-      if (
-        !store.getters["auth/isAuth"] &&
-        store.getters["auth/getRoles"] !== "ROLE_USER"
-      ) {
-        return next({
-          name: "login",
-        });
-      }
-      next();
-    },
   },
   {
     path: "/create-souvenir",
@@ -85,6 +76,21 @@ const routes = [
       if (
         !store.getters["auth/isAuth"] &&
         store.getters["auth/getRoles"] !== "ROLE_ADMIN"
+      ) {
+        return next({
+          name: "login",
+        });
+      }
+      next();
+    },
+  },
+  {
+    path: "/rent-hall",
+    component: RentHall,
+    beforeEnter: (to, from, next) => {
+      if (
+        !store.getters["auth/isAuth"] &&
+        store.getters["auth/getRoles"] !== "ROLE_USER"
       ) {
         return next({
           name: "login",
@@ -276,6 +282,11 @@ const routes = [
   {
     path: "/payment-page",
     component: PaymentPage,
+    name: "payment-page",
+  },
+  {
+    path: "/payment-hall-page/:totalprice",
+    component: PaymentFullHallPage,
     name: "payment-page",
   },
   {

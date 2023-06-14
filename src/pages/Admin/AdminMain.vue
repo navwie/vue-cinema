@@ -108,7 +108,7 @@ export default {
   beforeMount() {
     this.loading = true;
     getMovies().then((response) => {
-      let movies = response.data.movies.data;
+      let movies = response.data.movies;
       let currentDate = moment().format("YYYY-MM-DD");
 
       this.actualMovies = movies.filter(
